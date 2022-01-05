@@ -7,7 +7,7 @@ class BackgroundMaterial {
     _material ;
 
 
-    constructor( ) {
+    constructor( resourcePath ) {
 
         let colorBG = new THREE.Color( 0x334455 ) ;
 
@@ -29,13 +29,13 @@ class BackgroundMaterial {
         };
 
         let vs = '';
-        readFileContent('shaders/background.vert',function (content) {
+        readFileContent(resourcePath + 'shaders/background.vert',function (content) {
             vs = content ;
         }) ;
 
 
         let fs = '' ;
-        readFileContent('shaders/background.frag', function (content) {
+        readFileContent(resourcePath + 'shaders/background.frag', function (content) {
             fs = content;
         }) ;
 

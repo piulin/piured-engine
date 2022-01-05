@@ -5,7 +5,7 @@ class ReceptorMaterial {
 
     _material ;
 
-    constructor(map) {
+    constructor(map, resourcePath) {
 
 
         const uniforms = {
@@ -15,12 +15,12 @@ class ReceptorMaterial {
 
 
         let vs = '';
-        readFileContent('shaders/receptor.vert', function (content) {
+        readFileContent(resourcePath + 'shaders/receptor.vert', function (content) {
             vs = content;
         })
 
         let fs = '';
-        readFileContent('shaders/receptor.frag', function (content) {
+        readFileContent(resourcePath + 'shaders/receptor.frag', function (content) {
             fs = content;
         })
 

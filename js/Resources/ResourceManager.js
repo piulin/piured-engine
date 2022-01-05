@@ -10,10 +10,10 @@ class ResourceManager {
     _shadersDict =  { } ;
 
 
-    constructor( noteskinPath, stagePath ) {
-
+    constructor( resourcePath, noteskinPath, stagePath ) {
+        this.resourcePath = resourcePath ;
         this.loadGeometries() ;
-        this.loadTextures(noteskinPath, stagePath) ;
+        this.loadTextures(resourcePath + noteskinPath, resourcePath + stagePath) ;
         this.loadMaterials() ;
         this.loadShaderMaterials() ;
 
@@ -121,7 +121,7 @@ class ResourceManager {
 
     loadShaderMaterials() {
         // Background
-        this._shadersDict['B'] = new BackgroundMaterial() ;
+        this._shadersDict['B'] = new BackgroundMaterial( this.resourcePath ) ;
 
     }
 
@@ -325,7 +325,7 @@ class ResourceManager {
 
         let texture = this._textureDict['R'].cloneMap() ;
 
-        return  new THREE.Mesh( this._geometryDict['R'].receptorGeometry, new ReceptorMaterial(texture).material );
+        return  new THREE.Mesh( this._geometryDict['R'].receptorGeometry, new ReceptorMaterial(texture, this.resourcePath ).material );
 
     }
 

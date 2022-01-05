@@ -128,11 +128,11 @@ class Engine {
         container.appendChild( this.renderer.domElement );
     }
 
-    configureStage( SSCFile, audioFile, playBackSpeed, offset, noteskin ) {
-
+    configureStage( SSCFile, audioFile, playBackSpeed, offset, resourcePath, noteskin ) {
+        this.resourcePath = resourcePath ;
         this.playBackSpeed = playBackSpeed ;
         this.song = new Song(SSCFile, audioFile, offset, playBackSpeed);
-        let resourceManager = new ResourceManager('noteskins/' + noteskin + '/UHD', 'stage_UHD') ;
+        let resourceManager = new ResourceManager(resourcePath, 'noteskins/' + noteskin + '/UHD', 'stage_UHD') ;
         this.stage = new Stage(resourceManager, this.song) ;
         engine.addToUpdateList(this.stage) ;
         this.scene.add(this.stage.object) ;
