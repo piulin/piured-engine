@@ -30,6 +30,8 @@ class StepQueue extends GameObject {
 
     update(delta) {
 
+        // console.log('tal') ;
+
         const currentAudioTime = this.beatManager.currentAudioTime;
         const currentBeat = this.beatManager.currentBeat;
         this.updateActiveHolds(currentAudioTime, delta, currentBeat);
@@ -44,8 +46,6 @@ class StepQueue extends GameObject {
         const pressedKeys = this.keyInput.getPressed() ;
 
         for ( const [kind, padId] of pressedKeys ) {
-
-
             this.stepPressed(kind,padId) ;
 
         }
@@ -55,7 +55,7 @@ class StepQueue extends GameObject {
 
 // THESE METHODS ARE CALLED WHEN CONSTRUCTING THE SCENE.
 
-    addNewEntryWithTimeStampInfo( timeStamp, index ) {
+    addNewEntryWithTimeStampInfo( timeStamp ) {
 
         let stepInfo = new StepInfo([], timeStamp);
         this.stepQueue.push(stepInfo) ;
@@ -182,13 +182,9 @@ class StepQueue extends GameObject {
 
                 // if we only have holds, and all of them are being pressed beforehand, then it's a perfect!
                 if ( this.areThereOnlyHoldsInTopMostStepInfo() && this.areHoldsBeingPressed() ) {
-                    // TODO:
-                    // this.composer.judgmentScale.animateJudgement('p') ;
-                    // this.composer.animateTapEffect(this.getTopMostStepsList()) ;
 
                     this.playerStage.animateReceptorFX(this.getTopMostStepsList()) ;
                     this.playerStage.judgment.perfect() ;
-                    // console.log('perfect') ;
 
                     this.removeFirstElement() ;
                     this.checkForNewHolds = true ;
@@ -196,11 +192,8 @@ class StepQueue extends GameObject {
 
             }
 
-            // console.log(difference) ;
 
             // we count a miss, if we go beyond the time of the topmost step info, given that there are no holds there
-
-            // console.log('diff:' +difference , 'margin:' + this.accuracyMargin) ;
             if (difference < -this.accuracyMargin ) {
 
                 this.playerStage.judgment.miss() ;
@@ -331,8 +324,7 @@ class StepQueue extends GameObject {
                 // save the endHoldTimeStamp to compute the remainder judgments.
                 this.activeHolds.needFinishJudgment = true ;
                 this.activeHolds.judgmentTimeStampEndReference = step.endTimeStamp - this.activeHolds.firstHoldInHoldRun.beginTimeStamp ;
-                // console.log('begin: ' + beginTime + ' end: ' + endTime) ;
-                // this.activeHolds.actualTotalComboValueOfHold = this.computeTotalComboContribution( beginTime, endTime ) ;
+
 
                 // if the hold is active, we can remove it from the render and give a perfect judgment, I think.
                 if (this.keyInput.isHeld(step.kind, step.padId)) {
@@ -426,7 +418,8 @@ class StepQueue extends GameObject {
 
         let [stepInfo, step, hitIndex, difference] = this.getFirstStepWithinMargin(currentAudioTime, kind, padId) ;
 
-        // console.log(stepInfo) ;
+        // console.log(kind + " " + padId
+        // ) ;
 
         // with the second condition, we make sure that we don't treat the holds here. Holds, when pressed
         // beforehand (anytime), count always as a perfect.
@@ -438,7 +431,6 @@ class StepQueue extends GameObject {
 
             // If all steps have been pressed, then we can remove them from the steps to be rendered
             if (this.areStepsInNoteListPressed(stepInfo.stepList)) {
-
 
                 const grade = this.playerStage.judgment.grade(difference) ;
 
@@ -454,8 +446,6 @@ class StepQueue extends GameObject {
 
                     this.playerStage.animateReceptorFX(stepInfo.stepList) ;
                     this.playerStage.animateReceptorFX(this.activeHolds.asList()) ;
-
-
 
                     this.removeNotesFromStepObject(stepInfo.stepList) ;
 

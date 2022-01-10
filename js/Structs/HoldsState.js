@@ -4,7 +4,6 @@
 // It holds at a given time, the current holds and their state.
 class HoldsState {
 
-    // call with Object.keys(a)
     constructor(padIds) {
 
         //We need one holds instance for each pad.

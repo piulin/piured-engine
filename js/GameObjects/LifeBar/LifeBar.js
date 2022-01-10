@@ -82,13 +82,6 @@ class LifeBar extends GameObject {
 
     update(delta) {
 
-
-        const bpm = this._beatManager.currentBPM ;
-        const currentAudioTime = this._beatManager.currentAudioTimeReal ;
-        // const bpm = this.bpmManager.getCurrentBPM() ;
-        const beatsPerSecond = bpm / 60 ;
-        const secondsPerBeat = 60 / bpm ;
-
     }
 
     get object() {
