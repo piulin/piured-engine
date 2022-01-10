@@ -9,8 +9,9 @@ class JudgmentScale extends GameObject {
     _counter = 0 ;
     _barSteps = 60 ;
     _currentStep = 30 ;
+    _frameLog ;
 
-    constructor(resourceManager, accuracyMargin, lifeBar) {
+    constructor(resourceManager, accuracyMargin, lifeBar, frameLog) {
 
         super(resourceManager) ;
 
@@ -18,8 +19,10 @@ class JudgmentScale extends GameObject {
         this.accuracyMargin = accuracyMargin ;
 
         this._judgment = new Judgment(this._resourceManager) ;
+        this._frameLog = frameLog ;
 
     }
+
 
     get performance() {
         return this.stats ;
@@ -77,7 +80,7 @@ class JudgmentScale extends GameObject {
 
         this._lifeBar.setsize( this._currentStep/this._barSteps ) ;
 
-
+        this._frameLog.logJudgment( 'm',this.comboCount, this._currentStep ) ;
 
     }
     bad ( ) {
@@ -88,6 +91,8 @@ class JudgmentScale extends GameObject {
 
         this._state = 0 ;
         this._counter = 0 ;
+
+        this._frameLog.logJudgment( 'b',this.comboCount, this._currentStep ) ;
     }
 
     good ( ) {
@@ -97,6 +102,8 @@ class JudgmentScale extends GameObject {
 
         this._state = 0 ;
         this._counter = 0 ;
+
+        this._frameLog.logJudgment( 'go',this.comboCount, this._currentStep ) ;
 
     }
 
@@ -111,6 +118,8 @@ class JudgmentScale extends GameObject {
         }
 
         this.counterUpdatePerfect(7,0,1) ;
+
+        this._frameLog.logJudgment( 'gr',this.comboCount, this._currentStep ) ;
 
     }
 
@@ -129,6 +138,8 @@ class JudgmentScale extends GameObject {
         this.counterUpdatePerfect(6,1,2, comboIncrement) ;
         this.counterUpdatePerfect(4,2,3, comboIncrement) ;
         this.counterUpdatePerfect(2,3,3, comboIncrement) ;
+
+        this._frameLog.logJudgment( 'p',this.comboCount, this._currentStep ) ;
 
     }
 
@@ -182,6 +193,13 @@ class JudgmentScale extends GameObject {
 
         return grade ;
 
+    }
+
+    setJudgment(grade, combo, step) {
+        this.comboCount = combo ;
+        this._currentStep = step ;
+        this._lifeBar.setsize( this._currentStep/this._barSteps ) ;
+        this._judgment.animate( grade, this.comboCount );
     }
 
     get object() {

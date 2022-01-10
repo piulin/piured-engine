@@ -28,6 +28,9 @@ class Steps extends GameObject {
     idLeftPad ;
     idRightPad ;
     keyListener ;
+    id ;
+    // id -> Step*
+    stepDict ;
 
     constructor(resourceManager,
                 stepQueue,
@@ -65,6 +68,12 @@ class Steps extends GameObject {
 
         // to store leftmost and rightmost steps.
         this.padSteps = {} ;
+
+        // to assign steps uniq ids.
+        this.id = new Id() ;
+
+        //
+        this.stepDict = {} ;
 
         this.constructSteps() ;
 
@@ -185,7 +194,8 @@ class Steps extends GameObject {
                     steps,
                     currentTimeInSong,
                     listIndex - 1,
-                    padId);
+                    padId,
+                    i);
 
 
                 //ul
@@ -197,7 +207,8 @@ class Steps extends GameObject {
                     steps,
                     currentTimeInSong,
                     listIndex - 1,
-                    padId);
+                    padId,
+                    i);
 
                 // c
                 this.processNote(
@@ -208,7 +219,8 @@ class Steps extends GameObject {
                     steps,
                     currentTimeInSong,
                     listIndex - 1,
-                    padId);
+                    padId,
+                    i);
 
                 // ur
                 this.processNote(
@@ -219,7 +231,8 @@ class Steps extends GameObject {
                     steps,
                     currentTimeInSong,
                     listIndex - 1,
-                    padId);
+                    padId,
+                    i);
 
                 // dr
                 this.processNote(
@@ -230,7 +243,8 @@ class Steps extends GameObject {
                     steps,
                     currentTimeInSong,
                     listIndex - 1,
-                    padId);
+                    padId,
+                    i);
 
             }
 
@@ -240,7 +254,7 @@ class Steps extends GameObject {
     }
 
 
-    processNote(note, kind, currentYPosition, XStepPosition , steps, currentTimeInSong, index,  padId ) {
+    processNote(note, kind, currentYPosition, XStepPosition , steps, currentTimeInSong, index,  padId, bar ) {
 
 
         // Process StepNote
@@ -260,12 +274,12 @@ class Steps extends GameObject {
             if (note === '2') {
 
                 let stepHold = new StepHold(this._resourceManager, step, kind ) ;
-                this.stepQueue.addStepToStepList(stepHold, index) ;
+                this.stepQueue.addStepToStepList(stepHold, index, bar) ;
                 this.stepQueue.setHold(kind, padId, stepHold) ;
 
             } else {
 
-                this.stepQueue.addStepToStepList(step, index) ;
+                this.stepQueue.addStepToStepList(step, index, bar) ;
                 steps.add(stepMesh) ;
 
             }
@@ -373,7 +387,6 @@ class Steps extends GameObject {
 
     }
 
-    // This function shrinks the endNote so it does look proportioned
     updateHoldPosition(hold) {
 
         let distanceToOrigin = Math.abs (hold.stepNote.object.position.y) - this._object.position.y ;

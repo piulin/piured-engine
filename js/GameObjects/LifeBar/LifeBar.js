@@ -10,6 +10,7 @@ class LifeBar extends GameObject {
     _front ;
     _tip ;
     _pulse ;
+    _barSize ;
 
     _beatManager ;
     _animationRate ;
@@ -25,11 +26,19 @@ class LifeBar extends GameObject {
         this._bar = this.setUpBar(kind) ;
         this._front = this.setUpFront(kind) ;
 
-        this.setsize(0.5);
+        this._barSize = 0.5 ;
+        this.setsize(this._barSize);
 
     }
 
+
+    get barSize() {
+        return this._barSize;
+    }
+
     setsize(size) {
+
+        this._barSize = size ;
 
         if (size < 0.3) {
             this._back.red();
@@ -40,8 +49,6 @@ class LifeBar extends GameObject {
         this._bar.setsize(size) ;
 
     }
-
-
 
 
 

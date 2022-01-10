@@ -9,6 +9,8 @@ class StepNote extends GameObject {
     _timeStamp ;
     _pressed ;
 
+    _id ;
+
 
     constructor(resourceManager, kind, padId, timeStamp) {
         super(resourceManager);
@@ -17,8 +19,8 @@ class StepNote extends GameObject {
         this._padId = padId ;
         this._mesh = this._resourceManager.constructStepNote( this._kind ) ;
         this._timeStamp = timeStamp ;
-
     }
+
 
     ready() {
 
@@ -26,6 +28,16 @@ class StepNote extends GameObject {
 
         this._pressed = false ;
 
+    }
+
+
+    set id(value) {
+        this._id = value;
+    }
+
+
+    get id() {
+        return this._id;
     }
 
     update(delta) {

@@ -19,6 +19,7 @@ class PlayerStage extends GameObject {
     keyboardLag ;
     accuracyMargin ;
     lifebarOrientation ;
+    frameLog ;
 
     constructor(resourceManager,
                 song,
@@ -45,6 +46,8 @@ class PlayerStage extends GameObject {
         //
         this.padReceptors = { } ;
         this._receptors = new THREE.Object3D();
+
+        this.frameLog = new FrameLog() ;
 
 
         this.configureBeatManager() ;
@@ -145,15 +148,16 @@ class PlayerStage extends GameObject {
 
         this.configureStepConstantsPositions() ;
 
+        this.constructLifeBar() ;
+
+        this.constructJudgment() ;
+
         this.constructStepQueue() ;
 
         this.constructSteps() ;
 
         this.constructReceptors() ;
 
-        this.constructLifeBar() ;
-
-        this.constructJudgment() ;
 
 
     }
@@ -184,7 +188,7 @@ class PlayerStage extends GameObject {
     }
 
     constructStepQueue() {
-        this.stepQueue = new StepQueue(this._resourceManager, this, this.beatManager, this.keyListener, this.accuracyMargin) ;
+        this.stepQueue = new StepQueue(this._resourceManager, this, this.beatManager, this.keyListener, this.accuracyMargin, this.frameLog) ;
     }
 
     constructSteps() {
@@ -201,7 +205,7 @@ class PlayerStage extends GameObject {
     }
 
     constructJudgment() {
-        this.judgment = new JudgmentScale(this._resourceManager, this.accuracyMargin, this._lifeBar) ;
+        this.judgment = new JudgmentScale(this._resourceManager, this.accuracyMargin, this._lifeBar, this.frameLog) ;
         this.judgment.object.position.y = -2.5 ;
         this._object.add(this.judgment.object) ;
     }
@@ -276,6 +280,7 @@ class PlayerStage extends GameObject {
     }
 
     update(delta) {
+
 
     }
 

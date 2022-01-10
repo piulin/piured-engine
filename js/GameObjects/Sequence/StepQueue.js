@@ -2,8 +2,9 @@
 
 class StepQueue extends GameObject {
 
+    _stepDict ;
 
-    constructor(resourceManager, playerStage, beatManager, keyInput, accuracyMargin ) {
+    constructor(resourceManager, playerStage, beatManager, keyInput, accuracyMargin, frameLog ) {
 
         super(resourceManager) ;
 
@@ -22,6 +23,12 @@ class StepQueue extends GameObject {
         this.activeHolds = new HoldsState(this.keyInput.getPadIds()) ;
 
         this.checkForNewHolds = true ;
+
+        this.id = new Id() ;
+
+        this._stepDict = {} ;
+
+        this.frameLog = frameLog ;
 
     }
 
@@ -48,6 +55,7 @@ class StepQueue extends GameObject {
         const pressedKeys = this.keyInput.getPressed() ;
 
         for ( const [kind, padId] of pressedKeys ) {
+            this.frameLog.logPadInput(kind,padId) ;
             this.stepPressed(kind,padId) ;
 
         }
@@ -80,7 +88,13 @@ class StepQueue extends GameObject {
 
     }
 
-    addStepToStepList ( step, index ) {
+    addStepToStepList ( step, index, bar ) {
+        let stepId = this.id.getId( step.kind,step.padId, bar ) ;
+        step.id = stepId ;
+
+        // save in the dict.
+        this._stepDict[stepId] = step ;
+        //save in the list.
         this.stepQueue[index].stepList.push(step) ;
     }
 
@@ -166,8 +180,6 @@ class StepQueue extends GameObject {
 
     updateStepQueue( currentAudioTime ) {
 
-
-
         if ( this.getLength() > 0 ) {
 
             let stepTime = this.getStepTimeStampFromTopMostStepInfo() ;
@@ -185,7 +197,7 @@ class StepQueue extends GameObject {
                 // if we only have holds, and all of them are being pressed beforehand, then it's a perfect!
                 if ( this.areThereOnlyHoldsInTopMostStepInfo() && this.areHoldsBeingPressed() ) {
 
-                    this.playerStage.animateReceptorFX(this.getTopMostStepsList()) ;
+                    this.needToAnimateReceptorFX(this.getTopMostStepsList()) ;
                     this.playerStage.judgment.perfect() ;
 
                     this.removeFirstElement() ;
@@ -207,6 +219,18 @@ class StepQueue extends GameObject {
         }
 
 
+    }
+
+    needToAnimateReceptorFX(stepList) {
+
+        this.frameLog.logAnimateReceptorFX(stepList) ;
+        this.playerStage.animateReceptorFX(stepList) ;
+
+    }
+
+    needToRemoveStep(step) {
+        this.frameLog.logRemoveStep(step) ;
+        this.playerStage.removeStep(step) ;
     }
 
     // the boolean end is used to compute the remainder combo left after a set of holds.
@@ -243,7 +267,7 @@ class StepQueue extends GameObject {
                 // TODO:
                 // this.composer.judgmentScale.animateJudgement('p', numberOfHits);
                 // this.composer.animateTapEffect(this.activeHolds.asList());
-                this.playerStage.animateReceptorFX(this.activeHolds.asList()) ;
+                this.needToAnimateReceptorFX(this.activeHolds.asList()) ;
                 this.playerStage.judgment.perfect(numberOfHits) ;
                 // console.log('perfect') ;
             // case 2: holds are not pressed. we need to give some margin to do it
@@ -279,7 +303,7 @@ class StepQueue extends GameObject {
 
             if (this.areHoldsBeingPressed() && this.activeHolds.wasLastKnowHoldPressed) {
 
-                this.playerStage.animateReceptorFX(this.activeHolds.asList()) ;
+                this.needToAnimateReceptorFX(this.activeHolds.asList()) ;
                 this.playerStage.judgment.perfect(numberOfHits) ;
                 // console.log('perfect') ;
             } else {
@@ -334,10 +358,10 @@ class StepQueue extends GameObject {
 
                     this.playerStage.judgment.perfect() ;
 
-                    this.playerStage.removeStep(step) ;
+                    this.needToRemoveStep(step) ;
 
 
-                    this.playerStage.animateReceptorFX([step]) ;
+                    this.needToAnimateReceptorFX([step]) ;
 
 
 
@@ -446,8 +470,8 @@ class StepQueue extends GameObject {
                 } else {
 
 
-                    this.playerStage.animateReceptorFX(stepInfo.stepList) ;
-                    this.playerStage.animateReceptorFX(this.activeHolds.asList()) ;
+                    this.needToAnimateReceptorFX(stepInfo.stepList) ;
+                    this.needToAnimateReceptorFX(this.activeHolds.asList()) ;
 
                     this.removeNotesFromStepObject(stepInfo.stepList) ;
 
@@ -557,7 +581,7 @@ class StepQueue extends GameObject {
             // remove the step if it's not a hold, obviously.
             if ( ! (note instanceof StepHold) ) {
 
-                this.playerStage.removeStep(note) ;
+                this.needToRemoveStep(note) ;
 
 
                 // add it to the active holds early

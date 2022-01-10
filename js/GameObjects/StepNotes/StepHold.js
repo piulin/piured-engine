@@ -13,6 +13,8 @@ class StepHold extends GameObject {
     _lastGapLength ;
     _timeStamp ;
 
+    _id ;
+
     constructor(resourceManager, stepNote, kind) {
         super(resourceManager);
 
@@ -24,6 +26,16 @@ class StepHold extends GameObject {
         this._object = new THREE.Object3D() ;
         this._object.add(this._stepNote.object) ;
 
+    }
+
+
+    set id(value) {
+        this._id = value;
+    }
+
+
+    get id() {
+        return this._id;
     }
 
     get pressed() {
