@@ -8,9 +8,14 @@ class TouchInput extends GameObject {
     _mesh ;
     _scaled_mesh ;
 
+
     constructor(resourceManager) {
 
         super(resourceManager) ;
+
+        // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
+        engine.addToTouchDownList(this) ;
+        engine.addToTouchUpList(this) ;
 
         this.pads = [] ;
         this.padsDic = {} ;
@@ -34,7 +39,6 @@ class TouchInput extends GameObject {
         pad.object.scale.x = 8.0;
         pad.object.scale.y = 8.0;
         pad.object.material.opacity = 0.3;
-        engine.addToUpdateList(pad) ;
         this._mesh.add(pad.object) ;
 
         this.pads.push( pad ) ;

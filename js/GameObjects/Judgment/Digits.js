@@ -33,7 +33,6 @@ class Digits extends GameObject {
             normal.object.position.x = i*this.XsizeDigits*normal.object.scale.x ;
             this._whiteDigitsObjects.push(normal) ;
             this._whiteDigits.add(normal.object) ;
-            engine.addToUpdateList(normal) ;
 
 
 

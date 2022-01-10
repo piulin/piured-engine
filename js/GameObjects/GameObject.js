@@ -8,6 +8,7 @@ class GameObject {
 
     constructor(resourceManager) {
         this._resourceManager = resourceManager ;
+        engine.addToUpdateList(this) ;
     }
 
     ready() {

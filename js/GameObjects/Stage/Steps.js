@@ -40,7 +40,6 @@ class Steps extends GameObject {
                 keyListener) {
         super(resourceManager);
 
-        engine.addToUpdateList(this) ;
 
         // Set up positions for steps
         this.configureStepConstantsPositions() ;
@@ -268,7 +267,6 @@ class Steps extends GameObject {
 
                 this.stepQueue.addStepToStepList(step, index) ;
                 steps.add(stepMesh) ;
-                engine.addToUpdateList(step) ;
 
             }
 
@@ -284,7 +282,6 @@ class Steps extends GameObject {
             // let beginningHoldYPosition = step.beginningHoldYPosition ;
             let endNoteObject = new EndNote(this._resourceManager, kind, this.stepTextureAnimationRate) ;
             let endNoteMesh = endNoteObject.object ;
-            engine.addToUpdateList( endNoteObject ) ;
 
             endNoteMesh.position.y = currentYPosition ;
             endNoteMesh.originalYPos = currentYPosition ;
@@ -295,7 +292,6 @@ class Steps extends GameObject {
             holdExtensibleObject.object.position.x = XStepPosition ;
             holdExtensibleObject.object.originalYPos = -10000 ;
             holdExtensibleObject.object.position.z = this.holdZDepth ;
-            engine.addToUpdateList( holdExtensibleObject ) ;
 
             // let holdObject = new StepHold(this._resourceManager, stepObject, holdExtensibleObject, endNoteObject, kind, currentTimeInSong) ;
 
@@ -303,7 +299,6 @@ class Steps extends GameObject {
             holdObject.holdExtensible = holdExtensibleObject ;
             holdObject.endTimeStamp = currentTimeInSong ;
 
-            engine.addToUpdateList( holdObject ) ;
 
             // steps.add(stepObject.object) ;
             steps.add(holdObject.object) ;

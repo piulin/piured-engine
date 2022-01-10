@@ -37,17 +37,17 @@ class Stage extends GameObject {
     }
 
     configureNoteTextures() {
-        engine.addToUpdateList(new StepNoteTexture(this._resourceManager, 'dl', this.animationRate));
-        engine.addToUpdateList(new StepNoteTexture(this._resourceManager, 'ul', this.animationRate));
-        engine.addToUpdateList(new StepNoteTexture(this._resourceManager, 'c', this.animationRate));
-        engine.addToUpdateList(new StepNoteTexture(this._resourceManager, 'ur', this.animationRate));
-        engine.addToUpdateList(new StepNoteTexture(this._resourceManager, 'dr', this.animationRate));
+        new StepNoteTexture(this._resourceManager, 'dl', this.animationRate) ;
+        new StepNoteTexture(this._resourceManager, 'ul', this.animationRate) ;
+        new StepNoteTexture(this._resourceManager, 'c', this.animationRate) ;
+        new StepNoteTexture(this._resourceManager, 'ur', this.animationRate) ;
+        new StepNoteTexture(this._resourceManager, 'dr', this.animationRate) ;
 
-        engine.addToUpdateList(new HoldExtensibleTexture(this._resourceManager, 'dl', this.animationRate));
-        engine.addToUpdateList(new HoldExtensibleTexture(this._resourceManager, 'ul', this.animationRate));
-        engine.addToUpdateList(new HoldExtensibleTexture(this._resourceManager, 'c', this.animationRate));
-        engine.addToUpdateList(new HoldExtensibleTexture(this._resourceManager, 'ur', this.animationRate));
-        engine.addToUpdateList(new HoldExtensibleTexture(this._resourceManager, 'dr', this.animationRate));
+        new HoldExtensibleTexture(this._resourceManager, 'dl', this.animationRate) ;
+        new HoldExtensibleTexture(this._resourceManager, 'ul', this.animationRate) ;
+        new HoldExtensibleTexture(this._resourceManager, 'c', this.animationRate) ;
+        new HoldExtensibleTexture(this._resourceManager, 'ur', this.animationRate) ;
+        new HoldExtensibleTexture(this._resourceManager, 'dr', this.animationRate) ;
     }
 
     configureBG() {
@@ -56,7 +56,6 @@ class Stage extends GameObject {
         this._bg.object.position.y = -3 ;
         this._bg.object.position.z = -1 ;
         this._object.add(this._bg.object) ;
-        engine.addToUpdateList(this._bg) ;
 
     }
 
@@ -82,7 +81,6 @@ class Stage extends GameObject {
         stage.setScale(playerConfig.scale) ;
 
         this._object.add(stage.object) ;
-        engine.addToUpdateList(stage) ;
         this._playerStages.push(stage) ;
         this.adjustPlayerStages() ;
 

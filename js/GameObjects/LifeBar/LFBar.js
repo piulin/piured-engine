@@ -49,13 +49,9 @@ class LFBar extends GameObject {
 
         this._object.add(bar) ;
         this._object.add(this._pulse.object) ;
-        engine.addToUpdateList(this._pulse) ;
         this._object.add(this._tip.object) ;
-        engine.addToUpdateList(this._tip) ;
         this._object.add(this._barFX.object) ;
-        engine.addToUpdateList(this._barFX) ;
         this._object.add(this._barFXRed.object) ;
-        engine.addToUpdateList(this._barFXRed) ;
 
         // this._tweenOpacityEffect = undefined ;
 

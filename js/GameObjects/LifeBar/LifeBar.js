@@ -50,7 +50,6 @@ class LifeBar extends GameObject {
         back.object.position.z = 0.01 ;
         back.object.material.opacity = 1.0 ;
         this._object.add(back.object) ;
-        engine.addToUpdateList(back) ;
         return back ;
     }
 
@@ -61,7 +60,6 @@ class LifeBar extends GameObject {
         front.object.scale.y = 1.05 ;
         front.object.material.opacity = 1.0 ;
         this._object.add(front.object) ;
-        engine.addToUpdateList(front) ;
         return front ;
     }
 
@@ -69,7 +67,6 @@ class LifeBar extends GameObject {
         let bar = new LFBar(this._resourceManager, this._beatManager, kind) ;
         bar.object.position.z = 0.02 ;
         this._object.add(bar.object) ;
-        engine.addToUpdateList(bar) ;
         return bar ;
     }
 

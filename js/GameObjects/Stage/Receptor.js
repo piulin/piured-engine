@@ -14,10 +14,14 @@ class Receptor extends GameObject {
 
     constructor(resourceManager, beatManager, keyInput, padId, animationRate) {
         super(resourceManager);
+
+        engine.addToInputList(this) ;
+
         this._keyInput = keyInput ;
         this._beatManager = beatManager ;
         this._animationRate = animationRate ;
         this._padId = padId ;
+
 
         this._object = new THREE.Object3D() ;
 
@@ -83,7 +87,6 @@ class Receptor extends GameObject {
         bounce.object.position.z = this.stepEffectZDepth ;
         bounce.object.material.opacity = 0.0 ;
         this._object.add(bounce.object) ;
-        engine.addToUpdateList(bounce) ;
         return bounce ;
     }
 
@@ -95,7 +98,6 @@ class Receptor extends GameObject {
         explosion.object.material.opacity = 0.0 ;
 
         this._object.add(explosion.object) ;
-        engine.addToUpdateList(explosion) ;
         return explosion ;
     }
 
@@ -106,7 +108,6 @@ class Receptor extends GameObject {
         note.object.material.opacity = 0.0 ;
 
         this._object.add(note.object) ;
-        engine.addToUpdateList(note) ;
 
         return note ;
 
@@ -119,7 +120,6 @@ class Receptor extends GameObject {
         tap.object.material.opacity = 0.0 ;
 
         this._object.add(tap.object) ;
-        engine.addToUpdateList(tap) ;
 
         return tap ;
 
@@ -132,7 +132,6 @@ class Receptor extends GameObject {
         tap.object.material.opacity = 0.0 ;
 
         this._object.add(tap.object) ;
-        engine.addToUpdateList(tap) ;
 
         return tap ;
 

@@ -7,6 +7,8 @@ class StepQueue extends GameObject {
 
         super(resourceManager) ;
 
+        engine.addToInputList(this) ;
+
         this.keyInput = keyInput ;
 
         this.playerStage = playerStage ;

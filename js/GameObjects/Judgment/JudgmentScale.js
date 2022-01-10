@@ -18,7 +18,6 @@ class JudgmentScale extends GameObject {
         this.accuracyMargin = accuracyMargin ;
 
         this._judgment = new Judgment(this._resourceManager) ;
-        engine.addToUpdateList(this._judgment) ;
 
     }
 

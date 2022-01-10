@@ -25,7 +25,6 @@ class Judgment extends GameObject {
         this._banner = new Banner(this._resourceManager) ;
         this._banner.object.position.z = this.judgmentZDepth ;
         this._object.add(this._banner.object) ;
-        engine.addToUpdateList(this._banner) ;
 
 
         this._combo = new Combo(this._resourceManager) ;
@@ -33,7 +32,6 @@ class Judgment extends GameObject {
         this._combo.object.position.z = this.judgmentZDepth ;
         this._combo.object.position.y = this.comboYPosition ;
         this._object.add(this._combo.object) ;
-        engine.addToUpdateList(this._combo) ;
 
 
 
@@ -41,7 +39,6 @@ class Judgment extends GameObject {
         this._whiteDigits.object.position.z = this.judgmentZDepth ;
         this._whiteDigits.object.position.y = this.comboYPosition - 0.35;
         this._object.add(this._whiteDigits.object) ;
-        engine.addToUpdateList(this._whiteDigits) ;
 
 
     }

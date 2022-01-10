@@ -62,18 +62,12 @@ class PlayerStage extends GameObject {
             this.keyboardLag,
             this.playBackSpeed) ;
 
-        engine.addToUpdateList(this.beatManager) ;
     }
 
     configureKeyInputPlayerStage(inputConfig) {
 
         // Create a KeyInput object
         let playerInput = new KeyInput(this._resourceManager)  ;
-
-        // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
-        engine.addToUpdateList(playerInput) ;
-        engine.addToKeyDownList(playerInput) ;
-        engine.addToKeyUpList(playerInput) ;
 
         // Pad ids are used for identifying steps in double-style.
         let pad1Id = '0' ;
@@ -97,11 +91,6 @@ class PlayerStage extends GameObject {
 
         // Create a TouchInput object
         let playerInput = new TouchInput(this._resourceManager) ;
-
-        // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
-        engine.addToUpdateList(playerInput) ;
-        engine.addToTouchDownList(playerInput) ;
-        engine.addToTouchUpList(playerInput) ;
 
         // We create two pads. Theoretically, more than 2 pads can be added, but in practice we only have either one or two.
         let pad1Id = '0' ;
@@ -196,8 +185,6 @@ class PlayerStage extends GameObject {
 
     constructStepQueue() {
         this.stepQueue = new StepQueue(this._resourceManager, this, this.beatManager, this.keyListener, this.accuracyMargin) ;
-        engine.addToInputList(this.stepQueue) ;
-        engine.addToUpdateList(this.stepQueue) ;
     }
 
     constructSteps() {
@@ -216,15 +203,12 @@ class PlayerStage extends GameObject {
     constructJudgment() {
         this.judgment = new JudgmentScale(this._resourceManager, this.accuracyMargin, this._lifeBar) ;
         this.judgment.object.position.y = -2.5 ;
-        engine.addToUpdateList(this.judgment) ;
         this._object.add(this.judgment.object) ;
     }
 
     // Construct generic receptor
     getReceptor(padId) {
         let receptor = new Receptor(this._resourceManager, this.beatManager, this.keyListener, padId, this.stepTextureAnimationRate ) ;
-        engine.addToUpdateList(receptor) ;
-        engine.addToInputList(receptor) ;
         receptor.object.position.z = this.receptorZDepth;
         return receptor ;
     }
@@ -275,7 +259,6 @@ class PlayerStage extends GameObject {
         this._lifeBar.object.position.y = 0.7 ;
 
         this._object.add(this._lifeBar.object)
-        engine.addToUpdateList(this._lifeBar) ;
 
     }
 

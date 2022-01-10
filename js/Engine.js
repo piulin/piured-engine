@@ -134,7 +134,6 @@ class Engine {
         this.song = new Song(SSCFile, audioFile, offset, playBackSpeed);
         let resourceManager = new ResourceManager(resourcePath, 'noteskins/' + noteskin + '/UHD', 'stage_UHD') ;
         this.stage = new Stage(resourceManager, this.song) ;
-        engine.addToUpdateList(this.stage) ;
         this.scene.add(this.stage.object) ;
 
     }

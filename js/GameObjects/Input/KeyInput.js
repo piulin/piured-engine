@@ -11,6 +11,10 @@ class KeyInput extends GameObject {
 
         super(resourceManager) ;
 
+        // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
+        engine.addToKeyDownList(this) ;
+        engine.addToKeyUpList(this) ;
+
         this.pads = [] ;
         this.padsDic = {} ;
 
@@ -26,7 +30,6 @@ class KeyInput extends GameObject {
     addPad(keyMap, padId) {
 
         const pad = new Pad(this._resourceManager, keyMap, padId) ;
-        engine.addToUpdateList(pad) ;
         this.pads.push( pad ) ;
         this.padsDic[padId] = pad ;
     }
