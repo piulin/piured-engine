@@ -195,7 +195,8 @@ class Steps extends GameObject {
                     currentTimeInSong,
                     listIndex - 1,
                     padId,
-                    i);
+                    i,
+                    j);
 
 
                 //ul
@@ -208,7 +209,8 @@ class Steps extends GameObject {
                     currentTimeInSong,
                     listIndex - 1,
                     padId,
-                    i);
+                    i,
+                    j);
 
                 // c
                 this.processNote(
@@ -220,7 +222,8 @@ class Steps extends GameObject {
                     currentTimeInSong,
                     listIndex - 1,
                     padId,
-                    i);
+                    i,
+                    j);
 
                 // ur
                 this.processNote(
@@ -232,7 +235,8 @@ class Steps extends GameObject {
                     currentTimeInSong,
                     listIndex - 1,
                     padId,
-                    i);
+                    i,
+                    j);
 
                 // dr
                 this.processNote(
@@ -244,7 +248,8 @@ class Steps extends GameObject {
                     currentTimeInSong,
                     listIndex - 1,
                     padId,
-                    i);
+                    i,
+                    j);
 
             }
 
@@ -254,7 +259,7 @@ class Steps extends GameObject {
     }
 
 
-    processNote(note, kind, currentYPosition, XStepPosition , steps, currentTimeInSong, index,  padId, bar ) {
+    processNote(note, kind, currentYPosition, XStepPosition , steps, currentTimeInSong, index,  padId, i,j ) {
 
 
         // Process StepNote
@@ -274,12 +279,12 @@ class Steps extends GameObject {
             if (note === '2') {
 
                 let stepHold = new StepHold(this._resourceManager, step, kind ) ;
-                this.stepQueue.addStepToStepList(stepHold, index, bar) ;
+                this.stepQueue.addStepToStepList(stepHold, index, i,j) ;
                 this.stepQueue.setHold(kind, padId, stepHold) ;
 
             } else {
 
-                this.stepQueue.addStepToStepList(step, index, bar) ;
+                this.stepQueue.addStepToStepList(step, index, i,j) ;
                 steps.add(stepMesh) ;
 
             }

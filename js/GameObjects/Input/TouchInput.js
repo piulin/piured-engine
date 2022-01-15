@@ -9,7 +9,7 @@ class TouchInput extends GameObject {
     _scaled_mesh ;
 
 
-    constructor(resourceManager) {
+    constructor(resourceManager, frameLog) {
 
         super(resourceManager) ;
 
@@ -26,6 +26,8 @@ class TouchInput extends GameObject {
         this._scaled_mesh = new THREE.Object3D() ;
         this._scaled_mesh.add(this._mesh) ;
 
+        this.frameLog = frameLog ;
+
     }
 
     getPadIds() {
@@ -33,7 +35,7 @@ class TouchInput extends GameObject {
     }
 
     addTouchPad(padId) {
-        const pad = new TouchPad(this._resourceManager, padId) ;
+        const pad = new TouchPad(this._resourceManager, padId, this.frameLog) ;
         // pad.object.position.z = 0.05;
         // pad.object.position.y = -9;
         pad.object.scale.x = 8.0;

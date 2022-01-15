@@ -8,6 +8,8 @@ class Engine {
     _onKeyUpList = [] ;
     _onTouchDownList = [] ;
     _onTouchUpList = [] ;
+    _outputFrameLogList = [] ;
+    _inputFrameLogList = [] ;
     _id ;
     song ;
     stage ;
@@ -16,6 +18,7 @@ class Engine {
     camera ;
     renderer ;
     stageCleared = undefined ;
+
     containerId ;
 
     //public
@@ -139,7 +142,7 @@ class Engine {
     }
 
     addPlayer( playerConfig ) {
-        this.stage.addPlayerStage( playerConfig, this.playBackSpeed ) ;
+        return this.stage.addPlayerStage( playerConfig, this.playBackSpeed ) ;
     }
 
     setCameraPosition( X,Y,Z ) {
@@ -213,6 +216,31 @@ class Engine {
         this._onTouchDownList.push(gameObject) ;
     }
 
+    getOutputFrameLogList() {
+        return this._outputFrameLogList ;
+    }
+    clearOutputFrameLoglist(){
+        this._outputFrameLogList = []
+    }
+
+    addToOutputFrameLogList(frameLog) {
+        this._outputFrameLogList.push({
+            'playerStageId': frameLog.playerStageId ,
+            'json': frameLog.json
+        }) ;
+        // this._inputFrameLogList.push({
+        //     'playerStageId': frameLog.playerStageId,
+        //     'json': frameLog.json
+        // }) ;
+    }
+
+    logFrame(localPlayerStageId, json) {
+        this._inputFrameLogList.push({
+            'playerStageId': localPlayerStageId,
+            'json': json
+        }) ;
+    }
+
     createStats() {
         var stats = new Stats();
         stats.setMode(0);
@@ -249,11 +277,11 @@ class Engine {
 
         cancelAnimationFrame(this._id) ;
 
-        this.renderer.dispose()
+        this.renderer.dispose() ;
 
 
         const cleanMaterial = material => {
-            material.dispose()
+            material.dispose() ;
 
             // dispose textures
             for (const key of Object.keys(material)) {
@@ -282,17 +310,25 @@ class Engine {
         // It is the amount of time since last call to render.
         const delta = this.clock.getDelta();
 
+        //remote frames
+        for (var i = 0 ; i < this._inputFrameLogList.length; i++) {
+            let flog = this._inputFrameLogList[i] ;
+            this.stage.logFrame(1, flog.json) ;
+        }
+        this._inputFrameLogList = [] ;
 
+
+        // process input
         for (var i = 0 ; i < this._inputList.length ; i++ ) {
             this._inputList[i].input() ;
         }
 
-        // Update position of the steps
+        // Update gameObjects
         for (var i = 0 ; i < this._updateList.length ; i++ ) {
             this._updateList[i].update(delta) ;
         }
 
-        // for tweening the judgments.
+        // update tweens
         TWEEN.update();
 
         // this.cameraControls.update(delta);

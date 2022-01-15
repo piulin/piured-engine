@@ -7,13 +7,15 @@ class KeyInput extends GameObject {
 
     _mesh ;
 
-    constructor(resourceManager) {
+    constructor(resourceManager, frameLog) {
 
         super(resourceManager) ;
 
         // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
         engine.addToKeyDownList(this) ;
         engine.addToKeyUpList(this) ;
+
+        this.frameLog = frameLog ;
 
         this.pads = [] ;
         this.padsDic = {} ;
@@ -29,7 +31,7 @@ class KeyInput extends GameObject {
 
     addPad(keyMap, padId) {
 
-        const pad = new Pad(this._resourceManager, keyMap, padId) ;
+        const pad = new Pad(this._resourceManager, keyMap, padId, this.frameLog) ;
         this.pads.push( pad ) ;
         this.padsDic[padId] = pad ;
     }

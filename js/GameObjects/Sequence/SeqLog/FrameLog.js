@@ -4,26 +4,35 @@
 class FrameLog extends GameObject  {
 
     _json = {} ;
+    _playerStageId ;
 
-    constructor(resourceManager) {
+
+
+    constructor(resourceManager, playerStageId) {
         super(resourceManager);
+        this._playerStageId = playerStageId;
     }
 
+
+    get playerStageId() {
+        return this._playerStageId;
+    }
+
+    get json() {
+        return this._json;
+    }
 
     logAnimateReceptorFX(steplist) {
 
         if (!("receptorFX" in this._json)) {
             this._json['receptorFX'] = [] ;
         }
-
         let receptorFXList = this._json['receptorFX']
-
         for (let i = 0 ; i < steplist.length ; i++ ) {
             receptorFXList.push(steplist[i].id) ;
         }
 
     }
-
     logJudgment(grade, combo, step) {
         this._json['judgment'] = {
             'grade': grade,
@@ -39,14 +48,16 @@ class FrameLog extends GameObject  {
         this._json['removeSteps'].push(step.id) ;
     }
 
-    logPadInput(kind, padId) {
+    logPadInput(kind, padId, action, value) {
         if (!("padInput" in this._json)) {
             this._json['padInput'] = [] ;
         }
 
         this._json['padInput'].push({
             'kind': kind,
-            'padId': padId
+            'padId': padId,
+            'action': action,
+            'value': value
         }) ;
     }
 
@@ -55,8 +66,10 @@ class FrameLog extends GameObject  {
 
     update(delta) {
         if ( Object.keys(this._json).length !== 0) {
-            console.log(this._json) ;
+
+            engine.addToOutputFrameLogList(this) ;
         }
         this._json = {} ;
     }
+
 }

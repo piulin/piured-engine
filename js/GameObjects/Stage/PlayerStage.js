@@ -3,7 +3,7 @@
 
 
 class PlayerStage extends GameObject {
-
+    _id ;
     _song ;
     _level ;
     _steps ;
@@ -25,6 +25,7 @@ class PlayerStage extends GameObject {
                 song,
                 playerConfig,
                 playBackSpeed,
+                id,
                 lifebarOrientation = 'left2right') {
 
         super(resourceManager);
@@ -34,6 +35,7 @@ class PlayerStage extends GameObject {
         this._song = song ;
         this._level = playerConfig.level ;
         this._userSpeed = playerConfig.speed ;
+        this._id = id ;
 
         this._object = new THREE.Object3D() ;
         this._scaled_object = new THREE.Object3D() ;
@@ -47,7 +49,7 @@ class PlayerStage extends GameObject {
         this.padReceptors = { } ;
         this._receptors = new THREE.Object3D();
 
-        this.frameLog = new FrameLog() ;
+        this.frameLog = new FrameLog(this._resourceManager,this._id) ;
 
 
         this.configureBeatManager() ;
@@ -70,7 +72,7 @@ class PlayerStage extends GameObject {
     configureKeyInputPlayerStage(inputConfig) {
 
         // Create a KeyInput object
-        let playerInput = new KeyInput(this._resourceManager)  ;
+        let playerInput = new KeyInput(this._resourceManager, this.frameLog)  ;
 
         // Pad ids are used for identifying steps in double-style.
         let pad1Id = '0' ;
@@ -93,7 +95,7 @@ class PlayerStage extends GameObject {
     configureTouchInputPlayerStage(inputConfig) {
 
         // Create a TouchInput object
-        let playerInput = new TouchInput(this._resourceManager) ;
+        let playerInput = new TouchInput(this._resourceManager, this.frameLog) ;
 
         // We create two pads. Theoretically, more than 2 pads can be added, but in practice we only have either one or two.
         let pad1Id = '0' ;
@@ -121,18 +123,37 @@ class PlayerStage extends GameObject {
         this._object.add(playerInput.object) ;
     }
 
+    configureRemoteInputPlayerStage(inputConfig) {
+        let playerInput = new IInput(this._resourceManager, this.frameLog) ;
+        let pad1Id = '0' ;
+        let pad2Id = '1' ;
+        playerInput.addPad(pad1Id) ;
+        if ( this._song.getLevelStyle(this._level) === 'pump-double' || this._song.getLevelStyle(this._level) === 'pump-halfdouble') {
+            playerInput.addPad(pad2Id) ;
+        }
+
+        this.keyListener = playerInput ;
+        this.idLeftPad = pad1Id ;
+        this.idRightPad = pad2Id ;
+    }
+
     configureInputPlayerStage(inputConfig) {
 
         // Determine what kind of input the player is using.
-        if (inputConfig instanceof KeyInputConfig) {
+        if (inputConfig instanceof KeyInputConfig ) {
 
             this.configureKeyInputPlayerStage(inputConfig) ;
 
-        } else if (inputConfig instanceof TouchInputConfig) {
+        } else if (inputConfig instanceof TouchInputConfig ) {
 
             this.configureTouchInputPlayerStage(inputConfig) ;
 
+        } else if (inputConfig instanceof RemoteInput ) {
+
+            this.configureRemoteInputPlayerStage(inputConfig) ;
+
         }
+
 
 
     }
@@ -188,7 +209,13 @@ class PlayerStage extends GameObject {
     }
 
     constructStepQueue() {
-        this.stepQueue = new StepQueue(this._resourceManager, this, this.beatManager, this.keyListener, this.accuracyMargin, this.frameLog) ;
+        if (this.playerConfig.inputConfig instanceof RemoteInput ) {
+            this.stepQueue = new IStepQueue(this._resourceManager, this, this.keyListener, this.beatManager, this.accuracyMargin) ;
+        } else {
+            this.stepQueue = new StepQueue(this._resourceManager, this, this.keyListener, this.beatManager, this.accuracyMargin, this.frameLog) ;
+            engine.addToInputList(this.stepQueue) ;
+        }
+
     }
 
     constructSteps() {
@@ -302,6 +329,11 @@ class PlayerStage extends GameObject {
         for (var step of stepList) {
             this.padReceptors[step.padId].animateExplosionStep(step) ;
         }
+    }
+
+    logFrame(json) {
+        this.keyListener.applyFrameLog(json) ;
+        this.stepQueue.applyFrameLog(json) ;
     }
 
 

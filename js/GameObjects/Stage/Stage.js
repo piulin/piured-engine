@@ -76,6 +76,7 @@ class Stage extends GameObject {
             this.song,
             playerConfig,
             playBackSpeed,
+            this._playerStages.length,
             lifebarOrientation) ;
 
         stage.setScale(playerConfig.scale) ;
@@ -93,6 +94,10 @@ class Stage extends GameObject {
         return this._playerStages.length -1 ;
 
 
+    }
+
+    logFrame(playerStageId, json) {
+        this._playerStages[playerStageId].logFrame(json) ;
     }
 
     adjustPlayerStages() {

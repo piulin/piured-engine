@@ -4,8 +4,8 @@ class Id {
 
     constructor() {}
     // returns stepId
-    getId(kind, padId, bar) {
-        return kind + '-' + padId + '-' + bar  ;
+    getId(kind, padId, i, j) {
+        return kind + '-' + padId + '-' + i + '-' + j ;
     }
 
 }

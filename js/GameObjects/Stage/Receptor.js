@@ -192,7 +192,6 @@ class Receptor extends GameObject {
         for ( const [kind, padId] of pressedKeys ) {
             if (padId === this._padId) {
                 this.animateTap(kind) ;
-                // this.animateWhiteTap(kind) ;
             }
         }
 

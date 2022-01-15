@@ -6,8 +6,8 @@ class TouchPad extends Pad {
 
     _mesh ;
 
-    constructor(resourceManager, padId) {
-        super(resourceManager, null, padId) ;
+    constructor(resourceManager, padId, frameLog) {
+        super(resourceManager, null, padId, frameLog) ;
         this._mesh = this._resourceManager.constructTouchInput() ;
     }
 

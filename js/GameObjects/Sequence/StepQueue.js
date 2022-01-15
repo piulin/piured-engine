@@ -4,11 +4,9 @@ class StepQueue extends GameObject {
 
     _stepDict ;
 
-    constructor(resourceManager, playerStage, beatManager, keyInput, accuracyMargin, frameLog ) {
+    constructor(resourceManager, playerStage, keyInput, beatManager, accuracyMargin, frameLog ) {
 
         super(resourceManager) ;
-
-        engine.addToInputList(this) ;
 
         this.keyInput = keyInput ;
 
@@ -55,7 +53,7 @@ class StepQueue extends GameObject {
         const pressedKeys = this.keyInput.getPressed() ;
 
         for ( const [kind, padId] of pressedKeys ) {
-            this.frameLog.logPadInput(kind,padId) ;
+            // this.frameLog.logPadInput(kind,padId) ;
             this.stepPressed(kind,padId) ;
 
         }
@@ -88,8 +86,8 @@ class StepQueue extends GameObject {
 
     }
 
-    addStepToStepList ( step, index, bar ) {
-        let stepId = this.id.getId( step.kind,step.padId, bar ) ;
+    addStepToStepList ( step, index, i,j ) {
+        let stepId = this.id.getId( step.kind,step.padId, i,j ) ;
         step.id = stepId ;
 
         // save in the dict.
@@ -444,8 +442,6 @@ class StepQueue extends GameObject {
 
         let [stepInfo, step, hitIndex, difference] = this.getFirstStepWithinMargin(currentAudioTime, kind, padId) ;
 
-        // console.log(kind + " " + padId
-        // ) ;
 
         // with the second condition, we make sure that we don't treat the holds here. Holds, when pressed
         // beforehand (anytime), count always as a perfect.
@@ -472,7 +468,6 @@ class StepQueue extends GameObject {
 
                     this.needToAnimateReceptorFX(stepInfo.stepList) ;
                     this.needToAnimateReceptorFX(this.activeHolds.asList()) ;
-
                     this.removeNotesFromStepObject(stepInfo.stepList) ;
 
                 }
