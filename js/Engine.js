@@ -8,7 +8,6 @@ class Engine {
     _onKeyUpList = [] ;
     _onTouchDownList = [] ;
     _onTouchUpList = [] ;
-    _outputFrameLogList = [] ;
     _inputFrameLogList = [] ;
     _id ;
     song ;
@@ -18,6 +17,7 @@ class Engine {
     camera ;
     renderer ;
     stageCleared = undefined ;
+    onFrameLog = undefined ;
 
     containerId ;
 
@@ -131,11 +131,12 @@ class Engine {
         container.appendChild( this.renderer.domElement );
     }
 
-    configureStage( SSCFile, audioFile, playBackSpeed, offset, resourcePath, noteskin ) {
-        this.resourcePath = resourcePath ;
-        this.playBackSpeed = playBackSpeed ;
-        this.song = new Song(SSCFile, audioFile, offset, playBackSpeed);
-        let resourceManager = new ResourceManager(resourcePath, 'noteskins/' + noteskin + '/UHD', 'stage_UHD') ;
+    configureStage( stageConfig ) {
+
+        this.resourcePath = stageConfig.resourcePath ;
+        this.playBackSpeed = stageConfig.playBackSpeed ;
+        this.song = new Song(stageConfig.SSCFile, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
+        let resourceManager = new ResourceManager(stageConfig.resourcePath, 'noteskins/' + stageConfig.noteskin + '/UHD', 'stage_UHD') ;
         this.stage = new Stage(resourceManager, this.song) ;
         this.scene.add(this.stage.object) ;
 
@@ -156,11 +157,11 @@ class Engine {
     }
 
     start ( ) {
-
-        this.performReady() ;
-
         this.song.play() ;
+    }
 
+    startPlayBack( dateToStart, getDateFn = () => { return new Date() ; } ) {
+        this.song.startPlayBack(dateToStart, getDateFn) ;
         this.animate();
     }
 
@@ -224,21 +225,21 @@ class Engine {
     }
 
     addToOutputFrameLogList(frameLog) {
-        this._outputFrameLogList.push({
-            'playerStageId': frameLog.playerStageId ,
-            'json': frameLog.json
-        }) ;
+        if (this.onFrameLog !== undefined ) {
+            this.onFrameLog({
+                'playerStageId': frameLog.playerStageId ,
+                'json': frameLog.json
+
+            });
+        }
         // this._inputFrameLogList.push({
         //     'playerStageId': frameLog.playerStageId,
         //     'json': frameLog.json
         // }) ;
     }
 
-    logFrame(localPlayerStageId, json) {
-        this._inputFrameLogList.push({
-            'playerStageId': localPlayerStageId,
-            'json': json
-        }) ;
+    logFrame(frameLog) {
+        this._inputFrameLogList.push(frameLog) ;
     }
 
     createStats() {
@@ -313,7 +314,7 @@ class Engine {
         //remote frames
         for (var i = 0 ; i < this._inputFrameLogList.length; i++) {
             let flog = this._inputFrameLogList[i] ;
-            this.stage.logFrame(1, flog.json) ;
+            this.stage.logFrame(flog.playerStageId, flog.json) ;
         }
         this._inputFrameLogList = [] ;
 

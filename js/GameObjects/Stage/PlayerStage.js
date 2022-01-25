@@ -128,9 +128,9 @@ class PlayerStage extends GameObject {
         let pad1Id = '0' ;
         let pad2Id = '1' ;
         playerInput.addPad(pad1Id) ;
-        if ( this._song.getLevelStyle(this._level) === 'pump-double' || this._song.getLevelStyle(this._level) === 'pump-halfdouble') {
-            playerInput.addPad(pad2Id) ;
-        }
+        // if ( this._song.getLevelStyle(this._level) === 'pump-double' || this._song.getLevelStyle(this._level) === 'pump-halfdouble') {
+        playerInput.addPad(pad2Id) ;
+        // }
 
         this.keyListener = playerInput ;
         this.idLeftPad = pad1Id ;

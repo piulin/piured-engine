@@ -10,12 +10,6 @@ class IPad extends Pad {
 
     }
 
-    update(delta) {
-
-    }
-
-
-
     set dlKeyPressed(value) {
         this._dlKeyPressed = value;
     }

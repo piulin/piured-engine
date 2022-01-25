@@ -4,7 +4,7 @@
 
 class Song {
 
-    constructor( pathToSSCFile, audioBuf, offset, playBackSpeed ) {
+    constructor( pathToSSCFile, audioBuf, offset, playBackSpeed, onReadyToStart ) {
 
 
         this.pathToSSCFile = pathToSSCFile ;
@@ -24,6 +24,10 @@ class Song {
         this.requiresResync = false ;
 
         this.readyToStart = false ;
+
+        this.onReadyToStart = onReadyToStart ;
+
+        this.delay = 0.0 ;
 
         // $.get(pathToSSCFile, this.parse.bind(this), 'text');
 
@@ -210,20 +214,17 @@ class Song {
 
     play () {
 
-        this.delay = 2.0 ;
-        let delay = this.delay ;
         let audioLoader = new THREE.AudioLoader();
-        let startTime =  null ;
-
         let context = null ;
+
         if('webkitAudioContext' in window) {
             context = new webkitAudioContext();
         } else {
             context = new AudioContext();
         }
         this.context = context ;
+        audioLoader.load( this.audioBuf, this.setUpPlayBack.bind(this)) ;
 
-        audioLoader.load( this.audioBuf, this.playBack.bind(this)) ;
 
 
         // context.decodeAudioData(this.audioBuf, this.playBack.bind(this));
@@ -238,24 +239,42 @@ class Song {
         // this.startTime =  ;
     }
 
-    playBack( buf ) {
+    setUpPlayBack( buf ) {
         let source = this.context.createBufferSource();
+        this.source = source ;
         source.playbackRate.value = this.playBackSpeed ;
+        source.onended = this.playBackEnded.bind(this) ;
 
         // source.detune.value = 1200 ;
         source.connect(this.context.destination);
         source.buffer = buf;
-        this.startTime = this.context.currentTime;
-        source.start(this.startTime + this.delay) ;
-        this.readyToStart = true ;
-        source.onended = this.playBackEnded.bind(this) ;
+        this.onReadyToStart() ;
 
-        this.source = source ;
+        // this.delay = this.songStartDelay() ;
+
+    }
+
+    startPlayBack(startDate, getCurrentDatefn) {
+
+        let currentDate = getCurrentDatefn() ;
+
+        //           convert to secs
+        this.delay = (startDate - currentDate) / 1000.0 ;
+
+
+        this.startTime = this.context.currentTime;
+
+        // this.startTime = 0;
+        // console.log('start time: ' + this.startTime ) ;
+        this.source.start(this.startTime + this.delay) ;
+        this.readyToStart = true ;
+        console.log('computed delay: ' + this.delay)
     }
 
 
     playBackEnded() {
-            engine.stop( ) ;
+        this.context.close() ;
+        engine.stop( ) ;
     }
 
     // This method is called when the buffer with the song is ready.

@@ -158,7 +158,9 @@ class Pad extends GameObject {
     }
 
     set dlKeyPressed(value) {
-        this.frameLog.logPadInput('dl',this._padId,'pressed',value) ;
+        if ( value === true ) {
+            this.frameLog.logPadInput('dl',this._padId,'pressed',value) ;
+        }
         this._dlKeyPressed = value;
     }
 
@@ -167,7 +169,9 @@ class Pad extends GameObject {
     }
 
     set ulKeyPressed(value) {
-        this.frameLog.logPadInput('ul',this._padId,'pressed',value) ;
+        if ( value === true ) {
+            this.frameLog.logPadInput('ul', this._padId, 'pressed', value);
+        }
         this._ulKeyPressed = value;
     }
 
@@ -176,7 +180,9 @@ class Pad extends GameObject {
     }
 
     set cKeyPressed(value) {
-        this.frameLog.logPadInput('c',this._padId,'pressed',value) ;
+        if ( value === true ) {
+            this.frameLog.logPadInput('c', this._padId, 'pressed', value);
+        }
         this._cKeyPressed = value;
     }
 
@@ -185,7 +191,9 @@ class Pad extends GameObject {
     }
 
     set urKeyPressed(value) {
-        this.frameLog.logPadInput('ur',this._padId,'pressed',value) ;
+        if ( value === true ) {
+            this.frameLog.logPadInput('ur', this._padId, 'pressed', value);
+        }
         this._urKeyPressed = value;
     }
 
@@ -194,7 +202,9 @@ class Pad extends GameObject {
     }
 
     set drKeyPressed(value) {
-        this.frameLog.logPadInput('dr',this._padId,'pressed',value) ;
+        if ( value === true ) {
+            this.frameLog.logPadInput('dr', this._padId, 'pressed', value);
+        }
         this._drKeyPressed = value;
     }
 
