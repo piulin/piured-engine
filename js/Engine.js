@@ -18,6 +18,7 @@ class Engine {
     renderer ;
     stageCleared = undefined ;
     onFrameLog = undefined ;
+    _playBackSpeedEnabled = true ;
 
     containerId ;
 
@@ -92,12 +93,14 @@ class Engine {
 
     tunePlayBackSpeed ( playBackSpeedOffset ) {
 
-        this.playBackSpeed += playBackSpeedOffset ;
-        if (this.playBackSpeed < 0) {
-            this.playBackSpeed = 0.0 ;
+        if (this._playBackSpeedEnabled) {
+            this.playBackSpeed += playBackSpeedOffset ;
+            if (this.playBackSpeed < 0) {
+                this.playBackSpeed = 0.0 ;
+            }
+            this.song.setNewPlayBackSpeed( this.playBackSpeed ) ;
+            this.stage.setNewPlayBackSpeed( this.playBackSpeed ) ;
         }
-        this.song.setNewPlayBackSpeed( this.playBackSpeed ) ;
-        this.stage.setNewPlayBackSpeed( this.playBackSpeed ) ;
 
     }
 
@@ -143,6 +146,11 @@ class Engine {
     }
 
     addPlayer( playerConfig ) {
+
+        if (playerConfig.inputConfig instanceof RemoteInput) {
+            this._playBackSpeedEnabled = false ;
+        }
+
         return this.stage.addPlayerStage( playerConfig, this.playBackSpeed ) ;
     }
 
@@ -229,7 +237,6 @@ class Engine {
             this.onFrameLog({
                 'playerStageId': frameLog.playerStageId ,
                 'json': frameLog.json
-
             });
         }
         // this._inputFrameLogList.push({

@@ -266,9 +266,9 @@ class Song {
 
         // this.startTime = 0;
         // console.log('start time: ' + this.startTime ) ;
+        console.log('computed delay: ' + this.delay) ;
         this.source.start(this.startTime + this.delay) ;
         this.readyToStart = true ;
-        console.log('computed delay: ' + this.delay)
     }
 
 

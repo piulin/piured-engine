@@ -69,6 +69,17 @@ class FrameLog extends GameObject  {
 
             engine.addToOutputFrameLogList(this) ;
         }
+
+
+        // if ( Object.keys(this._json).length !== 0 && this._hadIlogged === false ) {
+        //     engine.addToOutputFrameLogList(this) ;
+        //     this._hadIlogged = true ;
+        // }
+        //
+        // if(this._hadIlogged) {
+        //     engine.addToOutputFrameLogList(this) ;
+        // }
+
         this._json = {} ;
     }
 
