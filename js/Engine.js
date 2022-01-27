@@ -1,5 +1,154 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+
+/*
+ * # Copyright (C) Pedro G. Bascoy
+ # This file is part of piured-engine <https://github.com/piulin/piured-engine>.
+ #
+ # piured-engine is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # piured-engine is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with piured-engine.If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+/**
+ * PIURED is a Pump It Up stage simulator that works directly in your browser.
+ There are already a number of dance simulators for Windows and Linux, most of them being StepMania-based.
+ Stepmania is a great choice for DDR-style rhythm games, however it lacks to capture the behaviour as well as
+ the feel & look of a Pump It Up arcade.
+
+ In this sense, PIURED's goal is to recreate as accurately as possible the Pump It Up-style experience
+ whilst keeping the engine cross-platform (web-based), so it can be enjoyed anywhere and anytime.
+
+ PIURED is written in its whole in Javascript using [ThreeJS](https://threejs.org/). The code is organized
+ trying to mimick the structure of any game engine. The source code can be found in [this repo](https://github.com/piulin/piured-engine) under the folder `js`.
+
+ This engine features:
+
+ 1. A Stepmania SSC parser. Stepcharts can be directly read from bare Stepmania files. No need to convert them into another intermediate format. This means that all the songs that are available for Pump-style would work off-the-shelf in PIURED.
+ 2. A loader that supports both MP3 and OGG audio formats. These are the most common formats used in Stepmania audio files.
+ 3. Support for changes of BPM, SCROLL, STOPS, DELAYS as well as changes of SPEED (attributes used in Stepmania to create effects).
+ 4. Pump-single, Pump-double and Pump-Halfdouble styles.
+ 5. VS. mode, including two or more players playing any combination of Pump-single and Pump-double styles.
+ 6. Remote input capabilities to create online-like battles.
+ 7. On-the-fly tuning of the offset parameter.
+ 8. Variable speed rates.
+ 9. A number of Noteskins to choose from (sprite-based).
+ 10. Game performance metrics.
+ 11. Visual effects close to the original arcade.
+ 12. A background theme which "FEELS THE BEAT".
+
+ There are, however, some features available in Stepmania that PIURED does not support:
+
+ 1. The engine only supports a 4/4 bar.
+ 2. BGA in any video format is not supported.
+ 3. Dance pads or Joysticks are not supported as input methods.
+ 4. Performance metrics may not be deterministic.
+ 5. Only Pump-single, Pump-double and Pump-halfdouble styles are supported. Any other style may cause
+ the engine to crash.
+
+ * The {@link Engine} class is the main abstraction for creating a pump it up stage and playing a chart. It contains all
+ * methods necessary to create a new stage, add an indefinite number of local and remote players, load Stepmania SSC files,
+ * and report players' performance.
+ *
+ * This class is intended to be used only as javascript code on the client-side, as it will attempt to draw stuff on the browser.
+ *
+ * The constructor returns an initialized {@link Engine} object. It essentially sets up the renderer and places the camera into position.
+ * @returns {Engine} for the class {@link Engine} to work properly, the returned object must be stored as a global variable `engine` on the client side.
+ * Make sure that there is just one engine instance running across the client side.
+ *
+ * @example <caption>Creating a new engine. Make sure that the variable `engine` is globally accessible.</caption>
+ * let engine = new Engine() ;
+ *
+ * @example <caption>Full example to configure a working engine.</caption>
+ *
+ * function stageCleared(performance) {
+ *
+ *   console.log(performance) ;
+ *   document.removeEventListener( 'touchstart', onTouchDown, false );
+ *   document.removeEventListener( 'touchend', onTouchUp, false );
+ *   engine = null ;
+ *   window.close() ;
+ *
+ *
+ * }
+ *
+ * let engine = new Engine() ;
+ *
+ * let speed = config.speed ;
+ * let playback = 1.0 ;
+ * let offset = 0.0 ;
+ * let noteskin = 'NX' ;
+ * let resourcePath = 'piured-engine' ;
+ * let leftKeyMap = {
+ *    dl: 'Z',
+ *    ul : 'Q',
+ *    c : 'S',
+ *    ur : 'E',
+ *    dr: 'C'
+ * }
+ * let rightKeyMap = {
+ *    dl: 'V',
+ *    ul : 'R',
+ *    c : 'G',
+ *    ur : 'Y',
+ *    dr: 'N'
+ * }
+ * let chartLevel = 0 ;
+ *
+ *
+ * let stageConfig = new StageConfig('song.ssc',
+ *          'song.mp3',
+ *          playback,
+ *          offset,
+ *          resourcePath,
+ *          noteskin,
+ *          () => {
+ *              let dateToStart = new Date() ;
+ *              // delay of 2 secs
+ *              dateToStart.setMilliseconds(dateToStart.getMilliseconds() + 2000.0) ;
+ *              engine.startPlayBack(dateToStart, () => {return new Date() ;}) ;
+ *          }
+ * ) ;
+ *
+ * engine.configureStage(stageConfig) ;
+ *
+ * let p1InputConfig ;
+ * let accuracyMargin = 0.15 ;
+ *
+ * accuracyMargin = 0.25 ;
+ *
+ * window.onkeydown = engine.onKeyDown ;
+ * window.onkeyup = engine.onKeyUp ;
+ *
+ * p1InputConfig = new KeyInputConfig(leftKeyMap, rightKeyMap) ;
+ *
+ * let p1Config = new PlayerConfig(p1InputConfig,
+ *                      chartLevel,
+ *                      speed,
+ *                      accuracyMargin) ;
+ *
+ *
+ * engine.addPlayer(p1Config) ;
+ *
+ * engine.addToDOM('container');
+ *
+ * window.addEventListener( 'resize', engine.onWindowResize.bind(engine), false );
+ *
+ * engine.onStageCleared = stageCleared ;
+ *
+ * engine.start();
+ */
 class Engine {
 
     _updateList = [] ;
@@ -16,8 +165,8 @@ class Engine {
     clock ;
     camera ;
     renderer ;
-    stageCleared = undefined ;
-    onFrameLog = undefined ;
+    _onStageCleared = undefined ;
+    _onFrameLog = undefined ;
     _playBackSpeedEnabled = true ;
 
     containerId ;
@@ -78,19 +227,93 @@ class Engine {
 
     }
 
-    showGrids() {
-        // Background grid and axes. Grid step size is 1, axes cross at 0, 0
-        Coordinates.drawGrid({size:100,scale:1,orientation:"z", scene: this.scene});
-        Coordinates.drawAxes({axisLength:11,axisOrientation:"x",axisRadius:0.04});
-        Coordinates.drawAxes({axisLength:11,axisOrientation:"z",axisRadius:0.04});
+    /**
+     * Constructs the stage where one or more players will dance. In a nutshell, the stage sets up the environment needed
+     * to play a specific tune associated with its Stepmania step definition file (i.e., mp3+SSC).
+     * This method must be called before adding new players to the stage through {@link Engine#addPlayer}.
+     * @param {StageConfig} stageConfig stage configuration
+     * @return {undefined}
+     *
+     * @example <caption> Configuring a new stage. Details of the {@link StageConfig} object are omitted.</caption>
+     * let stageConfig = new StageConfig( ... ) ;
+     * engine.configureStage(stageConfig) ;
+     */
+    configureStage( stageConfig ) {
+
+        this.resourcePath = stageConfig.resourcePath ;
+        this.playBackSpeed = stageConfig.playBackSpeed ;
+        this.song = new Song(stageConfig.SSCFile, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
+        let resourceManager = new ResourceManager(stageConfig.resourcePath, 'noteskins/' + stageConfig.noteskin + '/UHD', 'stage_UHD') ;
+        this.stage = new Stage(resourceManager, this.song) ;
+        this.scene.add(this.stage.object) ;
+
     }
 
-    updateOffset(stageId, newOffsetOffset) {
+    /**
+     * Adds a new player to the dance stage. This method must be called after configuring the stage through {@link Engine#configureStage}.
+     * There is no upper limit for the number of players that can join, but for some number the camera position must be updated to show the whole stage.
+     * Players could play locally by using traditional input methods (e.g., Keyboard, Touch) or remotely (via logging {@link FrameLog}s).
+     * @param {PlayerConfig} playerConfig player configuration
+     * @returns {number} player identifier
+     *
+     * @example <caption> Adding a new player to the stage. Details of the {@link PlayerConfig} object are omitted.</caption>
+     * let p1Config = new PlayerConfig( ... ) ;
+     * let p1Id = engine.addPlayer(p1Config) ;
+     */
+    addPlayer( playerConfig ) {
 
-        this.stage.updateOffset(stageId, newOffsetOffset) ;
+        if (playerConfig.inputConfig instanceof RemoteInput) {
+            this._playBackSpeedEnabled = false ;
+        }
+
+        return this.stage.addPlayerStage( playerConfig, this.playBackSpeed ) ;
+    }
+
+    /**
+     * Appends the renderer's DOM element to a container with id `containerId` present in your HTML document.
+     * You need to call this function so that the engine has a canvas to draw on.
+     * @param {String} containerId container id in the HTML document
+     * @return {undefined}
+     *
+     * @example <caption> Granted we have defined in a HTML document the following container `<div id="container"></div>`, we add the engine to the DOM</caption>
+     * engine.addToDOM('container') ;
+     */
+    addToDOM(containerId) {
+        this.containerId = containerId ;
+        let container = document.getElementById( containerId );
+        container.appendChild( this.renderer.domElement );
+    }
+
+
+    /**
+     * Updates the player's stage `playerId` offset. This function can be used to sync off-beat steps on-the-fly when the
+     * engine is running.
+     * @param {number} playerId player identifier
+     * @param {number} newOffsetOffset new offset to be applied in seconds. `newOffsetOffset` must be a floating point number
+     * @return {undefined}
+     *
+     * @example <caption> Updating the offset by 0.01 seconds for player with id `p1Id := 0`.</caption>
+     * engine.updateOffset(p1Id, 0.01) ;
+     */
+    updateOffset(playerId, newOffsetOffset) {
+
+        this.stage.updateOffset(playerId, newOffsetOffset) ;
 
     }
 
+    /**
+     * Updates the stage's audio playback rate (i.e., increases or decreases the audio & step speed). This function might be called
+     * while the engine is running. This function won't have any effect if there are remote players logged in the engine.
+     * @param {number} playBackSpeedOffset new playback offset to be applied in percentage. `playBackSpeedOffset` must be a floating point
+     * @return {undefined}
+     *
+     * @example <caption> Speeding up the playback rate by 10%. </caption>
+     * // changes the playback speed to 110%
+     * engine.tunePlayBackSpeed(0.1) ;
+     *
+     * // Essentially stops the song (and steps)
+     * engine.tunePlayBackSpeed(-1.0) ;
+     */
     tunePlayBackSpeed ( playBackSpeedOffset ) {
 
         if (this._playBackSpeedEnabled) {
@@ -104,75 +327,146 @@ class Engine {
 
     }
 
+    /**
+     * Logs a key down event from the browser into the engine. Keyboard events must be logged if any player is using {@link KeyInputConfig}
+     * (i.e. keyboard) as input method.
+     * @param {KeyboardEvent} event keyboard event
+     * @return {undefined}
+     * @example <caption> Configuring the browser to log the key strokes into the engine</caption>
+     * window.onkeydown = engine.keyDown ;
+     */
     keyDown(event) {
         for (let i = 0 ; i < this._onKeyDownList.length ; i++ ) {
             this._onKeyDownList[i].onKeyDown(event) ;
         }
     }
-
+    /**
+     * Logs a key up event from the browser into the engine. Keyboard events must be logged if any player is using {@link KeyInputConfig}
+     * (i.e. keyboard) as input method.
+     * @param {KeyboardEvent} event keyboard event
+     * @return {undefined}
+     * @example <caption> Configuring the browser to log the key strokes into the engine</caption>
+     * window.onkeyup = engine.keyUp ;
+     */
     keyUp(event) {
         for (let i = 0 ; i < this._onKeyUpList.length ; i++ ) {
             this._onKeyUpList[i].onKeyUp(event) ;
         }
     }
 
+    /**
+     * Logs a touch down event from the browser into the engine. Touch events must be logged if any player is using {@link TouchInputConfig}
+     * (i.e. Touch capable device) as input method.
+     * @param {TouchEvent} event touch event
+     * @return {undefined}
+     * @example <caption> Configuring the browser to log touch down events into the engine</caption>
+     * document.addEventListener( 'touchstart', (event) => {
+     *     // disable default actions
+     *     event.preventDefault();
+     *     event.stopPropagation();
+     *
+     *     engine.touchDown(event) ;
+     * }, false );
+     */
     touchDown(event) {
         for (let i = 0 ; i < this._onTouchDownList.length ; i++ ) {
             this._onTouchDownList[i].onTouchDown(event) ;
         }
     }
-
+    /**
+     * Logs a touch up event from the browser into the engine. Touch events must be logged if any player is using {@link TouchInputConfig}
+     * (i.e. Touch capable device) as input method.
+     * @param {TouchEvent} event touch event
+     * @return {undefined}
+     * @example <caption> Configuring the browser to log touch down events into the engine</caption>
+     * document.addEventListener( 'touchend', (event) => {
+     *     // disable default actions
+     *     event.preventDefault();
+     *     event.stopPropagation();
+     *
+     *     engine.touchUp(event) ;
+     * }, false );
+     */
     touchUp(event) {
         for (let i = 0 ; i < this._onTouchUpList.length ; i++ ) {
             this._onTouchUpList[i].onTouchUp(event) ;
         }
     }
 
-    addToDOM(containerId) {
-        this.containerId = containerId ;
-        let container = document.getElementById( containerId );
-        container.appendChild( this.renderer.domElement );
-    }
-
-    configureStage( stageConfig ) {
-
-        this.resourcePath = stageConfig.resourcePath ;
-        this.playBackSpeed = stageConfig.playBackSpeed ;
-        this.song = new Song(stageConfig.SSCFile, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
-        let resourceManager = new ResourceManager(stageConfig.resourcePath, 'noteskins/' + stageConfig.noteskin + '/UHD', 'stage_UHD') ;
-        this.stage = new Stage(resourceManager, this.song) ;
-        this.scene.add(this.stage.object) ;
-
-    }
-
-    addPlayer( playerConfig ) {
-
-        if (playerConfig.inputConfig instanceof RemoteInput) {
-            this._playBackSpeedEnabled = false ;
-        }
-
-        return this.stage.addPlayerStage( playerConfig, this.playBackSpeed ) ;
-    }
-
+    /**
+     * Repositions the camera. Use this method to configure how the stage is displayed.
+     * @param {number} X x position in the euclidean space
+     * @param {number} Y y position in the euclidean space
+     * @param {number} Z z position in the euclidean space
+     * @return {undefined}
+     *
+     * @example <caption> Moving the camera backwards to fully show players' stages when both are playing `pump-double` styles </caption>
+     * engine.setCameraPosition(0,-3.4,12) ;
+     */
     setCameraPosition( X,Y,Z ) {
         this.camera.position.x = X;
         this.camera.position.y = Y;
         this.camera.position.z = Z;
     }
 
+    /**
+     * Query the style of a specific level from the configured stage.
+     * @param {number} level level identifier in the range [0-<no_levels-1>]
+     * @returns {String} level style defined in the SSC file. Common values are `pump-single`, `pump-double`, and `pump-halfdobule`
+     *
+     * @example <caption> Query if one player is playing `pump-double` to reposition the camera</caption>
+     *
+     * let p1StageType = engine.queryStageType(P1chartLevel) ;
+     * if (p1StageType === 'pump-double') {
+     *     engine.setCameraPosition(0,-3.4,12) ;
+     * }
+     */
     queryStageType(level) {
         return this.song.getLevelStyle(level) ;
     }
 
+
+
+    /**
+     * Sets the engine into a valid state and prepares it to start the song playback. Call this function once the stage
+     * and all players have been configured. This method will trigger the function {@link StageConfig#onReadyToStart} once
+     * the initialization is completed.
+     * @return {undefined}
+     * @example <caption> Starting the engine </caption>
+     * engine.start() ;
+     */
     start ( ) {
+        this.performReady() ;
         this.song.play() ;
     }
 
+    /**
+     * Schedules when the engine should start playing the song and starts the rendering main loop.
+     * You may only call this function once {@link StageConfig#onReadyToStart} callback
+     * is called.
+     * @param {Date} dateToStart date to start playing
+     * @param {Function} [getDateFn] function getting the current date
+     * @return {undefined}
+     *
+     * @example <caption> We let the engine start playing back after 2 seconds once the engine has loaded up </caption>
+     * let onReadyToStart = () => {
+     *      let dateToStart = new Date() ;
+     *      // delay of 2 secs
+     *      dateToStart.setMilliseconds(dateToStart.getMilliseconds() + 2000.0) ;
+     *      engine.startPlayBack(dateToStart, () => { return new Date() ; }
+     * }
+     *
+     */
     startPlayBack( dateToStart, getDateFn = () => { return new Date() ; } ) {
         this.song.startPlayBack(dateToStart, getDateFn) ;
         this.animate();
     }
 
+    /**
+     * Stops the engine and cleans up the renderer. This action is not reversible. After calling this method, the object
+     * must not be used again. This method is called automatically once the song has reached its end.
+     * @returns {undefined}
+     */
     stop ( ) {
 
         this.removeFromDOM() ;
@@ -181,17 +475,19 @@ class Engine {
 
         let performances = this.stage.retrievePerformancePlayerStages() ;
 
-        if (this.stageCleared !== undefined ) {
-            this.stageCleared( performances ) ;
+        if (this._onStageCleared !== undefined ) {
+            this._onStageCleared( performances ) ;
         }
-
-
 
     }
 
-    //private
-
-    // set new canvas size
+    /**
+     * Update size of drawable canvas.
+     * @return {undefined}
+     *
+     * @example <caption> Call it when the browser detects that the window has been resized </caption>
+     * window.addEventListener( 'resize', engine.onWindowResize.bind(engine), false );
+     */
     onWindowResize ( ) {
 
         this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -200,6 +496,73 @@ class Engine {
         this.renderer.setSize( window.innerWidth, window.innerHeight );
 
     }
+
+    /**
+     * It logs frameLogs into the engine. FrameLogs are JSON messages that are passed between engines when remote
+     * players are configured. They enable the engine to know what is the current status of a remote player.
+     * @param {JSON} frameLog frame to be logged
+     * @return {undefined}
+     *
+     * @example<caption> To learn more about how to use frame logs for communicating a pair of engines, have a look at
+     * the repo at https://github.com/piulin/piured </caption>
+     *
+     * engine.logFrame(JSON) ;
+     */
+    logFrame(frameLog) {
+        this._inputFrameLogList.push(frameLog) ;
+    }
+
+
+    /**
+     * Sets the callback function `onFrameLog`. This function is called once the engine has a frame to be logged from any
+     * local player. Ideally, the content of the JSON is sent through the network somehow and logged into a target engine.
+     * @param {Function} value
+     * @return {undefined}
+     * @example<caption> To learn more about how to use frame logs for communicating a pair of engines, have a look at
+     * the repo at https://github.com/piulin/piured </caption>
+     *
+     * engine.onFrameLog = (frameLog) {
+     *     //send it to the remote engine somehow
+     *     mm.sendFrameLog(frameLog) ;
+     * }
+     */
+    set onFrameLog(value) {
+        this._onFrameLog = value ;
+    }
+
+    /**
+     * Sets the callback function `onStageCleared`. This function is called once the engine is stopped (either by calling {@link Engine#stop} or
+     * by reaching the end of the song). It can be used to report the player's performance.
+     * @param {Function} value
+     *
+     * @example <caption> We report the player's performance when the stage is cleared </caption>
+     * engine.onStageCleared = (performance) => {
+     *     console.log(performance) ;
+     *     window.close() ;
+     * }
+     */
+    set onStageCleared(value) {
+        this._onStageCleared = value ;
+    }
+
+
+
+
+    //private
+
+    performReady() {
+        for (var i = 0 ; i < this._updateList.length ; i++ ) {
+            this._updateList[i].ready() ;
+        }
+    }
+
+    showGrids() {
+        // Background grid and axes. Grid step size is 1, axes cross at 0, 0
+        Coordinates.drawGrid({size:100,scale:1,orientation:"z", scene: this.scene});
+        Coordinates.drawAxes({axisLength:11,axisOrientation:"x",axisRadius:0.04});
+        Coordinates.drawAxes({axisLength:11,axisOrientation:"z",axisRadius:0.04});
+    }
+
 
     addToUpdateList(gameObject) {
         this._updateList.push(gameObject) ;
@@ -233,8 +596,8 @@ class Engine {
     }
 
     addToOutputFrameLogList(frameLog) {
-        if (this.onFrameLog !== undefined ) {
-            this.onFrameLog({
+        if (this._onFrameLog !== undefined ) {
+            this._onFrameLog({
                 'playerStageId': frameLog.playerStageId ,
                 'json': frameLog.json
             });
@@ -245,9 +608,7 @@ class Engine {
         // }) ;
     }
 
-    logFrame(frameLog) {
-        this._inputFrameLogList.push(frameLog) ;
-    }
+
 
     createStats() {
         var stats = new Stats();
@@ -268,11 +629,7 @@ class Engine {
         obj.children.forEach(child => this.setAllCulled(child, culled));
     }
 
-    performReady() {
-        for (var i = 0 ; i < this._updateList.length ; i++ ) {
-            this._updateList[i].ready() ;
-        }
-    }
+
 
     animate() {
         //Note that .bind(this) is important so it doesnt lose the local context.

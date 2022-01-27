@@ -1,0 +1,11 @@
+toc:
+  - name: piured-engine
+  - Engine
+  - name: Configuration Files
+    description: |
+        Here you can find the configuration helper classes to configure the engine.
+  - StageConfig
+  - PlayerConfig
+  - KeyInputConfig
+  - TouchInputConfig
+  - RemoteInput
