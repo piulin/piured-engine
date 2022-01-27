@@ -55,12 +55,12 @@ You can always get in touch with me by dropping an e-mail at <pepo_gonba@hotmail
 If you feel like getting your hands dirty, you can also
 submit a pull request!
 
-##API
+## API
 
 In the case you want to use the engine in your web application, you can learn more [here](https://piulin.github.io/piured-engine). 
 To see a working example, you can always have a look at the code of PIURED's [demo web](https://github.com/piulin/piured).
 
-##Online Demo
+## Online Demo
 
 If you only care about playing pump it up and not that much about the code, just go to the [demo web](https://piulin.github.io/piured/) and
 play some charts!
