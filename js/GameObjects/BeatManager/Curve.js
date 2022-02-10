@@ -218,6 +218,16 @@ class Curve {
         let chunk2 = new Interval(point2, interval.p2, false, interval.openRight ) ;
 
         this._intervalList.splice(index, 1, chunk1, chunk2) ;
+
+        return index ;
+    }
+
+    addIntervalAtIndex(index, itvl) {
+        this._intervalList.splice(index,0,itvl) ;
+    }
+
+    getIntervalsFromIndex(index) {
+        return this._intervalList.slice(index) ;
     }
 
 

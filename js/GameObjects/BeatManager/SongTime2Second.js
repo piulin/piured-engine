@@ -29,7 +29,7 @@ class SongTime2Second {
     _delays ;
     _s2b ;
     _eps = 0.000001 ;
-    constructor(stops, delays, s2b) {
+    constructor(stops, delays, warps, s2b) {
 
 
         this._s2b = s2b ;
@@ -37,10 +37,23 @@ class SongTime2Second {
 
         this._stops = Array.from(stops) ;
         this._delays = Array.from(delays) ;
+        this._warps = Array.from(warps) ;
         this._curve = new Curve() ;
         this._curve.addInterval(new Interval(new Point(0.0,0.0), new Point(longFloat,longFloat), true, true)) ;
 
 
+        // warps
+        for ( let i = 0 ; i < this._warps.length ; i++ ) {
+
+            let b1 = this._warps[ i ] [0] ;
+            let span = this._warps[ i ] [1] ;
+
+            this.raise(b1, b1+span) ;
+
+        }
+
+
+        // stops
         for ( let i = 0 ; i < this._stops.length ; i++ ) {
 
             let beat = this._stops[ i ] [0] ;
@@ -50,6 +63,7 @@ class SongTime2Second {
 
         }
 
+        //delays
         for ( let i = 0 ; i < this._delays.length; i++ ) {
 
             let beat = this._delays[ i ] [0] ;
@@ -67,7 +81,36 @@ class SongTime2Second {
         let y1 = this._s2b.reverseScry(beat + eps).x ;
         let x1 = this._curve.scryX(new Point(0.0,y1)).x ;
         let x2 = x1 + span ;
-        let y2 = this._curve.scryY(new Point(x2,0.0)).y ;
+        // let y2 = this._curve.scryY(new Point(x2,0.0)).y ;
+
+
+        let i1 = this._curve.findIntervalAtY(y1) ;
+        let itvlIndex = this._curve.splitIntervalAtY(i1, y1) ;
+
+        let flatItvl = new Interval(new Point(x1,y1), new Point(x2, y1), false, false) ;
+
+        this._curve.addIntervalAtIndex(itvlIndex+1, flatItvl) ;
+
+        let remainderIntervals = this._curve.getIntervalsFromIndex(itvlIndex+2) ;
+
+        let diff = x2 - x1 ;
+
+        for (let j = 0 ; j < remainderIntervals.length ; j++) {
+            let itvl = remainderIntervals[j] ;
+            itvl.p1.x += diff ;
+            itvl.p2.x += diff ;
+        }
+
+    }
+
+    raise (b1, b2) {
+        let y1 = this._s2b.reverseScry(b1).x ;
+        let y2 = this._s2b.reverseScry(b2).x ;
+
+        console.log(y1,y2) ;
+
+        // let x1 = this._curve.scryX(new Point(0.0,y1)).x ;
+        // let x2 = this._curve.scryX(new Point(0.0,y2)).x ;
 
 
         let i1 = this._curve.findIntervalAtY(y1) ;
@@ -83,17 +126,14 @@ class SongTime2Second {
         let remainderIntervals = this._curve.findIntervalsFromY(y2) ;
 
 
-        let diff = intervals[0].p2.y - intervals[0].p1.y ;
-        intervals[0].p2.y = intervals[0].p1.y ;
+        let diff = intervals[0].p2.x - intervals[0].p1.x ;
+        intervals[0].p2.x = intervals[0].p1.x ;
 
         for (let j = 0 ; j < remainderIntervals.length ; j++) {
             let itvl = remainderIntervals[j] ;
-            itvl.p1.y -= diff ;
-            itvl.p2.y -= diff ;
+            itvl.p1.x -= diff ;
+            itvl.p2.x -= diff ;
         }
-
-
-
     }
 
     scry(value) {

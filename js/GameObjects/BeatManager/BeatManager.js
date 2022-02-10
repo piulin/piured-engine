@@ -33,6 +33,7 @@ class BeatManager extends GameObject {
         this.scrollList = song.getScrolls(level) ;
         this.stopsList = song.getStops(level) ;
         this.delaysList = song.getDelays(level) ;
+        this.warpsList = song.getWARPS(level) ;
         this.song = song ;
         this.level = level ;
         this.keyBoardLag = keyBoardLag ;
@@ -44,7 +45,7 @@ class BeatManager extends GameObject {
 
         this.second2beat = new Second2Beat(this.bpmList) ;
         this.second2displacement = new Second2Displacement(this.scrollList,this.bpmList,this.second2beat) ;
-        this.songTime2Second = new SongTime2Second(this.stopsList, this.delaysList, this.second2beat) ;
+        this.songTime2Second = new SongTime2Second(this.stopsList, this.delaysList, this.warpsList, this.second2beat) ;
         console.log('done') ;
         this._speed = speed;
 
@@ -93,18 +94,9 @@ class BeatManager extends GameObject {
         this._currentChartAudioTimeReal = this.songTime2Second.scry(this._currentAudioTimeReal).y ;
 
 
-        // [this.currentYDisplacement, this.currentBeat] =
-        //     this.getYShiftAtCurrentAudioTime(this.currentAudioTime) ;
-        //
-        // let [realDisp, realBeat] =
-        //     this.getYShiftAtCurrentAudioTime(this.currentAudioTime) ;
-
-
-        // console.log(this.scrollList)
         this.currentYDisplacement = this.second2displacement.scry(this._currentChartAudioTime).y ;
 
         this.currentBeat = this.second2beat.scry(this._currentChartAudioTime).y ;
-        // console.log(this.currentYDisplacement )
 
 
 
@@ -157,13 +149,25 @@ class BeatManager extends GameObject {
         return last ;
     }
 
+    isNoteInWarp(beat) {
+        for ( const warp of this.warpsList ) {
+            const b1 = warp[0] ;
+            const b2 = b1 + warp[1] ;
+            if ( beat >= b1 && beat < b2 ) {
+                return true ;
+            }
 
-    getYShiftAndCurrentTimeInSongAtBeat( barIndex, noteInBarIndex, notesInBar ) {
-        // calculate current beat
-        const beat = (4*barIndex + 4*noteInBarIndex/notesInBar) ;
+            if ( beat < b1 ) {
+                return false ;
+            }
+        }
+        return false ;
+    }
+
+
+    getYShiftAndCurrentTimeInSongAtBeat( beat ) {
 
         let second = this.second2beat.reverseScry(beat).x ;
-        let songTime = this.songTime2Second.reverseScry(second).x ;
         let yShift = -this.second2displacement.scry(second).y * this._speed;
 
 

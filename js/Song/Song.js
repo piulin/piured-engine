@@ -56,6 +56,15 @@ class Song {
 
     }
 
+    getWARPS(level) {
+        if ( 'WARPS' in this.levels[level].meta ) {
+            return this.levels[level].meta['WARPS'] ;
+        } else {
+            return this.meta['WARPS'] ;
+        }
+    }
+
+
     getBMPs(level) {
         if ( 'BPMS' in this.levels[level].meta ) {
             return this.levels[level].meta['BPMS'] ;

@@ -196,7 +196,9 @@ class Steps extends GameObject {
                 listIndex += 1;
                 const note = measure[j];
 
-                const [currentYPosition, currentTimeInSong] = this.beatManager.getYShiftAndCurrentTimeInSongAtBeat(i, j, notesInBar);
+                // calculate current beat
+                const beat = (4*i + 4*j/notesInBar) ;
+                const [currentYPosition, currentTimeInSong] = this.beatManager.getYShiftAndCurrentTimeInSongAtBeat(beat);
 
                 // Add only if the entry is not created already
                 if (listIndex > this.stepQueue.getLength()) {
@@ -214,7 +216,8 @@ class Steps extends GameObject {
                     listIndex - 1,
                     padId,
                     i,
-                    j);
+                    j,
+                    beat);
 
 
                 //ul
@@ -228,7 +231,8 @@ class Steps extends GameObject {
                     listIndex - 1,
                     padId,
                     i,
-                    j);
+                    j,
+                    beat);
 
                 // c
                 this.processNote(
@@ -241,7 +245,8 @@ class Steps extends GameObject {
                     listIndex - 1,
                     padId,
                     i,
-                    j);
+                    j,
+                    beat);
 
                 // ur
                 this.processNote(
@@ -254,7 +259,8 @@ class Steps extends GameObject {
                     listIndex - 1,
                     padId,
                     i,
-                    j);
+                    j,
+                    beat);
 
                 // dr
                 this.processNote(
@@ -267,7 +273,8 @@ class Steps extends GameObject {
                     listIndex - 1,
                     padId,
                     i,
-                    j);
+                    j,
+                    beat);
 
             }
 
@@ -277,7 +284,7 @@ class Steps extends GameObject {
     }
 
 
-    processNote(note, kind, currentYPosition, XStepPosition , steps, currentTimeInSong, index,  padId, i,j ) {
+    processNote(note, kind, currentYPosition, XStepPosition , steps, currentTimeInSong, index,  padId, i,j, beat ) {
 
 
         // Process StepNote
@@ -297,12 +304,19 @@ class Steps extends GameObject {
             if (note === '2') {
 
                 let stepHold = new StepHold(this._resourceManager, step, kind ) ;
-                this.stepQueue.addStepToStepList(stepHold, index, i,j) ;
+
+                // don't add steps into the stepqueue if they are inside a warp section
+                if (!this.beatManager.isNoteInWarp(beat)) {
+                    this.stepQueue.addStepToStepList(stepHold, index, i,j) ;
+                }
                 this.stepQueue.setHold(kind, padId, stepHold) ;
 
             } else {
 
-                this.stepQueue.addStepToStepList(step, index, i,j) ;
+                // don't add steps into the stepqueue if they are inside a warp section
+                if (!this.beatManager.isNoteInWarp(beat)) {
+                    this.stepQueue.addStepToStepList(step, index, i, j);
+                }
                 steps.add(stepMesh) ;
 
             }
