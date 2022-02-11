@@ -57,11 +57,22 @@ class Song {
     }
 
     getWARPS(level) {
+        let arr ;
         if ( 'WARPS' in this.levels[level].meta ) {
-            return this.levels[level].meta['WARPS'] ;
+            arr = this.levels[level].meta['WARPS'] ;
+        } else if ('WARPS' in this.meta) {
+            arr = this.meta['WARPS'] ;
         } else {
-            return this.meta['WARPS'] ;
+            return [] ;
         }
+        if (arr[0].length === 1) {
+            return [] ;
+        }
+        return arr ;
+    }
+
+    getLevelDifficulty(level) {
+        return parseInt(this.levels[level].meta.METER) === undefined ? 1 : parseInt(this.levels[level].meta.METER) ;
     }
 
 

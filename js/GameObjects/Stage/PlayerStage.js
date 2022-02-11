@@ -250,7 +250,8 @@ class PlayerStage extends GameObject {
     }
 
     constructJudgment() {
-        this.judgment = new JudgmentScale(this._resourceManager, this.accuracyMargin, this._lifeBar, this.frameLog) ;
+        this.judgment = new JudgmentScale(this._resourceManager, this.accuracyMargin, this._song.getLevelStyle(this._level),
+            this._song.getLevelDifficulty(this._level), this._lifeBar, this.frameLog) ;
         this.judgment.object.position.y = -2.5 ;
         this._object.add(this.judgment.object) ;
     }

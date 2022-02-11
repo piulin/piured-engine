@@ -27,7 +27,8 @@ class BackgroundMaterial {
 
     constructor( resourcePath ) {
 
-        let colorBG = new THREE.Color( 0x334455 ) ;
+        let colorBG = new THREE.Color( 0xa39290 ) ;
+        // let colorBG = new THREE.Color( Math.random()*0.4,Math.random()*0.4,Math.random()*0.4 ) ;
 
         // procedural texturing.
         var uniforms = {

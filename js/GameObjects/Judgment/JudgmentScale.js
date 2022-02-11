@@ -28,51 +28,74 @@ class JudgmentScale extends GameObject {
     _barSteps = 60 ;
     _currentStep = 30 ;
     _frameLog ;
+    levelStyle;
+    levelDifficulty;
+    comboCount;
+    missComboCount;
+    stats;
+    score;
+    generalScoreMultiplier ;
 
-    constructor(resourceManager, accuracyMargin, lifeBar, frameLog) {
+    constructor(resourceManager, accuracyMargin, levelStyle, levelDifficulty, lifeBar, frameLog) {
 
         super(resourceManager) ;
 
         this._lifeBar = lifeBar ;
         this.accuracyMargin = accuracyMargin ;
-
+        this.levelStyle = levelStyle ;
+        this.levelDifficulty = levelDifficulty ;
         this._judgment = new Judgment(this._resourceManager) ;
         this._frameLog = frameLog ;
 
     }
 
 
-    get performance() {
-        return this.stats ;
-    }
-
     ready() {
+
+        // score multiplier
+        this.generalScoreMultiplier = 1.0 ;
+
+        if (this.levelDifficulty > 10) {
+            this.generalScoreMultiplier *= this.levelDifficulty/10.0 ;
+        }
+        if (this.levelStyle === 'pump-double') {
+            this.generalScoreMultiplier *= 1.2 ;
+        }
 
         this.comboCount = 0 ;
         this.missComboCount = 0 ;
-
+        this.score = 0 ;
         this.stats = {
             p:0,
             gr:0,
             go:0,
             b:0,
-            m:0
+            m:0,
+            maxCombo:0,
+            score:0,
+            grade:''
         }
     }
 
     update(delta) {
-
         if (this._currentStep <= 0) {
             this._currentStep = 0 ;
         }
+    }
 
+    updateCombo(value) {
+        this.comboCount = value ;
+        if (this.comboCount > this.stats.maxCombo) {
+            this.stats.maxCombo = this.comboCount ;
+        }
     }
 
 // TODO:
     miss ( comboIncrement = 1 ) {
-        this.comboCount = 0 ;
+        this.updateCombo(0) ;
         this.missComboCount += comboIncrement ;
         this.stats.m += comboIncrement;
+        this.addJudgmentToScore(-500) ;
         this._judgment.animate('m',this.comboCount) ;
 
 
@@ -103,8 +126,9 @@ class JudgmentScale extends GameObject {
     }
     bad ( ) {
         this.missComboCount = 0;
-        this.comboCount = 0 ;
+        this.updateCombo(0) ;
         this.stats.b += 1;
+        this.addJudgmentToScore(-200) ;
         this._judgment.animate('b',this.comboCount) ;
 
         this._state = 0 ;
@@ -116,6 +140,7 @@ class JudgmentScale extends GameObject {
     good ( ) {
         this.missComboCount = 0 ;
         this.stats.go += 1;
+        this.addJudgmentToScore(100) ;
         this._judgment.animate('go',this.comboCount) ;
 
         this._state = 0 ;
@@ -128,7 +153,8 @@ class JudgmentScale extends GameObject {
     great ( ) {
         this.missComboCount = 0;
         this.stats.gr += 1;
-        this.comboCount += 1 ;
+        this.updateCombo(this.comboCount + 1) ;
+        this.addJudgmentToScore(500) ;
         this._judgment.animate('gr',this.comboCount) ;
 
         if (this._state === 5 ) {
@@ -143,8 +169,9 @@ class JudgmentScale extends GameObject {
 
     perfect ( comboIncrement = 1 ) {
         this.missComboCount = 0 ;
-        this.stats.p += 1;
-        this.comboCount += comboIncrement ;
+        this.stats.p += comboIncrement;
+        this.updateCombo(this.comboCount + comboIncrement) ;
+        this.addJudgmentToScore(1000) ;
         this._judgment.animate('p',this.comboCount) ;
 
         if (this._state === 5 ) {
@@ -174,14 +201,24 @@ class JudgmentScale extends GameObject {
         }
     }
 
+    addJudgmentToScore(points) {
+
+        const multiplier = 1.0 ;
+        let bonus = 0 ;
+        if (this.comboCount > 50) {
+            bonus = 1000 ;
+        }
+
+        this.score += (points+bonus)*this.generalScoreMultiplier*multiplier ;
+
+    }
+
 
 
     grade(timeElapse) {
 
         const tiersTime = this.accuracyMargin / 8;
         const tier = Math.floor( timeElapse / tiersTime ) ;
-
-
 
         let grade = null ;
 
@@ -214,11 +251,50 @@ class JudgmentScale extends GameObject {
     }
 
     setJudgment(grade, combo, step) {
-        this.comboCount = combo ;
+        this.updateCombo(combo) ;
         this._currentStep = step ;
         this._lifeBar.setsize( this._currentStep/this._barSteps ) ;
         this._judgment.animate( grade, this.comboCount );
     }
+
+    get performance() {
+
+        this.computeFinalGrade() ;
+        this.stats.score = this.score;
+        if (this.stats.grade === 'SSS') {
+            this.stats.score += 300000 ;
+        } else if ( this.stats.grade ==='SS') {
+            this.stats.score += 150000 ;
+        } else if (this.stats.grade === 'S' ) {
+            this.stats.score += 100000 ;
+        }
+        return this.stats ;
+    }
+
+    computeFinalGrade() {
+        const {p, gr, go, b, m, maxCombo} = this.stats;
+        if (gr === 0 && go === 0 && b === 0 && m === 0) {
+            this.stats.grade = 'SSS';
+        } else if (go === 0 && b === 0 && m === 0) {
+            this.stats.grade = 'SS';
+        } else {
+            let accuracy = ((p*1.2)+(gr*0.9)+(go*0.6)+(maxCombo*0.05)-(b*0.45)-(m*0.9))/(p+gr+go+b+m) ;
+            if (accuracy > 0.95) {
+                this.stats.grade = 'S' ;
+            } else if (accuracy > 0.9) {
+                this.stats.grade = 'A' ;
+            } else if (accuracy > 0.85) {
+                this.stats.grade = 'B' ;
+            } else if (accuracy > 0.8) {
+                this.stats.grade = 'C' ;
+            } else if (accuracy > 0.75) {
+                this.stats.grade = 'D' ;
+            } else {
+                this.stats.grade = 'F' ;
+            }
+        }
+    }
+
 
     get object() {
         return this._judgment.object ;

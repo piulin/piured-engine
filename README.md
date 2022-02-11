@@ -25,7 +25,7 @@ PIURED's engine features:
 convert them into another intermediate format. This means that all the songs that are available for Pump-style
    would work off-the-shelf in PIURED.
 2. A loader that supports both MP3 and OGG audio formats. These are the most common formats used in Stepmania audio files.
-3. Support for changes of BPM, SCROLL, STOPS, DELAYS as well as changes of SPEED (attributes used in Stepmania to create effects).
+3. Support for changes of BPM, SCROLL, STOPS, DELAYS, WARPS as well as changes of SPEED (Gimmicks).
 4. Pump-single, Pump-double and Pump-Halfdouble styles.
 5. VS. mode, including two or more players playing any combination of Pump-single and Pump-double styles.
 6. Remote input capabilities to create online-like battles. 
