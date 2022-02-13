@@ -23,112 +23,74 @@
 class TouchPad extends Pad {
 
     _mesh ;
+    _tiles ;
 
     constructor(resourceManager, padId, frameLog) {
         super(resourceManager, null, padId, frameLog) ;
-        this._mesh = this._resourceManager.constructTouchInput() ;
-    }
-
-    getScreenPositionInPixels() {
-
-        // this._mesh.updateMatrix() ;
-        // this._mesh.updateWorldMatrix() ;
-        // Get 3D positions of top left corner (assuming they're not rotated)
-
-        let worldPosition = new THREE.Vector3() ;
-        let worldScale = new THREE.Vector3() ;
-
-
-        this._mesh.getWorldPosition(worldPosition) ;
-        this._mesh.getWorldScale(worldScale) ;
-        let topLeft = new THREE.Vector3(
-            worldPosition.x - (worldScale.x / 2.0),
-            worldPosition.y + (worldScale.y / 2.0),
-            worldPosition.z
-        );
-
-        let downRight = new THREE.Vector3(
-            worldPosition.x + (worldScale.x / 2.0),
-            worldPosition.y - (worldScale.y / 2.0),
-            worldPosition.z
-        );
-
-        // engine.camera.updateMatrixWorld();
-        topLeft.project(engine.camera);
-        downRight.project(engine.camera);
-
-        const topLeftX = (1 + topLeft.x) / 2 * window.innerWidth;
-        const topLeftY = (1 - topLeft.y) / 2 * window.innerHeight;
-
-        const downRightX = (1 + downRight.x) / 2 * window.innerWidth;
-        const downRightY = (1 - downRight.y) / 2 * window.innerHeight;
-
-        return [topLeftX, topLeftY, downRightX, downRightY] ;
-
+        // this._mesh = this._resourceManager.constructTouchInput() ;
+        this._mesh = new THREE.Object3D() ;
+        this.constructTiles() ;
     }
 
 
-    touched(x, y) {
-
-        let [topLeftX, topLeftY, downRightX, downRightY] = this.getScreenPositionInPixels() ;
-
-        let square = (downRightX-topLeftX) / 3.0 ;
-        let rectangle = (downRightX-topLeftX) / 2.0 ;
-
-        //1st col
-        if ( x > topLeftX && x <= topLeftX + square ) {
-
-           if  (y > topLeftY && y <= topLeftY + rectangle) {
-               return 'ul' ;
-           } else if (y > topLeftY + rectangle && y <= downRightY) {
-               return 'dl'
-           } else {
-               return 'none' ;
-           }
-
-        //2nd col
-        } else if ( x > topLeftX + square && x <= downRightX - square) {
-
-            if ( y > topLeftY && y <= topLeftY + square) {
-
-
-                if ( x <= topLeftX + rectangle ) {
-                    return 'ul' ;
-                } else {
-                    return 'ur' ;
-                }
-
-
-            } else if ( y > topLeftY + square && y <= downRightY - square) {
-                return 'c' ;
-            } else if ( y > downRightY - square && y <= downRightY) {
-
-                if ( x <= topLeftX + rectangle ) {
-                    return 'dl' ;
-                } else {
-                    return 'dr' ;
-                }
-
-            } else {
-                return 'none' ;
-            }
-
-        //3rd col
-        } else if (x > downRightX - square && x<= downRightX ) {
-
-
-            if  (y > topLeftY && y <= topLeftY + rectangle) {
-                return 'ur' ;
-            } else if (y > topLeftY + rectangle && y <= downRightY) {
-                return 'dr'
-            } else {
-                return 'none' ;
-            }
-
-        } else {
-            return 'none' ;
+    constructTiles() {
+        this._tiles = {
+            'dl' : new TouchTile(this._resourceManager, 'dl'),
+            'ul' : new TouchTile(this._resourceManager, 'ul'),
+            'c' : new TouchTile(this._resourceManager, 'c'),
+            'ur' : new TouchTile(this._resourceManager, 'ur'),
+            'dr' : new TouchTile(this._resourceManager, 'dr')
         }
 
+        const dist = 0.63 ;
+
+        this._tiles.dl.object.position.x = -dist ;
+        this._tiles.dl.object.position.y = -dist ;
+
+        this._tiles.ul.object.position.x = -dist ;
+        this._tiles.ul.object.position.y = dist ;
+
+        this._tiles.c.object.position.x = 0.0 ;
+        this._tiles.c.object.position.y = 0.0 ;
+
+        this._tiles.ur.object.position.x = dist ;
+        this._tiles.ur.object.position.y = dist ;
+
+        this._tiles.dr.object.position.x = dist ;
+        this._tiles.dr.object.position.y = -dist ;
+
+        this._mesh.add(this._tiles.dl.object) ;
+        this._mesh.add(this._tiles.ul.object) ;
+        this._mesh.add(this._tiles.c.object) ;
+        this._mesh.add(this._tiles.ur.object) ;
+        this._mesh.add(this._tiles.dr.object) ;
+    }
+
+
+    touchDown(x, y) {
+
+        let touchedTiles = [] ;
+
+        touchedTiles.push(this._tiles.dl.touchDown(x,y)) ;
+        touchedTiles.push(this._tiles.ul.touchDown(x,y)) ;
+        touchedTiles.push(this._tiles.c.touchDown(x,y))  ;
+        touchedTiles.push(this._tiles.ur.touchDown(x,y)) ;
+        touchedTiles.push(this._tiles.dr.touchDown(x,y)) ;
+
+        return touchedTiles ;
+
+    }
+
+    touchUp(x,y) {
+        let touchedTiles = [] ;
+
+        touchedTiles.push(this._tiles.dl.touchUp(x,y)) ;
+        touchedTiles.push(this._tiles.ul.touchUp(x,y)) ;
+        touchedTiles.push(this._tiles.c.touchUp(x,y))  ;
+        touchedTiles.push(this._tiles.ur.touchUp(x,y)) ;
+        touchedTiles.push(this._tiles.dr.touchUp(x,y)) ;
+
+        return touchedTiles ;
 
     }
 

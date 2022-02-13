@@ -56,9 +56,9 @@ class TouchInput extends GameObject {
         const pad = new TouchPad(this._resourceManager, padId, this.frameLog) ;
         // pad.object.position.z = 0.05;
         // pad.object.position.y = -9;
-        pad.object.scale.x = 8.0;
-        pad.object.scale.y = 8.0;
-        pad.object.material.opacity = 0.3;
+        pad.object.scale.x = 4.0;
+        pad.object.scale.y = 4.0;
+
         this._mesh.add(pad.object) ;
 
         this.pads.push( pad ) ;
@@ -74,7 +74,7 @@ class TouchInput extends GameObject {
         if(no_pads === 1) {
             return ;
         }
-        let distance = 7.25 ;
+        let distance = 8.1 ;
 
         let Xpos = -(distance*no_pads)/2 + distance/2;
 
@@ -101,29 +101,34 @@ class TouchInput extends GameObject {
 
                 for (let pad of this.pads) {
 
-                    let kind = pad.touched(mouseX, mouseY);
+                    let kinds = pad.touchDown(mouseX, mouseY);
 
-                    switch (kind) {
-                        case 'dl':
-                            pad.dlKeyPressed = true;
-                            pad.dlKeyHold = true;
-                            break;
-                        case 'ul':
-                            pad.ulKeyPressed = true;
-                            pad.ulKeyHold = true;
-                            break;
-                        case 'c':
-                            pad.cKeyPressed = true;
-                            pad.cKeyHold = true;
-                            break;
-                        case 'ur':
-                            pad.urKeyPressed = true;
-                            pad.urKeyHold = true;
-                            break;
-                        case 'dr':
-                            pad.drKeyPressed = true;
-                            pad.drKeyHold = true;
-                            break;
+                    for (let j = 0 ; j < kinds.length ; j++ ) {
+
+                        const kind = kinds[j] ;
+
+                        switch (kind) {
+                            case 'dl':
+                                pad.dlKeyPressed = true;
+                                pad.dlKeyHold = true;
+                                break;
+                            case 'ul':
+                                pad.ulKeyPressed = true;
+                                pad.ulKeyHold = true;
+                                break;
+                            case 'c':
+                                pad.cKeyPressed = true;
+                                pad.cKeyHold = true;
+                                break;
+                            case 'ur':
+                                pad.urKeyPressed = true;
+                                pad.urKeyHold = true;
+                                break;
+                            case 'dr':
+                                pad.drKeyPressed = true;
+                                pad.drKeyHold = true;
+                                break;
+                        }
                     }
                 }
             }
@@ -144,23 +149,27 @@ class TouchInput extends GameObject {
 
             for (let pad of this.pads) {
 
-                let kind = pad.touched(mouseX, mouseY);
-                switch (kind) {
-                    case 'dl':
-                        pad.dlKeyHold = false;
-                        break;
-                    case 'ul':
-                        pad.ulKeyHold = false;
-                        break;
-                    case 'c':
-                        pad.cKeyHold = false;
-                        break;
-                    case 'ur':
-                        pad.urKeyHold = false;
-                        break;
-                    case 'dr':
-                        pad.drKeyHold = false;
-                        break;
+                let kinds = pad.touchUp(mouseX, mouseY);
+
+                for (let j = 0 ; j < kinds.length ; j++) {
+                    const kind = kinds[j] ;
+                    switch (kind) {
+                        case 'dl':
+                            pad.dlKeyHold = false;
+                            break;
+                        case 'ul':
+                            pad.ulKeyHold = false;
+                            break;
+                        case 'c':
+                            pad.cKeyHold = false;
+                            break;
+                        case 'ur':
+                            pad.urKeyHold = false;
+                            break;
+                        case 'dr':
+                            pad.drKeyHold = false;
+                            break;
+                    }
                 }
             }
         }

@@ -26,6 +26,7 @@ class BackgroundGeometry {
     constructor() {
 
         // 138/36 because of the resolution of the image
+        // this._backgroundGeometry = new THREE.PlaneBufferGeometry( 2, 2 ) ;
         this._backgroundGeometry = new THREE.PlaneGeometry( 20 , 12 , 1, 1) ;
 
     }

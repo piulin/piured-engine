@@ -167,6 +167,31 @@ class ResourceManager {
         }
     }
 
+    constructStepNoteCloned(kind) {
+        switch (kind) {
+            case 'dl':
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
+                    new TransparentMaterial(this._textureDict['SDL'].cloneMap()).material );
+                break ;
+            case 'ul':
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
+                    new TransparentMaterial(this._textureDict['SUL'].cloneMap()).material );
+                break ;
+            case 'c':
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
+                    new TransparentMaterial(this._textureDict['SC'].cloneMap()).material );
+                break ;
+            case 'ur':
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
+                    new TransparentMaterial(this._textureDict['SUR'].cloneMap()).material );
+                break ;
+            case 'dr':
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
+                    new TransparentMaterial(this._textureDict['SDR'].cloneMap()).material );
+                break ;
+        }
+    }
+
     constructSLifeBarBack() {
         return  new THREE.Mesh( this._geometryDict['L'].lifeBarGeometry,
             new TransparentMaterial(this._textureDict['SLBACK'].cloneMap()).material );
@@ -243,30 +268,6 @@ class ResourceManager {
             new AdditiveMaterial(tex).material );
     }
 
-    constructStepNoteFX(kind) {
-        switch (kind) {
-            case 'dl':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SDL'].cloneMap()).material );
-                break ;
-            case 'ul':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SUL'].cloneMap()).material );
-                break ;
-            case 'c':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SC'].cloneMap()).material );
-                break ;
-            case 'ur':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SUR'].cloneMap()).material );
-                break ;
-            case 'dr':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SDR'].cloneMap()).material );
-                break ;
-        }
-    }
 
     constructStepBounce(kind) {
         switch (kind) {
@@ -341,7 +342,6 @@ class ResourceManager {
     constructReceptor() {
 
         let texture = this._textureDict['R'].cloneMap() ;
-
         return  new THREE.Mesh( this._geometryDict['R'].receptorGeometry, new ReceptorMaterial(texture, this.resourcePath ).material );
 
     }

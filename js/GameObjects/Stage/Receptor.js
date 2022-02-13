@@ -68,13 +68,6 @@ class Receptor extends GameObject {
         this.drBounce = this.setUpBounce('dr', this.drXPos) ;
 
 
-        this.dlStepNote = this.setUpStepNote('dl', this.dlXPos) ;
-        this.ulStepNote = this.setUpStepNote('ul', this.ulXPos) ;
-        this.cStepNote = this.setUpStepNote('c', this.cXPos) ;
-        this.urStepNote = this.setUpStepNote('ur', this.urXPos) ;
-        this.drStepNote = this.setUpStepNote('dr', this.drXPos) ;
-
-
         this.dlFX = this.setUpExplosion(this.dlXPos) ;
         this.ulFX = this.setUpExplosion(this.ulXPos) ;
         this.cFX = this.setUpExplosion(this.cXPos) ;
@@ -119,17 +112,7 @@ class Receptor extends GameObject {
         return explosion ;
     }
 
-    setUpStepNote(kind, XPosition) {
-        let note = new StepNoteFX(this._resourceManager, kind) ;
-        note.object.position.x = XPosition ;
-        // tap.object.position.z = 0.01 ;
-        note.object.material.opacity = 0.0 ;
 
-        this._object.add(note.object) ;
-
-        return note ;
-
-    }
 
     setUpTap(kind, XPosition) {
         let tap = new Tap(this._resourceManager, kind) ;
