@@ -87,8 +87,10 @@ class Song {
     getTickCounts(level) {
         if ( 'TICKCOUNTS' in this.levels[level].meta ) {
             return this.levels[level].meta['TICKCOUNTS'] ;
-        } else {
+        } else if ('TICKCOUNTS' in this.meta) {
             return this.meta['TICKCOUNTS'] ;
+        } else {
+            return [[0.0,4]] ;
         }
     }
 
@@ -98,7 +100,7 @@ class Song {
         } else if ( 'SCROLLS' in this.meta) {
             return this.meta['SCROLLS'] ;
         } else {
-            return [] ;
+            return [[0.0,1.0]] ;
         }
     }
 
@@ -138,7 +140,7 @@ class Song {
         } else if ( 'SPEEDS' in this.meta ) {
             return this.meta['SPEEDS'] ;
         } else {
-            return [] ;
+            return [[0.0,1.0,0.0,0.0]] ;
         }
     }
 
