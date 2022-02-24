@@ -34,6 +34,7 @@ class BeatManager extends GameObject {
         this.stopsList = song.getStops(level) ;
         this.delaysList = song.getDelays(level) ;
         this.warpsList = song.getWARPS(level) ;
+        this.speedsList = song.getSpeeds(level) ;
         this.song = song ;
         this.level = level ;
         this.keyBoardLag = keyBoardLag ;
@@ -46,7 +47,7 @@ class BeatManager extends GameObject {
         this.second2beat = new Second2Beat(this.bpmList) ;
         this.second2displacement = new Second2Displacement(this.scrollList,this.bpmList,this.second2beat) ;
         this.songTime2Second = new SongTime2Second(this.stopsList, this.delaysList, this.warpsList, this.second2beat) ;
-        console.log('done') ;
+        this.beat2speed = new Beat2Speed(this.speedsList, this.second2beat) ;
         this._speed = speed;
 
     }
@@ -162,6 +163,10 @@ class BeatManager extends GameObject {
             }
         }
         return false ;
+    }
+
+    getCurrentSpeed() {
+        return this.beat2speed.scry(this.currentBeat).y ;
     }
 
 
