@@ -165,6 +165,8 @@ class Engine {
     clock ;
     camera ;
     renderer ;
+    _playBackTween = undefined ;
+    _playBackVal = 1.0 ;
     _onStageCleared = undefined ;
     _onFrameLog = undefined ;
     _playBackSpeedEnabled = true ;
@@ -305,26 +307,35 @@ class Engine {
     /**
      * Updates the stage's audio playback rate (i.e., increases or decreases the audio & step speed). This function might be called
      * while the engine is running. This function won't have any effect if there are remote players logged in the engine.
-     * @param {number} playBackSpeedOffset new playback offset to be applied in percentage. `playBackSpeedOffset` must be a floating point
+     * @param {number} playBackSpeed new playback speed to be applied in percentage. `playBackSpeed` must be a floating point
      * @return {undefined}
      *
-     * @example <caption> Speeding up the playback rate by 10%. </caption>
+     * @example <caption> Speeding up the playback rate to 110% (1.1x) </caption>
      * // changes the playback speed to 110%
-     * engine.tunePlayBackSpeed(0.1) ;
+     * engine.tunePlayBackSpeed(1.1) ;
      *
-     * // Essentially stops the song (and steps)
-     * engine.tunePlayBackSpeed(-1.0) ;
+     * // Essentially stops the playback
+     * engine.tunePlayBackSpeed(0.0) ;
      */
-    tunePlayBackSpeed ( playBackSpeedOffset ) {
-
-        if (this._playBackSpeedEnabled) {
-            this.playBackSpeed += playBackSpeedOffset ;
-            if (this.playBackSpeed < 0) {
-                this.playBackSpeed = 0.0 ;
-            }
-            this.song.setNewPlayBackSpeed( this.playBackSpeed ) ;
-            this.stage.setNewPlayBackSpeed( this.playBackSpeed ) ;
+    tunePlayBackSpeed ( playBackSpeed ) {
+        if (this._playBackSpeedEnabled && playBackSpeed >= 0.0) {
+            this.song.setNewPlayBackSpeed( playBackSpeed ) ;
+            this.stage.setNewPlayBackSpeed( playBackSpeed ) ;
         }
+    }
+
+    tweenPlayBackSpeed(pb) {
+        if (pb < 0) {
+            pb = 0 ;
+        }
+        const time = 500 ;
+        if ( this._playBackTween !== undefined ) {
+            TWEEN.remove( this._playBackTween ) ;
+        }
+
+        this._playBackTween = new TWEEN.Tween( this ).to( { _playBackVal: 1.0 }, time ).delay(time).start();
+        new TWEEN.Tween( this ).to( { _playBackVal: pb }, time ).start();
+
 
     }
 
@@ -696,6 +707,9 @@ class Engine {
 
         // update tweens
         TWEEN.update();
+
+        this.song.setNewPlayBackSpeed( this._playBackVal ) ;
+        this.stage.setNewPlayBackSpeed( this._playBackVal ) ;
 
         // this.cameraControls.update(delta);
         this.renderer.render(this.scene, this.camera);
