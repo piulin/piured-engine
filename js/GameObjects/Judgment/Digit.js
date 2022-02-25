@@ -35,6 +35,7 @@ class Digit extends GameObject {
         this._mesh.material.opacity = 0.0 ;
 
         this.opacityFadeTween = null ;
+        this.burnTween = null ;
 
     }
 
@@ -52,18 +53,25 @@ class Digit extends GameObject {
 
         if ( this.opacityFadeTween !== null ) {
             TWEEN.remove(this.opacityFadeTween) ;
+            TWEEN.remove(this.burnTween) ;
         }
 
         const diffuseTimeWait = (30/60)*1000 ;
         const diffuseAnimation = (22/60)*1000;
         const time = (5/60)*1000;
         this._mesh.material.opacity = 1.0;
+        let scale = 100.0 ;
+
+        this._mesh.material.color.r = 1.0 ;
+        this._mesh.material.color.g = 1.0 ;
+        this._mesh.material.color.b = 1.0 ;
 
         new TWEEN.Tween( this._mesh.material ).to( {opacity: 0.7 } , diffuseTimeWait ).start();
 
         this._mesh.material.opacity = 0.7 ;
         // we need to do this for each digit.
         this.opacityFadeTween = new TWEEN.Tween(this._mesh.material).to({opacity: 0.0}, diffuseAnimation).delay(diffuseTimeWait).start();
+        this.burnTween = new TWEEN.Tween( this._mesh.material.color ).to( { r:scale ,g:scale,b:scale } , 1 ).delay(diffuseTimeWait).start();
 
 
 

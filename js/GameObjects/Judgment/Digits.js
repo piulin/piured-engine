@@ -38,7 +38,7 @@ class Digits extends GameObject {
         this._whiteDigits = new THREE.Object3D() ;
         this._object = new THREE.Object3D() ;
 
-        this.XscaleDigits = 0.8 ;
+        this.XscaleDigits = 0.85 ;
         this.XsizeDigits = 60/80 ;
         // Load <count> number of digits into the arrays; one for each color
         for ( var i = 0 ; i < this.maxNumDigits ; i++ ) {
@@ -76,7 +76,7 @@ class Digits extends GameObject {
 
         const diffuseTimeWait = (30/60)*1000 ;
         const diffuseAnimation = (22/60)*1000;
-        const time = (5/60)*1000     ;
+        const time = (4.5/60)*1000     ;
 
         if ( this.opacityFadeTween !== null ) {
             TWEEN.remove(this.opacityFadeTween) ;
@@ -86,7 +86,7 @@ class Digits extends GameObject {
             digit.animate() ;
         }
 
-        this._whiteDigits.position.y = - 0.25;
+        this._whiteDigits.position.y = - 0.17;
         new TWEEN.Tween(this._whiteDigits.position).to({y: 0}, time).start();
     }
 

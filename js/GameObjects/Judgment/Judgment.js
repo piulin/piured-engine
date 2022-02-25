@@ -46,7 +46,7 @@ class Judgment extends GameObject {
 
 
         this._combo = new Combo(this._resourceManager) ;
-        this.comboYPosition = this._banner.object.position.y - 0.45 ;
+        this.comboYPosition = this._banner.object.position.y - 0.50 ;
         this._combo.object.position.z = this.judgmentZDepth ;
         this._combo.object.position.y = this.comboYPosition ;
         this._object.add(this._combo.object) ;

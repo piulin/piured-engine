@@ -38,6 +38,7 @@ class Combo extends GameObject {
         this._mesh.material.opacity = 0.0 ;
         this.scaleFadeTween = null ;
         this.opacityFadeTween = null ;
+        this.burnTween = null ;
 
         this._object = new THREE.Object3D() ;
         this.object.add(this._mesh) ;
@@ -55,12 +56,17 @@ class Combo extends GameObject {
 
         const diffuseTimeWait = (30/60)*1000 ;
         const diffuseAnimation = (22/60)*1000;
-        const time = (5/60)*1000     ;
+        const time = (4.5/60)*1000     ;
 
         if ( this.tweenOpacityEffect !== null ) {
             TWEEN.remove(this.scaleFadeTween) ;
             TWEEN.remove(this.opacityFadeTween) ;
+            TWEEN.remove(this.burnTween) ;
         }
+        let scale = 100.0 ;
+        this._mesh.material.color.r = 1.0 ;
+        this._mesh.material.color.g = 1.0 ;
+        this._mesh.material.color.b = 1.0 ;
 
         // similarly we update the tweens for the combo label
         this._mesh.material.opacity = 1.0;
@@ -71,14 +77,15 @@ class Combo extends GameObject {
         }, diffuseAnimation).delay(diffuseTimeWait).start();
 
         new TWEEN.Tween( this._mesh.material ).to( { opacity: 0.7 } , diffuseTimeWait ).start();
+        this.burnTween = new TWEEN.Tween( this._mesh.material.color ).to( { r:scale ,g:scale,b:scale } , 1 ).delay(diffuseTimeWait).start();
 
         this._mesh.material.opacity = 0.7 ;
 
         this.opacityFadeTween = new TWEEN.Tween(this._mesh.material).to({opacity: 0.0}, diffuseAnimation).delay(diffuseTimeWait).start();
 
-        this._mesh.scale.set(0.63, 0.73);
+        this._mesh.scale.set(0.58, 0.63);
         this._mesh.material.opacity = 1.0;
-        this._mesh.position.y = - this._mesh.scale.y / 6;
+        // this._mesh.position.y = - this._mesh.scale.y / 6;
 
 
         new TWEEN.Tween(this._mesh.scale).to({x: 0.37, y: 0.37}, time).start();

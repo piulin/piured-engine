@@ -79,16 +79,16 @@ class ResourceManager {
 
 
         // Digits Normal
-        this._textureDict['DN'] = new PNGTexture(stagePath + '/Combo numbers Normal 4x4.png') ;
+        this._textureDict['DN'] = new PNGTexture(stagePath + '/Combo numbers Normal 4x4_XX.png') ;
 
         // Digits Miss
         this._textureDict['DM'] = new PNGTexture(stagePath + '/Combo numbers Miss 4x4.png') ;
 
         // Combo
-        this._textureDict['C'] = new PNGTexture(stagePath + '/Combo 1x2.png') ;
+        this._textureDict['C'] = new PNGTexture(stagePath + '/Combo 1x2_XX_r.png') ;
 
         // Judgment
-        this._textureDict['J'] = new PNGTexture(stagePath + '/Player_Judgment Rank 1x6.png') ;
+        this._textureDict['J'] = new PNGTexture(stagePath + '/Player_Judgment Rank 1x6_XX_r.png') ;
 
 
 

@@ -38,6 +38,7 @@ class Banner extends GameObject {
 
         this.scaleFadeTween = null ;
         this.opacityFadeTween = null ;
+        this.burnTween = null ;
 
 
     }
@@ -62,6 +63,7 @@ class Banner extends GameObject {
 
             TWEEN.remove(this.scaleFadeTween) ;
             TWEEN.remove(this.opacityFadeTween) ;
+            TWEEN.remove(this.burnTween) ;
 
 
         }
@@ -69,10 +71,17 @@ class Banner extends GameObject {
 
         const diffuseTimeWait = (30/60)*1000 ;
         const diffuseAnimation = (22/60)*1000;
-        const time = (5/60)*1000     ;
+        const time = (4.5/60)*1000     ;
 
         // schedule going out tweens for JUDGMENT
         this._mesh.material.opacity = 1.0 ;
+        let scale = 100.0 ;
+
+        this._mesh.material.color.r = 1.0 ;
+        this._mesh.material.color.g = 1.0 ;
+        this._mesh.material.color.b = 1.0 ;
+        // this._mesh.material.combine = THREE.AddOperation ;
+        // this._mesh.material.lightMapIntensity = 5.0 ;
         this._mesh.scale.set(0.6,0.6) ;
 
         new TWEEN.Tween( this._mesh.material ).to( {opacity: 0.7 } , diffuseTimeWait ).start();
@@ -80,15 +89,14 @@ class Banner extends GameObject {
         this._mesh.material.opacity = 0.7 ;
         this.scaleFadeTween = new TWEEN.Tween( this._mesh.scale ).to( { x: 1.5 , y: 0.0 }, diffuseAnimation ).delay(diffuseTimeWait).start();
         this.opacityFadeTween = new TWEEN.Tween( this._mesh.material ).to( { opacity: 0.0 } , diffuseAnimation ).delay(diffuseTimeWait).start();
+        this.burnTween = new TWEEN.Tween( this._mesh.material.color ).to( { r:10 ,g:10,b:2 } , 1 ).delay(diffuseTimeWait).start();
 
 
-
-
-        this._mesh.scale.set(0.95, 0.95) ;
+        this._mesh.scale.set(0.87, 0.87) ;
         this._mesh.material.opacity = 1.0 ;
-        this._mesh.position.y = this._mesh.scale.y / 6;
+        this._mesh.position.y = this._mesh.scale.y / 5;
 
-
+        //
         new TWEEN.Tween(this._mesh.scale).to({x: 0.6, y: 0.6}, time).start();
         new TWEEN.Tween(this._mesh.position).to({y: 0}, time).start();
 
