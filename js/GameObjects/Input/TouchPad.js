@@ -24,9 +24,11 @@ class TouchPad extends Pad {
 
     _mesh ;
     _tiles ;
+    _noteskin ;
 
-    constructor(resourceManager, padId, frameLog) {
+    constructor(resourceManager, padId, frameLog, noteskin) {
         super(resourceManager, null, padId, frameLog) ;
+        this._noteskin = noteskin ;
         // this._mesh = this._resourceManager.constructTouchInput() ;
         this._mesh = new THREE.Object3D() ;
         this.constructTiles() ;
@@ -35,11 +37,11 @@ class TouchPad extends Pad {
 
     constructTiles() {
         this._tiles = {
-            'dl' : new TouchTile(this._resourceManager, 'dl'),
-            'ul' : new TouchTile(this._resourceManager, 'ul'),
-            'c' : new TouchTile(this._resourceManager, 'c'),
-            'ur' : new TouchTile(this._resourceManager, 'ur'),
-            'dr' : new TouchTile(this._resourceManager, 'dr')
+            'dl' : new TouchTile(this._resourceManager, 'dl', this._noteskin),
+            'ul' : new TouchTile(this._resourceManager, 'ul',this._noteskin),
+            'c' : new TouchTile(this._resourceManager, 'c',this._noteskin),
+            'ur' : new TouchTile(this._resourceManager, 'ur',this._noteskin),
+            'dr' : new TouchTile(this._resourceManager, 'dr',this._noteskin)
         }
 
         const dist = 0.63 ;

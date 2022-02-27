@@ -29,13 +29,13 @@ class StepNoteTexture extends GameObject {
     _stepAnimationRate ;
     _animationDelta ;
 
-    constructor(resourceManager, kind, animationRate) {
+    constructor(resourceManager, kind, animationRate, noteskin) {
 
         super(resourceManager);
         this._kind = kind;
         this._stepAnimationRate = animationRate ;
 
-        this._map = this._resourceManager.getStepNoteTexture( this._kind ) ;
+        this._map = this._resourceManager.getStepNoteTexture( this._kind, noteskin ) ;
 
     }
 

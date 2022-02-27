@@ -27,7 +27,7 @@ class Tap extends GameObject {
 
 
 
-    constructor(resourceManager, kind ) {
+    constructor(resourceManager, kind, noteskin ) {
 
         super(resourceManager);
         this._kind = kind ;
@@ -35,7 +35,7 @@ class Tap extends GameObject {
 
 
         // Create one step out of the five available.
-        let tap = this._resourceManager.constructGenericTap( ) ;
+        let tap = this._resourceManager.constructGenericTap( noteskin ) ;
         tap.material.map.repeat.set(1/5,1/2);
 
         switch (kind) {

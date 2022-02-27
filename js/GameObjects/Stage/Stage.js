@@ -26,14 +26,14 @@ class Stage extends GameObject {
     _object ;
     _bg ;
     _playerStages ;
+    _noteskins ;
     p1 ;
     song ;
     animationRate ;
 
-    constructor( resourceManager, song ) { //...
+    constructor( resourceManager, song, noteskins ) { //...
 
         super(resourceManager);
-
         this.animationRate = 30;
         this.song = song;
 
@@ -41,7 +41,10 @@ class Stage extends GameObject {
 
         this._playerStages = [] ;
 
-        this.configureNoteTextures() ;
+        noteskins.forEach( (noteskin) => {
+            this.configureNoteTextures(noteskin) ;
+        }) ;
+
 
 
     }
@@ -54,18 +57,18 @@ class Stage extends GameObject {
         return performances ;
     }
 
-    configureNoteTextures() {
-        new StepNoteTexture(this._resourceManager, 'dl', this.animationRate) ;
-        new StepNoteTexture(this._resourceManager, 'ul', this.animationRate) ;
-        new StepNoteTexture(this._resourceManager, 'c', this.animationRate) ;
-        new StepNoteTexture(this._resourceManager, 'ur', this.animationRate) ;
-        new StepNoteTexture(this._resourceManager, 'dr', this.animationRate) ;
+    configureNoteTextures(noteskin) {
+        new StepNoteTexture(this._resourceManager, 'dl', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager, 'ul', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager, 'c', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager, 'ur', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager, 'dr', this.animationRate, noteskin) ;
 
-        new HoldExtensibleTexture(this._resourceManager, 'dl', this.animationRate) ;
-        new HoldExtensibleTexture(this._resourceManager, 'ul', this.animationRate) ;
-        new HoldExtensibleTexture(this._resourceManager, 'c', this.animationRate) ;
-        new HoldExtensibleTexture(this._resourceManager, 'ur', this.animationRate) ;
-        new HoldExtensibleTexture(this._resourceManager, 'dr', this.animationRate) ;
+        new HoldExtensibleTexture(this._resourceManager, 'dl', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager, 'ul', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager, 'c', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager, 'ur', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager, 'dr', this.animationRate, noteskin) ;
     }
 
     configureBG() {

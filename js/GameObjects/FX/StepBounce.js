@@ -30,12 +30,12 @@ class StepBounce extends GameObject {
 
 
 
-    constructor(resourceManager, kind, stepAnimationRate) {
+    constructor(resourceManager, kind, stepAnimationRate, noteskin) {
 
         super(resourceManager);
         this._kind = kind ;
         this._stepAnimationRate = stepAnimationRate ;
-        this._mesh = this._resourceManager.constructStepBounce( this._kind ) ;
+        this._mesh = this._resourceManager.constructStepBounce( this._kind, noteskin ) ;
         this._tweenOpacityEffect = undefined ;
 
     }

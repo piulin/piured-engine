@@ -32,10 +32,10 @@ class TouchTile extends GameObject {
     _spritePosition ;
     _stepAnimationRate ;
 
-    constructor(resourceManager, kind) {
+    constructor(resourceManager, kind, noteskin) {
         super(resourceManager);
         this._kind = kind ;
-        this._mesh = this._resourceManager.constructStepNoteCloned( this._kind )
+        this._mesh = this._resourceManager.constructStepNoteCloned( this._kind, noteskin )
         this._active = false ;
     }
 

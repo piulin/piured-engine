@@ -21,16 +21,19 @@
 class ResourceManager {
 
 
-    _materialsDict = { } ;
+    _materialsDict = { 'NOTESKINS':{} } ;
     _geometryDict = { } ;
-    _textureDict = { } ;
+    _textureDict = { 'NOTESKINS':{} } ;
     _shadersDict =  { } ;
 
 
-    constructor( resourcePath, noteskinPath, stagePath ) {
+    constructor( resourcePath, noteskinPath, noteskinIds, stagePath ) {
         this.resourcePath = resourcePath ;
         this.loadGeometries() ;
-        this.loadTextures(resourcePath + noteskinPath, resourcePath + stagePath) ;
+        noteskinIds.forEach((noteskinId)=>{
+            this.loadNoteskinTextures(resourcePath + noteskinPath + noteskinId + '/UHD', noteskinId) ;
+        }) ;
+        this.loadStageTextures( resourcePath + stagePath ) ;
         this.loadMaterials() ;
         this.loadShaderMaterials() ;
 
@@ -51,32 +54,43 @@ class ResourceManager {
         this._geometryDict['P'] = new PulseGeometry() ;
     }
 
-    loadTextures ( noteskinPath, stagePath ) {
+    loadNoteskinTextures(noteskinPath, noteskinId) {
 
+        if (noteskinId in this._textureDict['NOTESKINS']) {
+            return ;
+        }
+
+        let stepDic = {} ;
         // StepNotes
-        this._textureDict['SDL'] = new PNGTexture(noteskinPath + '/DownLeft TapNote 3x2.PNG') ;
-        this._textureDict['SUL'] = new PNGTexture(noteskinPath + '/UpLeft TapNote 3x2.PNG') ;
-        this._textureDict['SC'] = new PNGTexture(noteskinPath + '/Center TapNote 3x2.PNG') ;
-        this._textureDict['SUR'] = new PNGTexture(noteskinPath + '/UpRight TapNote 3x2.PNG') ;
-        this._textureDict['SDR'] = new PNGTexture(noteskinPath + '/DownRight TapNote 3x2.PNG') ;
+
+        stepDic['SDL'] = new PNGTexture(noteskinPath + '/DownLeft TapNote 3x2.PNG') ;
+        stepDic['SUL'] = new PNGTexture(noteskinPath + '/UpLeft TapNote 3x2.PNG') ;
+        stepDic['SC'] = new PNGTexture(noteskinPath + '/Center TapNote 3x2.PNG') ;
+        stepDic['SUR'] = new PNGTexture(noteskinPath + '/UpRight TapNote 3x2.PNG') ;
+        stepDic['SDR'] = new PNGTexture(noteskinPath + '/DownRight TapNote 3x2.PNG') ;
 
 
         //Holds & EndNotes
-        this._textureDict['HDL'] = new PNGTexture(noteskinPath + '/DownLeft Hold 6x1.PNG') ;
-        this._textureDict['HUL'] = new PNGTexture(noteskinPath + '/UpLeft Hold 6x1.PNG') ;
-        this._textureDict['HC'] = new PNGTexture(noteskinPath + '/Center Hold 6x1.PNG') ;
-        this._textureDict['HUR'] = new PNGTexture(noteskinPath + '/UpRight Hold 6x1.PNG') ;
-        this._textureDict['HDR'] = new PNGTexture(noteskinPath + '/DownRight Hold 6x1.PNG') ;
+        stepDic['HDL'] = new PNGTexture(noteskinPath + '/DownLeft Hold 6x1.PNG') ;
+        stepDic['HUL'] = new PNGTexture(noteskinPath + '/UpLeft Hold 6x1.PNG') ;
+        stepDic['HC'] = new PNGTexture(noteskinPath + '/Center Hold 6x1.PNG') ;
+        stepDic['HUR'] = new PNGTexture(noteskinPath + '/UpRight Hold 6x1.PNG') ;
+        stepDic['HDR'] = new PNGTexture(noteskinPath + '/DownRight Hold 6x1.PNG') ;
 
         //Receptor
-        this._textureDict['R'] = new PNGTexture(noteskinPath + '/Center Receptor 1x2.PNG') ;
+        stepDic['R'] = new PNGTexture(noteskinPath + '/Center Receptor 1x2.PNG') ;
 
         //Taps
-        this._textureDict['T'] = new PNGTexture(noteskinPath + '/Tap 5x2.PNG') ;
+        stepDic['T'] = new PNGTexture(noteskinPath + '/Tap 5x2.PNG') ;
 
         // FX
-        this._textureDict['FX'] = new PNGTexture(noteskinPath + '/StepFX 5x1.PNG') ;
+        stepDic['FX'] = new PNGTexture(noteskinPath + '/StepFX 5x1.PNG') ;
 
+        this._textureDict['NOTESKINS'][noteskinId] = stepDic ;
+
+    }
+
+    loadStageTextures ( stagePath ) {
 
         // Digits Normal
         this._textureDict['DN'] = new PNGTexture(stagePath + '/Combo numbers Normal 4x4_XX.png') ;
@@ -109,29 +123,30 @@ class ResourceManager {
         this._textureDict['LT'] = new PNGTexture(stagePath + '/SG-TIP 1x2.png') ;
 
 
-        this._textureDict['TOUCHINPUT'] = new PNGTexture(stagePath + '/touch_input.png') ;
-
     }
 
     loadMaterials() {
+        for (const [noteskinId, textureDict] of Object.entries(this._textureDict['NOTESKINS'])) {
 
-        // StepNotes
-        this._materialsDict['SDL'] = new TransparentMaterial(this._textureDict['SDL'].map) ;
-        this._materialsDict['SUL'] =  new TransparentMaterial(this._textureDict['SUL'].map) ;
-        this._materialsDict['SC'] =  new TransparentMaterial(this._textureDict['SC'].map) ;
-        this._materialsDict['SUR'] =  new TransparentMaterial(this._textureDict['SUR'].map) ;
-        this._materialsDict['SDR'] =  new TransparentMaterial(this._textureDict['SDR'].map) ;
+            let materialsDict = {};
+
+            // StepNotes
+            materialsDict['SDL'] = new TransparentMaterial(textureDict['SDL'].map);
+            materialsDict['SUL'] = new TransparentMaterial(textureDict['SUL'].map);
+            materialsDict['SC'] = new TransparentMaterial(textureDict['SC'].map);
+            materialsDict['SUR'] = new TransparentMaterial(textureDict['SUR'].map);
+            materialsDict['SDR'] = new TransparentMaterial(textureDict['SDR'].map);
 
 
-        //Holds & EndNotes
-        this._materialsDict['HDL'] = new TransparentMaterial(this._textureDict['HDL'].map) ;
-        this._materialsDict['HUL'] =  new TransparentMaterial(this._textureDict['HUL'].map) ;
-        this._materialsDict['HC'] = new TransparentMaterial(this._textureDict['HC'].map) ;
-        this._materialsDict['HUR'] = new TransparentMaterial(this._textureDict['HUR'].map) ;
-        this._materialsDict['HDR'] = new TransparentMaterial(this._textureDict['HDR'].map) ;
+            //Holds & EndNotes
+            materialsDict['HDL'] = new TransparentMaterial(textureDict['HDL'].map);
+            materialsDict['HUL'] = new TransparentMaterial(textureDict['HUL'].map);
+            materialsDict['HC'] = new TransparentMaterial(textureDict['HC'].map);
+            materialsDict['HUR'] = new TransparentMaterial(textureDict['HUR'].map);
+            materialsDict['HDR'] = new TransparentMaterial(textureDict['HDR'].map);
 
-        // Input
-        this._materialsDict['TOUCHINPUT'] = new TransparentMaterial(this._textureDict['TOUCHINPUT'].map) ;
+            this._materialsDict['NOTESKINS'][noteskinId] = materialsDict;
+        }
 
 
     }
@@ -142,52 +157,50 @@ class ResourceManager {
 
     }
 
-    constructTouchInput() {
-        return new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['TOUCHINPUT'].material );
-    }
 
-
-    constructStepNote(kind) {
+    constructStepNote(kind, noteskinId) {
+        const materialsDict = this._materialsDict['NOTESKINS'][noteskinId] ;
         switch (kind) {
             case 'dl':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['SDL'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['SDL'].material );
                 break ;
             case 'ul':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['SUL'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['SUL'].material );
                 break ;
             case 'c':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['SC'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['SC'].material );
                 break ;
             case 'ur':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['SUR'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['SUR'].material );
                 break ;
             case 'dr':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['SDR'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['SDR'].material );
                 break ;
         }
     }
 
-    constructStepNoteCloned(kind) {
+    constructStepNoteCloned(kind, noteskinId) {
+        const textureDict = this._textureDict['NOTESKINS'][noteskinId] ;
         switch (kind) {
             case 'dl':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SDL'].cloneMap()).material );
+                    new TransparentMaterial(textureDict['SDL'].cloneMap()).material );
                 break ;
             case 'ul':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SUL'].cloneMap()).material );
+                    new TransparentMaterial(textureDict['SUL'].cloneMap()).material );
                 break ;
             case 'c':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SC'].cloneMap()).material );
+                    new TransparentMaterial(textureDict['SC'].cloneMap()).material );
                 break ;
             case 'ur':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SUR'].cloneMap()).material );
+                    new TransparentMaterial(textureDict['SUR'].cloneMap()).material );
                 break ;
             case 'dr':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new TransparentMaterial(this._textureDict['SDR'].cloneMap()).material );
+                    new TransparentMaterial(textureDict['SDR'].cloneMap()).material );
                 break ;
         }
     }
@@ -256,60 +269,62 @@ class ResourceManager {
             this._shadersDict['B'].material );
     }
 
-    constructGenericTap() {
-        let tex = this._textureDict['T'].cloneMap() ;
+    constructGenericTap(noteskinId) {
+        let tex = this._textureDict['NOTESKINS'][noteskinId]['T'].cloneMap() ;
         return new THREE.Mesh( this._geometryDict['S'].stepGeometry,
             new TransparentMaterial(tex).material );
     }
 
-    constructGenericWhiteTap() {
-        let tex = this._textureDict['T'].cloneMap() ;
+    constructGenericWhiteTap(noteskinId) {
+        let tex = this._textureDict['NOTESKINS'][noteskinId]['T'].cloneMap() ;
         return new THREE.Mesh( this._geometryDict['S'].stepGeometry,
             new AdditiveMaterial(tex).material );
     }
 
 
-    constructStepBounce(kind) {
+    constructStepBounce(kind, noteskinId) {
+        const textureDict = this._textureDict['NOTESKINS'][noteskinId] ;
         switch (kind) {
             case 'dl':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new AdditiveMaterial(this._textureDict['SDL'].cloneMap()).material );
+                    new AdditiveMaterial(textureDict['SDL'].cloneMap()).material );
                 break ;
             case 'ul':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new AdditiveMaterial(this._textureDict['SUL'].cloneMap()).material );
+                    new AdditiveMaterial(textureDict['SUL'].cloneMap()).material );
                 break ;
             case 'c':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new AdditiveMaterial(this._textureDict['SC'].cloneMap()).material );
+                    new AdditiveMaterial(textureDict['SC'].cloneMap()).material );
                 break ;
             case 'ur':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new AdditiveMaterial(this._textureDict['SUR'].cloneMap()).material );
+                    new AdditiveMaterial(textureDict['SUR'].cloneMap()).material );
                 break ;
             case 'dr':
                 return  new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-                    new AdditiveMaterial(this._textureDict['SDR'].cloneMap()).material );
+                    new AdditiveMaterial(textureDict['SDR'].cloneMap()).material );
                 break ;
         }
     }
 
-    constructHoldExtensible(kind) {
+    constructHoldExtensible(kind, noteskinId) {
+        const materialsDict = this._materialsDict['NOTESKINS'][noteskinId] ;
         switch (kind) {
             case 'dl':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['HDL'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HDL'].material );
                 break ;
             case 'ul':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['HUL'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HUL'].material );
                 break ;
             case 'c':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['HC'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HC'].material );
                 break ;
             case 'ur':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['HUR'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HUR'].material );
                 break ;
             case 'dr':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, this._materialsDict['HDR'].material );
+                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HDR'].material );
                 break ;
         }
     }
@@ -332,96 +347,97 @@ class ResourceManager {
             new TransparentMaterial(this._textureDict['DN'].cloneMap()).material );
     }
 
-    constructHoldEndNote(kind) {
+    constructHoldEndNote(kind, noteskinId) {
 
-        let texture = this.getHoldExtensibleTextureCloned(kind) ;
+        let texture = this.getHoldExtensibleTextureCloned(kind, noteskinId) ;
 
         return new THREE.Mesh( this._geometryDict['S'].stepGeometry, new TransparentMaterial(texture).material );
     }
 
-    constructReceptor() {
+    constructReceptor(noteskinId) {
 
-        let texture = this._textureDict['R'].cloneMap() ;
+        let texture = this._textureDict['NOTESKINS'][noteskinId]['R'].cloneMap() ;
         return  new THREE.Mesh( this._geometryDict['R'].receptorGeometry, new ReceptorMaterial(texture, this.resourcePath ).material );
 
     }
 
-    constructExplosion( ) {
+    constructExplosion( noteskinId ) {
         return new THREE.Mesh( this._geometryDict['S'].stepGeometry,
-            new AdditiveMaterial(this._textureDict['FX'].cloneMap()).material );
+            new AdditiveMaterial(this._textureDict['NOTESKINS'][noteskinId]['FX'].cloneMap()).material );
 
 
     }
 
 
-    getStepNoteTexture(kind) {
+    getStepNoteTexture(kind, noteskinId) {
 
         let texture ;
+        const textureDict = this._textureDict['NOTESKINS'][noteskinId] ;
 
         switch (kind) {
             case 'dl':
-                texture = this._textureDict['SDL'].map ;
+                texture = textureDict['SDL'].map ;
                 break ;
             case 'ul':
-                texture = this._textureDict['SUL'].map ;
+                texture = textureDict['SUL'].map ;
                 break ;
             case 'c':
-                texture = this._textureDict['SC'].map ;
+                texture = textureDict['SC'].map ;
                 break ;
             case 'ur':
-                texture = this._textureDict['SUR'].map ;
+                texture = textureDict['SUR'].map ;
                 break ;
             case 'dr':
-                texture = this._textureDict['SDR'].map ;
+                texture = textureDict['SDR'].map ;
                 break ;
         }
 
         return texture ;
     }
 
-    getHoldExtensibleTexture(kind) {
+    getHoldExtensibleTexture(kind, noteskinId) {
 
         let texture ;
-
+        const textureDict = this._textureDict['NOTESKINS'][noteskinId] ;
         switch (kind) {
             case 'dl':
-                texture = this._textureDict['HDL'].map ;
+                texture = textureDict['HDL'].map ;
                 break ;
             case 'ul':
-                texture = this._textureDict['HUL'].map ;
+                texture = textureDict['HUL'].map ;
                 break ;
             case 'c':
-                texture = this._textureDict['HC'].map ;
+                texture = textureDict['HC'].map ;
                 break ;
             case 'ur':
-                texture = this._textureDict['HUR'].map ;
+                texture = textureDict['HUR'].map ;
                 break ;
             case 'dr':
-                texture = this._textureDict['HDR'].map ;
+                texture = textureDict['HDR'].map ;
                 break ;
         }
         return texture ;
     }
 
-    getHoldExtensibleTextureCloned(kind) {
+    getHoldExtensibleTextureCloned(kind, noteskinId) {
 
         let texture ;
-
+        const textureDict = this._textureDict['NOTESKINS'][noteskinId] ;
         switch (kind) {
             case 'dl':
-                texture = this._textureDict['HDL'].cloneMap() ;
+                texture = textureDict['HDL'].cloneMap() ;
                 break ;
             case 'ul':
-                texture = this._textureDict['HUL'].cloneMap() ;
+                texture = textureDict['HUL'].cloneMap() ;
                 break ;
             case 'c':
-                texture = this._textureDict['HC'].cloneMap() ;
+                texture = textureDict['HC'].cloneMap() ;
                 break ;
             case 'ur':
-                texture = this._textureDict['HUR'].cloneMap() ;
+                texture = textureDict['HUR'].cloneMap() ;
                 break ;
             case 'dr':
-                texture = this._textureDict['HDR'].cloneMap() ;
+                texture = textureDict['HDR'].cloneMap() ;
                 break ;
         }
         return texture ;

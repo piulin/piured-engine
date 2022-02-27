@@ -383,7 +383,7 @@ Make sure that there is just one engine instance running across the client side.
          playback,
          offset,
          resourcePath,
-         noteskin,
+         [noteskin],
          <span class="hljs-function">() =&gt;</span> {
              <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ;
              <span class="hljs-comment">// delay of 2 secs</span>
@@ -405,6 +405,7 @@ accuracyMargin = <span class="hljs-number">0.25</span> ;
 p1InputConfig = <span class="hljs-keyword">new</span> KeyInputConfig(leftKeyMap, rightKeyMap) ;
 
 <span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> PlayerConfig(p1InputConfig,
+                     noteskin,
                      chartLevel,
                      speed,
                      accuracyMargin) ;
@@ -760,7 +761,7 @@ engine is running.</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>tunePlayBackSpeed(playBackSpeedOffset)</span>
+            <span class='code strong strong truncate'>tunePlayBackSpeed(playBackSpeed)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -771,7 +772,7 @@ engine is running.</p>
   <p>Updates the stage's audio playback rate (i.e., increases or decreases the audio &#x26; step speed). This function might be called
 while the engine is running. This function won't have any effect if there are remote players logged in the engine.</p>
 
-    <div class='pre p1 fill-light mt0'>tunePlayBackSpeed(playBackSpeedOffset: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+    <div class='pre p1 fill-light mt0'>tunePlayBackSpeed(playBackSpeed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
   
   
 
@@ -788,9 +789,9 @@ while the engine is running. This function won't have any effect if there are re
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>playBackSpeedOffset</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-	    new playback offset to be applied in percentage. 
-<code>playBackSpeedOffset</code>
+            <span class='code bold'>playBackSpeed</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    new playback speed to be applied in percentage. 
+<code>playBackSpeed</code>
  must be a floating point
 
           </div>
@@ -818,13 +819,13 @@ while the engine is running. This function won't have any effect if there are re
   
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
-      <p><p>Speeding up the playback rate by 10%.</p>
+      <p><p>Speeding up the playback rate to 110% (1.1x)</p>
 </p>
       <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// changes the playback speed to 110%</span>
-engine.tunePlayBackSpeed(<span class="hljs-number">0.1</span>) ;
+engine.tunePlayBackSpeed(<span class="hljs-number">1.1</span>) ;
 
-<span class="hljs-comment">// Essentially stops the song (and steps)</span>
-engine.tunePlayBackSpeed(-<span class="hljs-number">1.0</span>) ;</pre>
+<span class="hljs-comment">// Essentially stops the playback</span>
+engine.tunePlayBackSpeed(<span class="hljs-number">0.0</span>) ;</pre>
     
   
 
@@ -1898,7 +1899,7 @@ by reaching the end of the song). It can be used to report the player's performa
 
   <p>This class holds the configuration of a stage.</p>
 
-    <div class='pre p1 fill-light mt0'>new StageConfig(SSCFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, audioFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, playBackSpeed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, offset: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, resourcePath: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, noteskin: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, onReadyToStart: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new StageConfig(SSCFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, audioFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, playBackSpeed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, offset: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, resourcePath: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, noteskins: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, onReadyToStart: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
   
   
 
@@ -1964,8 +1965,8 @@ by reaching the end of the song). It can be used to report the player's performa
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>noteskin</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    name of the noteskin that will be used across stages
+            <span class='code bold'>noteskins</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code>
+	    list of noteskins available to use for playerStages. Include those only used in them.
 
           </div>
           
@@ -2002,7 +2003,7 @@ and it's ready to begin the playback
          1.0,
          0.0,
          &#x27;piured-engine,
-         &#x27;NXA&#x27;,
+         [&#x27;NXA&#x27;],
          () =&gt; {
              let dateToStart = new Date() ;
              // delay of 2 secs
@@ -2040,7 +2041,7 @@ and it's ready to begin the playback
 
   <p>This class holds the configuration for a player.</p>
 
-    <div class='pre p1 fill-light mt0'>new PlayerConfig(inputConfig: (<a href="#keyinputconfig">KeyInputConfig</a> | <a href="#touchinputconfig">TouchInputConfig</a> | <a href="#remoteinput">RemoteInput</a>), level: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, speed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, accuracyMargin: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, receptorX: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, receptorY: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, scale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new PlayerConfig(inputConfig: (<a href="#keyinputconfig">KeyInputConfig</a> | <a href="#touchinputconfig">TouchInputConfig</a> | <a href="#remoteinput">RemoteInput</a>), noteskin: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, level: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, speed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, accuracyMargin: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, receptorX: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, receptorY: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, scale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -2059,6 +2060,19 @@ and it's ready to begin the playback
           <div>
             <span class='code bold'>inputConfig</span> <code class='quiet'>((<a href="#keyinputconfig">KeyInputConfig</a> | <a href="#touchinputconfig">TouchInputConfig</a> | <a href="#remoteinput">RemoteInput</a>))</code>
 	    input configuration
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>noteskin</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    player's noteskin. Note that 
+<code>noteskin</code>
+ needs to be previously passed in the constructor of 
+<a href="#stageconfig">StageConfig</a>
+.
 
           </div>
           
@@ -2140,6 +2154,7 @@ and it's ready to begin the playback
       
       <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1InputConfig = RemoteInput() ;
 <span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> PlayerConfig(p1InputConfig,
+                     <span class="hljs-string">&#x27;NXA&#x27;</span>,
                      <span class="hljs-number">0</span>,
                      <span class="hljs-number">3.0</span>,
                      <span class="hljs-number">0.15</span>) ;</pre>

@@ -22,6 +22,7 @@
 /**
  * This class holds the configuration for a player.
  * @param {KeyInputConfig|TouchInputConfig|RemoteInput} inputConfig input configuration
+ * @param {string} noteskin player's noteskin. Note that `noteskin` needs to be previously passed in the constructor of {@link StageConfig}.
  * @param {number} level levelId to be played by the player
  * @param {number} speed rate in which the steps traverse the screen from the bottom to the receptor
  * @param {number} [accuracyMargin=0.15] span of time (in seconds) in which a step is considered to be pressed
@@ -33,6 +34,7 @@
  *
  * let p1InputConfig = RemoteInput() ;
  * let p1Config = new PlayerConfig(p1InputConfig,
+ *                      'NXA',
  *                      0,
  *                      3.0,
  *                      0.15) ;
@@ -40,6 +42,7 @@
 class PlayerConfig {
 
     _inputConfig ;
+    _noteskin ;
     _level ;
     _speed ;
     _accuracyMargin ;
@@ -48,6 +51,7 @@ class PlayerConfig {
     _scale ;
 
     constructor(inputConfig,
+                noteskin,
                 level,
                 speed = 1.0,
                 accuracyMargin = 0.15,
@@ -56,6 +60,7 @@ class PlayerConfig {
                 scale = 1.0) {
 
         this._inputConfig = inputConfig ;
+        this._noteskin = noteskin ;
         this._level = level ;
         this._speed = speed ;
         this._accuracyMargin = accuracyMargin ;
@@ -63,6 +68,10 @@ class PlayerConfig {
         this._receptorY = receptorY ;
         this._scale = scale ;
 
+    }
+
+    get noteskin() {
+        return this._noteskin;
     }
 
     get inputConfig() {

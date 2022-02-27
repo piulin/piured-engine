@@ -27,13 +27,13 @@ class EndNote extends GameObject {
     _stepAnimationRate ;
     _animationDelta ;
 
-    constructor(resourceManager, kind, animationRate) {
+    constructor(resourceManager, kind, animationRate, noteskin) {
         super(resourceManager);
         this._kind = kind;
 
         this._stepAnimationRate = animationRate ;
 
-        this._mesh = this._resourceManager.constructHoldEndNote( this._kind ) ;
+        this._mesh = this._resourceManager.constructHoldEndNote( this._kind, noteskin ) ;
 
     }
 

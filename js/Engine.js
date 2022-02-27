@@ -112,7 +112,7 @@
  *          playback,
  *          offset,
  *          resourcePath,
- *          noteskin,
+ *          [noteskin],
  *          () => {
  *              let dateToStart = new Date() ;
  *              // delay of 2 secs
@@ -134,6 +134,7 @@
  * p1InputConfig = new KeyInputConfig(leftKeyMap, rightKeyMap) ;
  *
  * let p1Config = new PlayerConfig(p1InputConfig,
+ *                      noteskin,
  *                      chartLevel,
  *                      speed,
  *                      accuracyMargin) ;
@@ -167,6 +168,7 @@ class Engine {
     renderer ;
     _playBackTween = undefined ;
     _playBackVal = 1.0 ;
+    _playBackUser = 1.0 ;
     _onStageCleared = undefined ;
     _onFrameLog = undefined ;
     _playBackSpeedEnabled = true ;
@@ -246,8 +248,8 @@ class Engine {
         this.resourcePath = stageConfig.resourcePath ;
         this.playBackSpeed = stageConfig.playBackSpeed ;
         this.song = new Song(stageConfig.SSCFile, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
-        let resourceManager = new ResourceManager(stageConfig.resourcePath, 'noteskins/' + stageConfig.noteskin + '/UHD', 'stage_UHD') ;
-        this.stage = new Stage(resourceManager, this.song) ;
+        let resourceManager = new ResourceManager(stageConfig.resourcePath, 'noteskins/', stageConfig.noteskins, 'stage_UHD') ;
+        this.stage = new Stage(resourceManager, this.song, stageConfig.noteskins) ;
         this.scene.add(this.stage.object) ;
 
     }
@@ -319,8 +321,8 @@ class Engine {
      */
     tunePlayBackSpeed ( playBackSpeed ) {
         if (this._playBackSpeedEnabled && playBackSpeed >= 0.0) {
-            this.song.setNewPlayBackSpeed( playBackSpeed ) ;
-            this.stage.setNewPlayBackSpeed( playBackSpeed ) ;
+            this._playBackUser = playBackSpeed ;
+            this._playBackVal = playBackSpeed ;
         }
     }
 
@@ -332,8 +334,8 @@ class Engine {
         if ( this._playBackTween !== undefined ) {
             TWEEN.remove( this._playBackTween ) ;
         }
-
-        this._playBackTween = new TWEEN.Tween( this ).to( { _playBackVal: 1.0 }, time ).delay(time).start();
+        const playBackUser = this._playBackUser ;
+        this._playBackTween = new TWEEN.Tween( this ).to( { _playBackVal: playBackUser }, time ).delay(time).start();
         new TWEEN.Tween( this ).to( { _playBackVal: pb }, time ).start();
 
 

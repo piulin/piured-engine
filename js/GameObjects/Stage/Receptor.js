@@ -30,11 +30,11 @@ class Receptor extends GameObject {
     _keyInput ;
     _padId ;
 
-    constructor(resourceManager, beatManager, keyInput, padId, animationRate) {
+    constructor(resourceManager, beatManager, keyInput, padId, animationRate, noteskin) {
         super(resourceManager);
 
         engine.addToInputList(this) ;
-
+        this._noteskin = noteskin ;
         this._keyInput = keyInput ;
         this._beatManager = beatManager ;
         this._animationRate = animationRate ;
@@ -44,7 +44,7 @@ class Receptor extends GameObject {
         this._object = new THREE.Object3D() ;
 
 
-        this._receptor = this._resourceManager.constructReceptor( ) ;
+        this._receptor = this._resourceManager.constructReceptor( noteskin ) ;
 
         // Space to the right or left of a given step.
         const stepShift = 4/5;
@@ -93,7 +93,7 @@ class Receptor extends GameObject {
 
     setUpBounce(kind, XPosition) {
 
-        let bounce = new StepBounce(this._resourceManager, kind, this._animationRate) ;
+        let bounce = new StepBounce(this._resourceManager, kind, this._animationRate, this._noteskin) ;
         bounce.object.position.x = XPosition ;
         bounce.object.position.z = this.stepEffectZDepth ;
         bounce.object.material.opacity = 0.0 ;
@@ -103,7 +103,7 @@ class Receptor extends GameObject {
 
     setUpExplosion(XPosition) {
 
-        let explosion = new Explosion(this._resourceManager) ;
+        let explosion = new Explosion(this._resourceManager, this._noteskin) ;
         explosion.object.position.z = this.explosionZDepth ;
         explosion.object.position.x = XPosition;
         explosion.object.material.opacity = 0.0 ;
@@ -115,7 +115,7 @@ class Receptor extends GameObject {
 
 
     setUpTap(kind, XPosition) {
-        let tap = new Tap(this._resourceManager, kind) ;
+        let tap = new Tap(this._resourceManager, kind, this._noteskin) ;
         tap.object.position.x = XPosition ;
         // tap.object.position.z = 0.01 ;
         tap.object.material.opacity = 0.0 ;
@@ -127,7 +127,7 @@ class Receptor extends GameObject {
     }
 
     setUpWhiteTap(kind, XPosition) {
-        let tap = new WhiteTap(this._resourceManager, kind) ;
+        let tap = new WhiteTap(this._resourceManager, kind, this._noteskin) ;
         tap.object.position.x = XPosition ;
         tap.object.position.z = 0.01 ;
         tap.object.material.opacity = 0.0 ;

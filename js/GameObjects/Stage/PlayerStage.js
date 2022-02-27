@@ -30,6 +30,7 @@ class PlayerStage extends GameObject {
     _userSpeed ;
     _object ;
     _scaled_object ;
+    _noteskin ;
     playerConfig ;
     keyListener ;
     idLeftPad ;
@@ -54,7 +55,7 @@ class PlayerStage extends GameObject {
         this._level = playerConfig.level ;
         this._userSpeed = playerConfig.speed ;
         this._id = id ;
-
+        this._noteskin = playerConfig.noteskin ;
         this._object = new THREE.Object3D() ;
         this._scaled_object = new THREE.Object3D() ;
         this._scaled_object.add(this._object) ;
@@ -113,7 +114,7 @@ class PlayerStage extends GameObject {
     configureTouchInputPlayerStage(inputConfig) {
 
         // Create a TouchInput object
-        let playerInput = new TouchInput(this._resourceManager, this.frameLog) ;
+        let playerInput = new TouchInput(this._resourceManager, this.frameLog, this._noteskin) ;
 
         // We create two pads. Theoretically, more than 2 pads can be added, but in practice we only have either one or two.
         let pad1Id = '0' ;
@@ -245,7 +246,8 @@ class PlayerStage extends GameObject {
             this._userSpeed,
             this.idLeftPad,
             this.idRightPad,
-            this.keyListener) ;
+            this.keyListener,
+            this._noteskin) ;
         this._object.add(this._steps.object) ;
     }
 
@@ -258,7 +260,7 @@ class PlayerStage extends GameObject {
 
     // Construct generic receptor
     getReceptor(padId) {
-        let receptor = new Receptor(this._resourceManager, this.beatManager, this.keyListener, padId, this.stepTextureAnimationRate ) ;
+        let receptor = new Receptor(this._resourceManager, this.beatManager, this.keyListener, padId, this.stepTextureAnimationRate, this._noteskin ) ;
         receptor.object.position.z = this.receptorZDepth;
         return receptor ;
     }

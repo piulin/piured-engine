@@ -30,12 +30,12 @@ class StepNote extends GameObject {
     _id ;
 
 
-    constructor(resourceManager, kind, padId, timeStamp) {
+    constructor(resourceManager, kind, padId, timeStamp, noteskin) {
         super(resourceManager);
 
         this._kind = kind ;
         this._padId = padId ;
-        this._mesh = this._resourceManager.constructStepNote( this._kind ) ;
+        this._mesh = this._resourceManager.constructStepNote( this._kind, noteskin ) ;
         this._timeStamp = timeStamp ;
     }
 

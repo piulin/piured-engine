@@ -27,7 +27,7 @@ class WhiteTap extends GameObject {
 
 
 
-    constructor(resourceManager, kind ) {
+    constructor(resourceManager, kind, noteskin) {
 
         super(resourceManager);
         this._kind = kind ;
@@ -35,7 +35,7 @@ class WhiteTap extends GameObject {
 
 
         // Create one step out of the five available.
-        let tap = this._resourceManager.constructGenericWhiteTap() ;
+        let tap = this._resourceManager.constructGenericWhiteTap(noteskin) ;
         tap.material.map.repeat.set(1/5,1/2);
 
         switch (kind) {

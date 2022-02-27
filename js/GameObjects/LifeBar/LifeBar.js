@@ -38,7 +38,6 @@ class LifeBar extends GameObject {
         super(resourceManager);
         this._beatManager = beatManager ;
         this._object = new THREE.Object3D() ;
-        this._receptor = this._resourceManager.constructReceptor( ) ;
 
         this._back = this.setUpBack(kind) ;
         this._bar = this.setUpBar(kind) ;

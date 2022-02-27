@@ -25,9 +25,10 @@ class TouchInput extends GameObject {
 
     _mesh ;
     _scaled_mesh ;
+    _noteskin ;
 
 
-    constructor(resourceManager, frameLog) {
+    constructor(resourceManager, frameLog, noteskin) {
 
         super(resourceManager) ;
 
@@ -45,7 +46,7 @@ class TouchInput extends GameObject {
         this._scaled_mesh.add(this._mesh) ;
 
         this.frameLog = frameLog ;
-
+        this._noteskin = noteskin ;
     }
 
     getPadIds() {
@@ -53,7 +54,7 @@ class TouchInput extends GameObject {
     }
 
     addTouchPad(padId) {
-        const pad = new TouchPad(this._resourceManager, padId, this.frameLog) ;
+        const pad = new TouchPad(this._resourceManager, padId, this.frameLog, this._noteskin) ;
         // pad.object.position.z = 0.05;
         // pad.object.position.y = -9;
         pad.object.scale.x = 4.0;

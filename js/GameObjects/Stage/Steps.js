@@ -22,6 +22,7 @@
 class Steps extends GameObject {
 
     _object ;
+    _noteskin ;
     receptorZDepth ;
     holdZDepth ;
     holdEndNoteZDepth ;
@@ -59,7 +60,8 @@ class Steps extends GameObject {
                 userSpeed,
                 idLeftPad,
                 idRightPad,
-                keyListener) {
+                keyListener,
+                noteskin) {
         super(resourceManager);
 
 
@@ -70,6 +72,7 @@ class Steps extends GameObject {
         this.lastEffectSpeed = 1;
         this.effectSpeed = 1;
         this.newTargetSpeed = 1 ;
+        this._noteskin = noteskin ;
 
         //stepQueue to initialize (or use)
         this.stepQueue = stepQueue ;
@@ -292,7 +295,7 @@ class Steps extends GameObject {
         if ( note === '1' || note === '2' ) {
 
             // let step = this.stepFactory.getStep(kind);
-            let step = new StepNote( this._resourceManager, kind, padId, currentTimeInSong ) ;
+            let step = new StepNote( this._resourceManager, kind, padId, currentTimeInSong, this._noteskin ) ;
 
             let stepMesh = step.object ;
 
@@ -332,7 +335,7 @@ class Steps extends GameObject {
 
 
             // let beginningHoldYPosition = step.beginningHoldYPosition ;
-            let endNoteObject = new EndNote(this._resourceManager, kind, this.stepTextureAnimationRate) ;
+            let endNoteObject = new EndNote(this._resourceManager, kind, this.stepTextureAnimationRate, this._noteskin) ;
             let endNoteMesh = endNoteObject.object ;
 
             endNoteMesh.position.y = currentYPosition ;
@@ -340,7 +343,7 @@ class Steps extends GameObject {
             endNoteMesh.position.x = XStepPosition ;
             endNoteMesh.position.z = this.holdEndNoteZDepth ;
 
-            let holdExtensibleObject = new HoldExtensible(this._resourceManager, kind ) ;
+            let holdExtensibleObject = new HoldExtensible(this._resourceManager, kind, this._noteskin ) ;
             holdExtensibleObject.object.position.x = XStepPosition ;
             holdExtensibleObject.object.originalYPos = -10000 ;
             holdExtensibleObject.object.position.z = this.holdZDepth ;
