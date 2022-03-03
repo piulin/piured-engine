@@ -24,7 +24,7 @@ class LFPulse extends GameObject {
     _object ;
     _beatManager ;
 
-    size = 0.5 ;
+    _size ;
 
 
     constructor( resourceManager, beatManager, kind ) {
@@ -34,15 +34,16 @@ class LFPulse extends GameObject {
 
         this._object = new THREE.Object3D() ;
         this._mesh = this._resourceManager.constructLifeBarPulse() ;
+        this._mesh.scale.y = 0.70 ;
         this._object.add(this._mesh) ;
 
         this._beatManager = beatManager ;
         this.kind = kind ;
 
         if (kind === 'single') {
-            this.size = 0.5 ;
+            this._size = 0.4;
         } else if (kind ==='double'){
-            this.size = 1 ;
+            this._size = 0.8 ;
             this._mesh.scale.x = 2 ;
         }
 
@@ -55,13 +56,17 @@ class LFPulse extends GameObject {
 
     setsize(size) {
 
-        this._mesh.position.x = -(this.size/2- this.size*(size/2)) ;
+        this._mesh.position.x = -(this._size/2- this._size*(size/2)) ;
         if (this.kind === 'single') {
             this._mesh.scale.x = size ;
         } else {
             this._mesh.scale.x = 2*size ;
         }
 
+    }
+
+    get size(){
+        return this._size ;
     }
 
     ready() {

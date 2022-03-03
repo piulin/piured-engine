@@ -28,10 +28,7 @@ class LFBar extends GameObject {
     _object ;
     kind ;
 
-    pulseXSize = 0.5 ;
-    pulseXHalfSize = this.pulseXSize / 2 ;
-    barXSize = 4 ;
-    barXHalfSize = this.barXSize / 2 ;
+
 
 
     constructor( resourceManager, beatManager, kind ) {
@@ -47,20 +44,23 @@ class LFBar extends GameObject {
         this._pulse = new LFPulse(this._resourceManager, beatManager, kind) ;
         this._tip = new LFTip(this._resourceManager) ;
 
+        this.pulseXSize = this._pulse.size ;
+        this.pulseXHalfSize = this.pulseXSize / 2 ;
+        this.barXSize = 4 ;
+        this.barXHalfSize = this.barXSize / 2 ;
+
         let bar = null ;
         if ( kind === 'single') {
             bar = this._resourceManager.constructSLifeBarBar() ;
 
         } else if ( kind === 'double') {
 
-            this.pulseXSize = 1 ;
-            this.pulseXHalfSize = this.pulseXSize / 2 ;
             this.barXSize = 8 ;
             this.barXHalfSize = this.barXSize / 2 ;
             bar = this._resourceManager.constructDLifeBarBar() ;
         }
 
-
+        bar.scale.y = 0.70 ;
         bar.material.map.repeat.set(-1,1/2);
         bar.material.map.offset.set(0,1/2);
         this._bar = bar ;

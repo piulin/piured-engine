@@ -22,11 +22,11 @@
 class PulseGeometry {
 
     _geometry ;
-
+    _size = 0.4 ;
     constructor() {
 
         // 2x1 rectangle
-        this._geometry = new THREE.PlaneGeometry( 0.5 , 68/194 , 1, 1 ) ;
+        this._geometry = new THREE.PlaneGeometry( this._size , 68/194 , 1, 1 ) ;
 
     }
 
