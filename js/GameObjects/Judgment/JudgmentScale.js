@@ -278,8 +278,8 @@ class JudgmentScale extends GameObject {
         } else if (go === 0 && b === 0 && m === 0) {
             this.stats.grade = 'SS';
         } else {
-            let accuracy = ((p*1.2)+(gr*0.9)+(go*0.6)+(maxCombo*0.05)-(b*0.45)-(m*0.9))/(p+gr+go+b+m) ;
-            if (accuracy > 0.95) {
+            let accuracy = ((p*1.0)+(gr*0.8)+(go*0.6)+(maxCombo*0.025)-(b*1.0)-(m*2.0))/(p+gr+go+b+m) ;
+            if (accuracy > 1.0) {
                 this.stats.grade = 'S' ;
             } else if (accuracy > 0.9) {
                 this.stats.grade = 'A' ;
