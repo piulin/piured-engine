@@ -42,6 +42,7 @@ class SongTime2Second {
         this._curve.addInterval(new Interval(new Point(0.0,0.0), new Point(longFloat,longFloat), true, true)) ;
 
 
+
         // warps
         for ( let i = 0 ; i < this._warps.length ; i++ ) {
 
@@ -55,7 +56,6 @@ class SongTime2Second {
 
         // stops
         for ( let i = 0 ; i < this._stops.length ; i++ ) {
-
             let beat = this._stops[ i ] [0] ;
             let span = this._stops[ i ] [1] ;
 

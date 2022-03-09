@@ -183,14 +183,14 @@ class Steps extends GameObject {
         // object containing all the steps of the given Pad.
         let steps = new THREE.Object3D();
 
-        const noteData = this._song.levels[this._level];
+        const noteData = this._song.levels[this._level].NOTES;
 
 
         let listIndex = 0;
         // i loops the bars
-        for (var i = 0; i < noteData.measures.length; i++) {
+        for (var i = 0; i < noteData.length; i++) {
 
-            const measure = noteData.measures[i];
+            const measure = noteData[i];
 
             const notesInBar = measure.length;
 
@@ -324,7 +324,6 @@ class Steps extends GameObject {
                 steps.add(stepMesh) ;
 
             }
-
 
         }
 

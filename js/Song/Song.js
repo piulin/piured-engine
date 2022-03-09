@@ -19,7 +19,6 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
-
 class Song {
 
     constructor( pathToSSCFile, audioBuf, offset, playBackSpeed, onReadyToStart ) {
@@ -58,35 +57,32 @@ class Song {
 
     getWARPS(level) {
         let arr ;
-        if ( 'WARPS' in this.levels[level].meta ) {
-            arr = this.levels[level].meta['WARPS'] ;
+        if ( 'WARPS' in this.levels[level] ) {
+            arr = this.levels[level].WARPS ;
         } else if ('WARPS' in this.meta) {
             arr = this.meta['WARPS'] ;
         } else {
-            return [] ;
-        }
-        if (arr[0].length === 1) {
             return [] ;
         }
         return arr ;
     }
 
     getLevelDifficulty(level) {
-        return parseInt(this.levels[level].meta.METER) === undefined ? 1 : parseInt(this.levels[level].meta.METER) ;
+        return parseInt(this.levels[level].METER) === undefined ? 1 : parseInt(this.levels[level].METER) ;
     }
 
 
     getBMPs(level) {
-        if ( 'BPMS' in this.levels[level].meta ) {
-            return this.levels[level].meta['BPMS'] ;
+        if ( 'BPMS' in this.levels[level] ) {
+            return this.levels[level].BPMS ;
         } else {
             return this.meta['BPMS'] ;
         }
     }
 
     getTickCounts(level) {
-        if ( 'TICKCOUNTS' in this.levels[level].meta ) {
-            return this.levels[level].meta['TICKCOUNTS'] ;
+        if ( 'TICKCOUNTS' in this.levels[level] ) {
+            return this.levels[level].TICKCOUNTS;
         } else if ('TICKCOUNTS' in this.meta) {
             return this.meta['TICKCOUNTS'] ;
         } else {
@@ -95,8 +91,8 @@ class Song {
     }
 
     getScrolls(level) {
-        if ( 'SCROLLS' in this.levels[level].meta ) {
-            return this.levels[level].meta['SCROLLS'] ;
+        if ( 'SCROLLS' in this.levels[level] ) {
+            return this.levels[level].SCROLLS ;
         } else if ( 'SCROLLS' in this.meta) {
             return this.meta['SCROLLS'] ;
         } else {
@@ -106,14 +102,11 @@ class Song {
 
     getStops(level) {
         let arr ;
-        if ( 'STOPS' in this.levels[level].meta ) {
-            arr = this.levels[level].meta['STOPS'] ;
+        if ( 'STOPS' in this.levels[level] ) {
+            arr = this.levels[level].STOPS ;
         } else if ('STOPS' in this.meta) {
             arr = this.meta['STOPS'] ;
         } else {
-            return [] ;
-        }
-        if (arr[0].length === 1) {
             return [] ;
         }
         return arr ;
@@ -121,22 +114,19 @@ class Song {
 
     getDelays(level) {
         let arr ;
-        if ( 'DELAYS' in this.levels[level].meta ) {
-            arr = this.levels[level].meta['DELAYS'] ;
+        if ( 'DELAYS' in this.levels[level] ) {
+            arr = this.levels[level].DELAYS;
         } else if ( 'DELAYS' in this.meta) {
             arr = this.meta['DELAYS'] ;
         } else {
-            return [] ;
-        }
-        if (arr[0].length === 1) {
             return [] ;
         }
         return arr ;
     }
 
     getSpeeds(level) {
-        if ( 'SPEEDS' in this.levels[level].meta ) {
-            return this.levels[level].meta['SPEEDS'] ;
+        if ( 'SPEEDS' in this.levels[level] ) {
+            return this.levels[level].SPEEDS;
         } else if ( 'SPEEDS' in this.meta ) {
             return this.meta['SPEEDS'] ;
         } else {
@@ -145,8 +135,8 @@ class Song {
     }
 
     getOffset(level) {
-        if ( 'OFFSET' in this.levels[level].meta ) {
-            return this.levels[level].meta['OFFSET'] ;
+        if ( 'OFFSET' in this.levels[level] ) {
+            return this.levels[level].OFFSET ;
         } else {
             return this.meta['OFFSET'];
         }
@@ -209,7 +199,7 @@ class Song {
     }
 
     getLevelStyle(level) {
-        return this.levels[level].meta['STEPSTYPE'] ;
+        return this.levels[level].STEPSTYPE ;
     }
 
 
@@ -223,25 +213,9 @@ class Song {
 
     loadSSC(content) {
 
-        // By tag:value
-        const sentences = content.split(';');
-
-        // Read header until first NOTEDATA.
-        var [songMeta, stopIdx] = parseSSCSection(sentences,0, noteDataSectionCondition, parseValueMeta) ;
-
-
-        this.meta = songMeta ;
-
-        // Iterate levels (NOTEDATA sections)
-        while (stopIdx < sentences.length ) {
-            var noteData ;
-            // +1: to skip the last NOTEDATA marker
-            [noteData, stopIdx] = parseSSCSection(sentences, stopIdx+1, noteDataSectionCondition, parseValueNotes) ;
-
-            this.levels.push(new NoteData(noteData));
-
-        }
-
+        const parse = sscParser.parse(content) ;
+        this.meta = parse.header ;
+        this.levels = parse.levels ;
 
     }
 
