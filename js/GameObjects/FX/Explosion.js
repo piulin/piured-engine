@@ -29,7 +29,7 @@ class Explosion extends GameObject {
     constructor(resourceManager, noteskin) {
 
         super(resourceManager);
-        this._explosionAnimationRate = 20 ;
+        this._explosionAnimationRate = 3 ;
         this._mesh = this._resourceManager.constructExplosion( noteskin ) ;
 
     }
@@ -44,7 +44,7 @@ class Explosion extends GameObject {
         // explosionMap.blending = THREE.AdditiveBlending ;
 
         // Augment the brightness of the explosion
-        let scale = 1.0 ;
+        let scale = 1.25 ;
 
         this._mesh.material.color.r = scale ;
         this._mesh.material.color.g = scale ;
@@ -76,16 +76,27 @@ class Explosion extends GameObject {
 
         if (this._animationPosition <= 4 ) {
 
+            // if (this._animationPosition === 0) {
+            //     this._mesh.scale.x = 3.0 ;
+            //     this._mesh.scale.y = 3.0 ;
+            // } else if (this._animationPosition === 1) {
+            //     this._mesh.scale.x = 2.0 ;
+            //     this._mesh.scale.y = 2.0 ;
+            // } else {
+            //     this._mesh.scale.x = 2.5 ;
+            //     this._mesh.scale.y = 2.5 ;
+            // }
+
 
             let timeStamp = this._lastStepTimeStamp + delta;
             this._mesh.material.opacity = 1.0;
-            let movement = timeStamp * this._explosionAnimationRate;
+            let movement = timeStamp / (this._explosionAnimationRate*0.016);
 
             if (movement > 1) {
                 this._animationPosition = (this._animationPosition + 1);
                 this._mesh.material.map.offset.set(this._animationPosition * (1 / 5) + 1 / 20, 1 / 4);
 
-                this._lastStepTimeStamp = 0;
+                this._lastStepTimeStamp = timeStamp % (this._explosionAnimationRate*0.016);
 
             } else {
                 this._lastStepTimeStamp += delta;

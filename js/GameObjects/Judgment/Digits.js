@@ -85,9 +85,11 @@ class Digits extends GameObject {
         for ( let digit of this._whiteDigitsObjects ) {
             digit.animate() ;
         }
-
+        this._object.scale.x = 1.05 ;
+        this._object.scale.y = 1.05 ;
         this._whiteDigits.position.y = - 0.17;
         new TWEEN.Tween(this._whiteDigits.position).to({y: 0}, time).start();
+        new TWEEN.Tween(this._object.scale).to({y: 1.0, x: 1.0}, time).start();
     }
 
     displayComboCount(currentCombo) {
