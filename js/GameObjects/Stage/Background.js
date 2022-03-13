@@ -24,12 +24,16 @@ class Background extends GameObject {
 
     _mesh ;
     _beatManager ;
+    _elapsedTime ;
+    _frame  ;
 
     constructor(resourceManager, beatManager) {
         super(resourceManager);
 
         this._mesh = resourceManager.constructBackground() ;
         this._beatManager = beatManager ;
+        this._elapsedTime = 0 ;
+        this._frame = 0 ;
 
     }
 
@@ -40,6 +44,11 @@ class Background extends GameObject {
 
     update(delta) {
 
+        this._elapsedTime += delta ;
+        this._frame +=1 // this._beatManager.currentBeat ;
+        this._mesh.material.uniforms.u_time.value = this._elapsedTime  ;
+        this._mesh.material.uniforms.u_frame.value = this._frame  ;
+        // this._mesh.material.uniforms.u_mouse.value.x = this._frame  ;
 
         const bpm = this._beatManager.currentBPM ;
         const currentAudioTime = this._beatManager.currentAudioTimeReal ;
@@ -59,6 +68,9 @@ class Background extends GameObject {
         const tal = (1-opacityLevel*opacityLevel)
             * (0.7) + 0.1;
         this._mesh.material.uniforms.uThreshold.value = tal  ;
+        this._mesh.material.uniforms.u_mouse.value.x = 2000*(1-tal*0.3) + this._frame ;
+        this._mesh.material.uniforms.u_mouse.value.y = 2000*(1-tal*0.3) + this._frame;
+
 
     }
 

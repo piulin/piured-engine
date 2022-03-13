@@ -27,34 +27,71 @@ class BackgroundMaterial {
 
     constructor( resourcePath ) {
 
-        let colorBG = new THREE.Color( 0xa39290 ) ;
+        let colorBG1 = new THREE.Color( 0x0F061F ) ;
+        let colorBG2 = new THREE.Color( 0x341D00) ;
+        let colorBG3 = new THREE.Color( 0x002A38 ) ;
         // let colorBG = new THREE.Color( Math.random()*0.4,Math.random()*0.4,Math.random()*0.4 ) ;
 
+        // uniform vec2 u_resolution;
+        // uniform vec2 u_mouse;
+        // uniform float u_time;
+        // uniform float u_frame;
+
         // procedural texturing.
+
+
+        // var uniforms = {
+        //     uMaterialColor: { type: "c", value: colorBG },
+        //     uKd: {
+        //         type: "f",
+        //         value: 1.0
+        //     },
+        //     uScale: {
+        //         type: "f",
+        //         value: 50.0
+        //     },
+        //     uThreshold : { type: "f", value: 0.5 },
+        //     curvature : { type: "v2", value : new THREE.Vector2(2.0,1)},
+        //     screenResolution : { type: "v2", value: new THREE.Vector2(500,500)},
+        //     scanLineOpacity: {type: "v2", value : new THREE.Vector2(0.9,1.0) }
+        // };
+
         var uniforms = {
-            uMaterialColor: { type: "c", value: colorBG },
-            uKd: {
-                type: "f",
-                value: 1.0
+            u_resolution: {
+                type: 'v2',
+                value: new THREE.Vector2(6000,6000)
             },
+            u_mouse: {
+                type: 'v2',
+                value: new THREE.Vector2(220,220)
+            },
+            u_time: {
+                type: 'f',
+                value: 0.0
+            },
+            u_frame: {
+                type: 'f',
+                value: 0.0
+            },
+            uMaterialColor1: { type: "c", value: colorBG1 },
+            uMaterialColor2: { type: "c", value: colorBG2 },
+            uMaterialColor3: { type: "c", value: colorBG3 },
             uScale: {
                 type: "f",
-                value: 50.0
+                value: 55.0
             },
             uThreshold : { type: "f", value: 0.5 },
-            curvature : { type: "v2", value : new THREE.Vector2(2.0,1)},
-            screenResolution : { type: "v2", value: new THREE.Vector2(500,500)},
-            scanLineOpacity: {type: "v2", value : new THREE.Vector2(0.9,1.0) }
-        };
+            curvature : { type: "v2", value : new THREE.Vector2(0.9,0.8)},
+        }
 
         let vs = '';
-        readFileContent(resourcePath + 'shaders/background.vert',function (content) {
+        readFileContent(resourcePath + 'shaders/strc-background.vert',function (content) {
             vs = content ;
         }) ;
 
 
         let fs = '' ;
-        readFileContent(resourcePath + 'shaders/background.frag', function (content) {
+        readFileContent(resourcePath + 'shaders/strc-background.frag', function (content) {
             fs = content;
         }) ;
 

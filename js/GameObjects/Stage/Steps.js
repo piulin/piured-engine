@@ -362,23 +362,9 @@ class Steps extends GameObject {
     }
 
     updateCurrentSpeed() {
-        // const beat = this.beatManager.currentBeat ;
-        // // a type 0: means that the speed change is expressed in beats, otherwise in seconds
-        // const [speed, measure, type] = this._song.getSpeedAndTimeAtBeat(this._level, beat) ;
-        // if (this.newTargetSpeed  !== speed ) {
-        //
-        //     this.newTargetSpeed = speed;
-        //     let time = measure * 1000;
-        //     if (type === 0) {
-        //         time = (60 / this.beatManager.currentBPM) * measure * 1000;
-        //     }
-        //     // so it's not 0
-        //     const eps = 1.0 ;
-        //     this._speedTween = new TWEEN.Tween(this).to({effectSpeed: speed}, time + eps).start();
-        // }
-        // this.newTargetSpeed = this.effectSpeed ;
+
         this.effectSpeed = this.beatManager.getCurrentSpeed() ;
-        // console.log(this.effectSpeed, ' - ', this.effectSpeed2) ;
+
     }
 
     animateSpeedChange() {
@@ -386,17 +372,7 @@ class Steps extends GameObject {
         if (this.lastEffectSpeed !== this.effectSpeed ) {
 
             let effectSpeed = this.effectSpeed ;
-            // console.log(effectSpeed) ;
 
-
-            // for ( let i = 0 ; i < this.speedItemsList.length ; i++ ) {
-            //     let stepItem = this.speedItemsList[i] ;
-            //     stepItem.position.y = stepItem.originalYPos ;
-            //     // apply new speed
-            //     stepItem.position.y *= effectSpeed ;
-            // }
-
-            // Update stepNotes only
             this._object.traverse(function(child) {
 
                 // steps, holds, and endNotes are meshes
