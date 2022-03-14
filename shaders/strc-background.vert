@@ -11,5 +11,5 @@ void main() {
     v_uv = uv;
     vModelPosition = modelMatrix * vec4( position, 1.0 );
     // Vertex shader output
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    gl_Position =  vec4( position, 1.0 );
 }

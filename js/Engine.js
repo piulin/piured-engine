@@ -217,8 +217,8 @@ class Engine {
         this.renderer.setPixelRatio( window.devicePixelRatio );
         this.renderer.setSize( canvasWidth, canvasHeight );
         // this.renderer.setClearColor(new THREE.Color(0xffffff));
-
-        this.renderer.setClearColor(new THREE.Color(0x000000));
+        this.renderer.autoClear = false;
+        this.renderer.clear();
 
         // this.cameraControls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
         // this.cameraControls.target = focus ;

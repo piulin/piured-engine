@@ -78,7 +78,7 @@ class BackgroundMaterial {
             uMaterialColor3: { type: "c", value: colorBG3 },
             uScale: {
                 type: "f",
-                value: 55.0
+                value: 100.0
             },
             uThreshold : { type: "f", value: 0.5 },
             curvature : { type: "v2", value : new THREE.Vector2(0.9,0.8)},
@@ -100,6 +100,8 @@ class BackgroundMaterial {
             vertexShader: vs,
             fragmentShader: fs
         });
+
+        this._material.depthWrite = false ;
 
 
         // // color picker

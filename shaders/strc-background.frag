@@ -64,7 +64,7 @@ void main() {
     vec2 blue_offset = vec2(cos(angle), sin(angle));
 
     // Calculate the offset size as a function of the pixel distance to the center
-    float offset_size = 0.4 * length(gl_FragCoord.xy - 0.5 * u_resolution);
+    float offset_size = 0.1 * length(gl_FragCoord.xy - 0.5 * u_resolution);
 
     // Scale the offset size by the relative mouse position
     offset_size *= u_mouse.x / u_resolution.x;
