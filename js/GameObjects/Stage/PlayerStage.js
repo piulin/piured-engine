@@ -70,7 +70,6 @@ class PlayerStage extends GameObject {
 
         this.frameLog = new FrameLog(this._resourceManager,this._id) ;
 
-
         this.configureBeatManager() ;
 
         this.configureInputPlayerStage(playerConfig.inputConfig) ;
@@ -224,6 +223,7 @@ class PlayerStage extends GameObject {
 
         this.receptorsApart = 1.96 ;
         this.stepTextureAnimationRate = 30 ;
+
 
     }
 

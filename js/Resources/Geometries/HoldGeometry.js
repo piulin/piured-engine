@@ -19,31 +19,13 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
+class HoldGeometry {
 
-class HoldExtensible extends GameObject {
-
-    _mesh ;
-    _kind ;
-
-
-    constructor(resourceManager, kind, noteskin) {
-        super(resourceManager);
-
-        this._kind = kind ;
-
-        this._mesh = this._resourceManager.constructHoldExtensible( this._kind, noteskin ) ;
+    constructor() {
 
     }
 
-    ready() {
-
-    }
-
-    update(delta) {
-
-    }
-
-    get object () {
-        return this._mesh;
+    get holdGeometry() {
+        return new THREE.PlaneGeometry( 1 , 1 , 1, 1 ) ;
     }
 }

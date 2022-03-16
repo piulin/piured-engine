@@ -46,6 +46,7 @@ class ResourceManager {
         this._geometryDict['C'] = new ComboGeometry() ;
         this._geometryDict['D'] = new DigitGeometry() ;
         this._geometryDict['S'] = new StepGeometry() ;
+        this._geometryDict['H'] = new HoldGeometry() ;
         this._geometryDict['J'] = new JudgmentGeometry() ;
         this._geometryDict['R'] = new ReceptorGeometry() ;
         this._geometryDict['L'] = new LifeBarGeometry() ;
@@ -312,19 +313,19 @@ class ResourceManager {
         const materialsDict = this._materialsDict['NOTESKINS'][noteskinId] ;
         switch (kind) {
             case 'dl':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HDL'].material );
+                return  new THREE.Mesh( this._geometryDict['H'].holdGeometry, materialsDict['HDL'].material );
                 break ;
             case 'ul':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HUL'].material );
+                return  new THREE.Mesh( this._geometryDict['H'].holdGeometry, materialsDict['HUL'].material );
                 break ;
             case 'c':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HC'].material );
+                return  new THREE.Mesh( this._geometryDict['H'].holdGeometry, materialsDict['HC'].material );
                 break ;
             case 'ur':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HUR'].material );
+                return  new THREE.Mesh( this._geometryDict['H'].holdGeometry, materialsDict['HUR'].material );
                 break ;
             case 'dr':
-                return  new THREE.Mesh( this._geometryDict['S'].stepGeometry, materialsDict['HDR'].material );
+                return  new THREE.Mesh( this._geometryDict['H'].holdGeometry, materialsDict['HDR'].material );
                 break ;
         }
     }
@@ -345,13 +346,6 @@ class ResourceManager {
     constructDigit() {
         return new THREE.Mesh( this._geometryDict['D'].digitGeometry,
             new TransparentMaterial(this._textureDict['DN'].cloneMap()).material );
-    }
-
-    constructHoldEndNote(kind, noteskinId) {
-
-        let texture = this.getHoldExtensibleTextureCloned(kind, noteskinId) ;
-
-        return new THREE.Mesh( this._geometryDict['S'].stepGeometry, new TransparentMaterial(texture).material );
     }
 
     constructReceptor(noteskinId) {
@@ -419,28 +413,5 @@ class ResourceManager {
         return texture ;
     }
 
-    getHoldExtensibleTextureCloned(kind, noteskinId) {
-
-        let texture ;
-        const textureDict = this._textureDict['NOTESKINS'][noteskinId] ;
-        switch (kind) {
-            case 'dl':
-                texture = textureDict['HDL'].cloneMap() ;
-                break ;
-            case 'ul':
-                texture = textureDict['HUL'].cloneMap() ;
-                break ;
-            case 'c':
-                texture = textureDict['HC'].cloneMap() ;
-                break ;
-            case 'ur':
-                texture = textureDict['HUR'].cloneMap() ;
-                break ;
-            case 'dr':
-                texture = textureDict['HDR'].cloneMap() ;
-                break ;
-        }
-        return texture ;
-    }
 
 }

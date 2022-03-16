@@ -21,16 +21,15 @@
 class StepHold extends GameObject {
 
     _stepNote ;
-    _endNote ;
     _holdExtensible ;
     _kind ;
     _padId ;
-
     _object ;
-
     _lastGapLength ;
+    _endBeat ;
+    _originalEndBeat ;
     _timeStamp ;
-
+    holdZDepth = -0.00002 ;
     _id ;
 
     constructor(resourceManager, stepNote, kind) {
@@ -66,19 +65,27 @@ class StepHold extends GameObject {
     }
 
 
-    set holdExtensible(value) {
-        this._holdExtensible = value;
-        this._object.add(value.object) ;
-    }
-
-
     set endTimeStamp(value) {
         this._timeStamp = value;
     }
 
-    set endNote(value) {
-        this._endNote = value;
-        this._object.add(value.object) ;
+    constructHoldExtensible(endBeat, noteskin) {
+        this._endBeat = endBeat ;
+        this._originalEndBeat = endBeat ;
+        this._holdExtensible = new Hold(this._resourceManager,this.kind, noteskin) ;
+        this._holdExtensible.object.position.z = this.holdZDepth ;
+        this._holdExtensible.object.position.x = this._stepNote.object.position.x ;
+        this._object.add(this._holdExtensible.object) ;
+    }
+
+
+    set endBeat(value) {
+        this._endBeat = value;
+    }
+
+
+    get originalEndBeat() {
+        return this._originalEndBeat;
     }
 
     get endTimeStamp() {
@@ -101,18 +108,34 @@ class StepHold extends GameObject {
         return this._stepNote ;
     }
 
-    get endNote() {
-        return this._endNote ;
+    gapLength() {
+        const beginningHoldYPosition = this._stepNote.object.position.y ;
+        const endHoldYPosition = this._endBeat ;
+        return beginningHoldYPosition - endHoldYPosition ;
     }
 
     ready() {
+        this.updateHoldExtensiblePosition() ;
+    }
 
+    updateHoldExtensiblePosition() {
         this._lastGapLength = this.gapLength() ;
-        this.updateHoldExtensiblePosition(this._lastGapLength) ;
-        this._holdExtensible.object.originalYPos = this._holdExtensible.object.position.y ;
-        if ( this._lastGapLength < 1 ) {
-            this.updateHoldEndNoteProportion(this._lastGapLength) ;
+        const gap = Math.abs(this._lastGapLength) ;
+        this._holdExtensible.size = gap + 0.5 ;
+
+        if (this._lastGapLength >= 0) {
+            this._holdExtensible.object.position.y = this._stepNote.object.position.y - this._lastGapLength/2 - 0.25;
+        } else {
+            this._holdExtensible.object.position.y = this._stepNote.object.position.y - this._lastGapLength/2 + 0.25;
         }
+
+
+        if (this._lastGapLength <0 && this._holdExtensible.object.scale.y >= 0) {
+            this._holdExtensible.object.scale.y *= -1 ;
+        } else if (this._lastGapLength >=0 && this._holdExtensible.object.scale.y < 0) {
+            this._holdExtensible.object.scale.y *= 1 ;
+        }
+
 
     }
 
@@ -121,16 +144,7 @@ class StepHold extends GameObject {
         const gapLength = this.gapLength() ;
 
         if ( gapLength !== this._lastGapLength ) {
-            this._lastGapLength = gapLength ;
-            this.updateHoldExtensiblePosition(gapLength) ;
-
-            // console.log(gapLength) ;
-
-            if ( gapLength < 1 && gapLength > -1) {
-                this.updateHoldEndNoteProportion(Math.abs(gapLength)) ;
-            } else {
-                this.updateHoldEndNoteProportion(0.75) ;
-            }
+            this.updateHoldExtensiblePosition() ;
         }
 
     }
@@ -139,49 +153,7 @@ class StepHold extends GameObject {
         return this._object ;
     }
 
-    gapLength() {
-        const beginningHoldYPosition = this._stepNote.object.position.y ;
-        const endHoldYPosition = this._endNote.object.position.y ;
 
-        return beginningHoldYPosition - endHoldYPosition ;
-    }
-
-
-
-    updateHoldExtensiblePosition(gapLength) {
-        const beginningHoldYPosition = this._stepNote.object.position.y ;
-        const endHoldYPosition = this._endNote.object.position.y ;
-
-
-
-        this._holdExtensible.object.scale.y = gapLength ;
-        // -0.5 to shift it to the center
-        this._holdExtensible.object.position.y = beginningHoldYPosition - gapLength*0.5 ;
-
-
-    }
-
-    updateHoldEndNoteProportion(gapLength) {
-
-        let holdEndNote = this._endNote ;
-        // End note problem: we have to shrink it when it overlaps with the step Note.
-        // holdScale is the distance between the step note and the end hold note.
-
-        // Option with no shaders.
-
-
-        // shift to the middle of the step.
-        const distanceStepNoteEndNote = gapLength + 0.5 ;
-
-        let difference = holdEndNote.object.scale.y - distanceStepNoteEndNote ;
-        holdEndNote.object.scale.y = distanceStepNoteEndNote ;
-        holdEndNote.object.position.y -= difference*0.5 ;
-
-        // update also texture to keep aspect ratio
-        holdEndNote.object.material.map.repeat.set(1/6, (1/3)*distanceStepNoteEndNote ) ;
-
-
-    }
 
 
 

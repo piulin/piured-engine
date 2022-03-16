@@ -42,6 +42,7 @@ class Steps extends GameObject {
     beatManager ;
     _speedTween ;
     padSteps ;
+    stepList ;
     _song ;
     _level ;
     _userSpeed ;
@@ -49,8 +50,6 @@ class Steps extends GameObject {
     idRightPad ;
     keyListener ;
     id ;
-    // id -> Step*
-    stepDict ;
 
     constructor(resourceManager,
                 stepQueue,
@@ -90,12 +89,10 @@ class Steps extends GameObject {
 
         // to store leftmost and rightmost steps.
         this.padSteps = {} ;
+        this.stepList = [] ;
 
         // to assign steps uniq ids.
         this.id = new Id() ;
-
-        //
-        this.stepDict = {} ;
 
         this.constructSteps() ;
 
@@ -314,6 +311,7 @@ class Steps extends GameObject {
                     this.stepQueue.addStepToStepList(stepHold, index, i,j) ;
                 }
                 this.stepQueue.setHold(kind, padId, stepHold) ;
+                this.stepList.push(stepHold) ;
 
             } else {
 
@@ -322,7 +320,7 @@ class Steps extends GameObject {
                     this.stepQueue.addStepToStepList(step, index, i, j);
                 }
                 steps.add(stepMesh) ;
-
+                this.stepList.push(step) ;
             }
 
         }
@@ -332,29 +330,9 @@ class Steps extends GameObject {
 
             let holdObject = this.stepQueue.getHold( kind , padId ) ;
 
+            holdObject.constructHoldExtensible(currentYPosition, this._noteskin) ;
 
-            // let beginningHoldYPosition = step.beginningHoldYPosition ;
-            let endNoteObject = new EndNote(this._resourceManager, kind, this.stepTextureAnimationRate, this._noteskin) ;
-            let endNoteMesh = endNoteObject.object ;
-
-            endNoteMesh.position.y = currentYPosition ;
-            endNoteMesh.originalYPos = currentYPosition ;
-            endNoteMesh.position.x = XStepPosition ;
-            endNoteMesh.position.z = this.holdEndNoteZDepth ;
-
-            let holdExtensibleObject = new HoldExtensible(this._resourceManager, kind, this._noteskin ) ;
-            holdExtensibleObject.object.position.x = XStepPosition ;
-            holdExtensibleObject.object.originalYPos = -10000 ;
-            holdExtensibleObject.object.position.z = this.holdZDepth ;
-
-            // let holdObject = new StepHold(this._resourceManager, stepObject, holdExtensibleObject, endNoteObject, kind, currentTimeInSong) ;
-
-            holdObject.endNote = endNoteObject ;
-            holdObject.holdExtensible = holdExtensibleObject ;
             holdObject.endTimeStamp = currentTimeInSong ;
-
-
-            // steps.add(stepObject.object) ;
             steps.add(holdObject.object) ;
 
         }
@@ -373,16 +351,17 @@ class Steps extends GameObject {
 
             let effectSpeed = this.effectSpeed ;
 
-            this._object.traverse(function(child) {
+            this.stepList.forEach((step) => {
 
-                // steps, holds, and endNotes are meshes
-                if (child instanceof THREE.Mesh) {
-                    child.position.y = child.originalYPos ;
+                if (step instanceof StepNote) {
                     // apply new speed
-                    child.position.y *= effectSpeed ;
+                    step.object.position.y = effectSpeed*step.object.originalYPos;
+                } else if (step instanceof  StepHold) {
+                    step.stepNote.object.position.y = effectSpeed*step.stepNote.object.originalYPos ;
+                    step.endBeat = step.originalEndBeat*effectSpeed ;
+                }
 
-
-                }}) ;
+            }) ;
 
             this.lastEffectSpeed = effectSpeed ;
         }
@@ -433,9 +412,6 @@ class Steps extends GameObject {
         this.animateSpeedChange() ;
 
         this._object.position.y = this.beatManager.currentYDisplacement * this._userSpeed * this.effectSpeed ;
-
-
-        // this._object.position.y = this.beatManager.currentYDisplacement * this._userSpeed ;
 
         // important, last thing to update.
         this.updateActiveHoldsPosition() ;

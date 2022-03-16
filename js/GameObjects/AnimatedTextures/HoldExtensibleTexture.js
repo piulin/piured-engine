@@ -43,10 +43,6 @@ class HoldExtensibleTexture extends GameObject {
         this._spritePosition = 0 ;
         this._animationDelta = 0 ;
 
-        this._map.repeat.set(1/6,2/3) ;
-        this._map.offset.set(0,1/3);
-
-
     }
 
     update(delta) {
@@ -68,10 +64,8 @@ class HoldExtensibleTexture extends GameObject {
 
             const XOffset6x1 = ((this._spritePosition + 3)% 6) * (1/6) ;
 
-            const YOffset6x1HoldExtensible = 1/3 ;
 
-
-            this._map.offset.set( XOffset6x1, YOffset6x1HoldExtensible) ;
+            this._map.offset.set( XOffset6x1, 0.0) ;
 
             this._animationDelta = 0 ;
 

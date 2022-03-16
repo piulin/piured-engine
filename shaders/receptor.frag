@@ -24,7 +24,7 @@ void main() {
     }
 
     // Same effect as alphaTest
-    if ( receptorColor.a < 0.6 ) {
+    if ( receptorColor.a < 0.55 ) {
         discard;
     } else {
         // Naive color mix. Change color contribution
