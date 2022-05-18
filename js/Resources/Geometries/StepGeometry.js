@@ -35,3 +35,5 @@ class StepGeometry {
         return this._stepGeometry;
     }
 }
+
+export {StepGeometry} ;

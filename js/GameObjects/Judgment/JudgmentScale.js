@@ -19,6 +19,9 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
+import {GameObject} from "../GameObject";
+import {Judgment} from "./Judgment";
+
 class JudgmentScale extends GameObject {
 
     _judgment ;
@@ -303,3 +306,5 @@ class JudgmentScale extends GameObject {
 
 
 }
+
+export {JudgmentScale} ;

@@ -48,3 +48,5 @@ class StepInfo {
 
 
 }
+
+export {StepInfo} ;

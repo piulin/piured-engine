@@ -21,6 +21,9 @@
 
 
 // This class is responsible for the input of a pad (5 steps)
+import {GameObject} from "../GameObject";
+import {Pad} from "./Pad";
+
 class KeyInput extends GameObject {
 
     _mesh ;
@@ -179,3 +182,5 @@ class KeyInput extends GameObject {
     }
 
 }
+
+export {KeyInput} ;

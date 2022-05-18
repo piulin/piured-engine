@@ -37,3 +37,5 @@ class TransparentMaterial {
         return this._material;
     }
 }
+
+export {TransparentMaterial} ;

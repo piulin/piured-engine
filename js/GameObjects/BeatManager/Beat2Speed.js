@@ -20,6 +20,10 @@
 
 
 
+import {Point} from "./Point";
+import {Curve} from "./Curve";
+import {Interval} from "./Interval";
+
 class Beat2Speed {
 
 
@@ -129,3 +133,5 @@ class Beat2Speed {
 
 
 }
+
+export {Beat2Speed} ;

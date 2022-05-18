@@ -18,7 +18,7 @@
  *
  */
 
-function readFileContent (pathToFile, callbackFunction) {
+export default function readFileContent (pathToFile, callbackFunction) {
 
     $.ajax(
         {
@@ -31,3 +31,4 @@ function readFileContent (pathToFile, callbackFunction) {
     ) ;
 
 }
+

@@ -35,3 +35,5 @@ class ReceptorGeometry {
         return this._receptorGeometry;
     }
 }
+
+export {ReceptorGeometry} ;

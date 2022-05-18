@@ -18,6 +18,8 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+
 class LFPulse extends GameObject {
 
     _mesh ;
@@ -120,3 +122,5 @@ class LFPulse extends GameObject {
         return this._object ;
     }
 }
+
+export {LFPulse} ;

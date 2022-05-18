@@ -19,6 +19,8 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
+import {GameObject} from "../GameObject";
+
 class StepNoteTexture extends GameObject {
 
 
@@ -92,3 +94,5 @@ class StepNoteTexture extends GameObject {
 
 
 }
+
+export {StepNoteTexture} ;

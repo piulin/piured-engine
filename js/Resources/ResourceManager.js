@@ -18,6 +18,23 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {BackgroundGeometry} from "./Geometries/BackgroundGeometry";
+import {ComboGeometry} from "./Geometries/ComboGeometry";
+import {DigitGeometry} from "./Geometries/DigitGeometry";
+import {StepGeometry} from "./Geometries/StepGeometry";
+import {HoldGeometry} from "./Geometries/HoldGeometry";
+import {JudgmentGeometry} from "./Geometries/JudgmentGeometry";
+import {ReceptorGeometry} from "./Geometries/ReceptorGeometry";
+import {LifeBarGeometry} from "./Geometries/LifeBarGeometry";
+import {DLifeBarGeometry} from "./Geometries/DLifeBarGeometry";
+import {TipGeometry} from "./Geometries/TipGeometry";
+import {PulseGeometry} from "./Geometries/PulseGeometry";
+import {PNGTexture} from "./Textures/PNGTexture";
+import {TransparentMaterial} from "./Materials/TransparentMaterial";
+import {BackgroundMaterial} from "./Shaders/BackgroundMaterial";
+import {AdditiveMaterial} from "./Materials/AdditiveMaterial";
+import {ReceptorMaterial} from "./Shaders/ReceptorMaterial";
+
 class ResourceManager {
 
 
@@ -415,3 +432,5 @@ class ResourceManager {
 
 
 }
+
+export { ResourceManager } ;

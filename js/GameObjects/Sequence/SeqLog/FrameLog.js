@@ -19,6 +19,8 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
+import {GameObject} from "../../GameObject";
+
 class FrameLog extends GameObject  {
 
     _json = {} ;
@@ -102,3 +104,5 @@ class FrameLog extends GameObject  {
     }
 
 }
+
+export {FrameLog} ;

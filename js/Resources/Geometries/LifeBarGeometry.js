@@ -35,3 +35,5 @@ class LifeBarGeometry {
         return this._geometry;
     }
 }
+
+export {LifeBarGeometry} ;

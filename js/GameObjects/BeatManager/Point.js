@@ -48,3 +48,5 @@ class Point {
         this._y = value;
     }
 }
+
+export {Point} ;

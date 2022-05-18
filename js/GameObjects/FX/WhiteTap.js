@@ -18,6 +18,8 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+
 class WhiteTap extends GameObject {
 
     _mesh ;
@@ -91,3 +93,5 @@ class WhiteTap extends GameObject {
         return this._mesh;
     }
 }
+
+export {WhiteTap} ;

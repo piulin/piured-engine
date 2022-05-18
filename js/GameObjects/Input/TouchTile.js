@@ -20,6 +20,8 @@
 
 
 
+import {GameObject} from "../GameObject";
+
 class TouchTile extends GameObject {
 
 
@@ -181,3 +183,5 @@ class TouchTile extends GameObject {
         return this._mesh ;
     }
 }
+
+export {TouchTile} ;

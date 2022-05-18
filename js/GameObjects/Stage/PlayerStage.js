@@ -20,6 +20,19 @@
 
 
 
+import {GameObject} from "../GameObject";
+import {Steps} from "./Steps";
+import {Receptor} from "./Receptor";
+import {FrameLog} from "../Sequence/SeqLog/FrameLog";
+import {BeatManager} from "../BeatManager/BeatManager";
+import {KeyInput} from "../Input/KeyInput";
+import {TouchInput} from "../Input/TouchInput";
+import {IInput} from "../Input/IInput";
+import {IStepQueue} from "../Sequence/IStepQueue";
+import {StepQueue} from "../Sequence/StepQueue";
+import {JudgmentScale} from "../Judgment/JudgmentScale";
+import {LifeBar} from "../LifeBar/LifeBar";
+
 class PlayerStage extends GameObject {
     _id ;
     _song ;
@@ -360,3 +373,5 @@ class PlayerStage extends GameObject {
 
 
 }
+
+export {PlayerStage} ;

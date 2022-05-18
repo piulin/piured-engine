@@ -20,6 +20,10 @@
 
 
 
+import {Curve} from "./Curve";
+import {Point} from "./Point";
+import {Interval} from "./Interval";
+
 class Second2Beat {
 
 
@@ -84,3 +88,5 @@ class Second2Beat {
 
 
 }
+
+export  {Second2Beat} ;

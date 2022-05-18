@@ -18,6 +18,9 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+import {Digit} from "./Digit";
+
 class Digits extends GameObject {
 
     _whiteDigits ;
@@ -134,3 +137,5 @@ class Digits extends GameObject {
         return this._object ;
     }
 }
+
+export {Digits} ;

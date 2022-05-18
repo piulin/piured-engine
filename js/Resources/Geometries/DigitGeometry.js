@@ -34,3 +34,5 @@ class DigitGeometry {
         return this._digitGeometry;
     }
 }
+
+export {DigitGeometry} ;

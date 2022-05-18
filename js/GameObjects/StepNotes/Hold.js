@@ -20,6 +20,8 @@
 
 
 
+import {GameObject} from "../GameObject";
+
 class Hold extends GameObject {
 
     _mesh ;
@@ -78,3 +80,5 @@ class Hold extends GameObject {
         return this._mesh;
     }
 }
+
+export {Hold} ;

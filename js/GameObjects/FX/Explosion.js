@@ -18,6 +18,8 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+
 class Explosion extends GameObject {
 
     _mesh ;
@@ -114,3 +116,5 @@ class Explosion extends GameObject {
         return this._mesh;
     }
 }
+
+export {Explosion} ;

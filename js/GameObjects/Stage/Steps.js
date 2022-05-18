@@ -19,6 +19,10 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
+import {StepNote} from "../StepNotes/StepNote";
+import {StepHold} from "../StepNotes/StepHold";
+import {GameObject} from "../GameObject";
+
 class Steps extends GameObject {
 
     _object ;
@@ -421,3 +425,5 @@ class Steps extends GameObject {
         return this._object ;
     }
 }
+
+export {Steps} ;

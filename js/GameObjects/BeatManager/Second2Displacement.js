@@ -21,6 +21,9 @@
 
 
 
+import {Second2Beat} from "./Second2Beat";
+import {Point} from "./Point";
+
 class Second2Displacement {
 
 
@@ -129,3 +132,5 @@ class Second2Displacement {
 
 
 }
+
+export {Second2Displacement} ;

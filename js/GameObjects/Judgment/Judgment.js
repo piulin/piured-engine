@@ -18,6 +18,11 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+import {Banner} from "./Banner";
+import {Combo} from "./Combo";
+import {Digits} from "./Digits";
+
 class Judgment extends GameObject {
 
     _banner ;
@@ -91,3 +96,5 @@ class Judgment extends GameObject {
         return this._object;
     }
 }
+
+export {Judgment} ;

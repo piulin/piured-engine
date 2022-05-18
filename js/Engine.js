@@ -21,6 +21,10 @@
  */
 
 
+import {Song} from "./Song/Song";
+import {ResourceManager} from "./Resources/ResourceManager";
+import {Stage} from "./GameObjects/Stage/Stage";
+
 /**
  * PIURED is a Pump It Up stage simulator that works directly in your browser.
  There are already a number of dance simulators for Windows and Linux, most of them being StepMania-based.
@@ -720,3 +724,5 @@ class Engine {
 
 
 }
+
+export default {Engine} ;

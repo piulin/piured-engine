@@ -19,6 +19,8 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
+import readFileContent from "../Utils/FileReader.js";
+
 class Song {
 
     constructor( pathToSSCFile, audioBuf, offset, playBackSpeed, onReadyToStart ) {
@@ -327,3 +329,5 @@ class Song {
 
 
 }
+
+export {Song} ;

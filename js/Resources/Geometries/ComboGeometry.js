@@ -35,3 +35,5 @@ class ComboGeometry {
         return this._comboGeometry;
     }
 }
+
+export {ComboGeometry} ;

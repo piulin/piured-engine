@@ -42,3 +42,5 @@ class AdditiveMaterial  {
         return this._material;
     }
 }
+
+export {AdditiveMaterial} ;

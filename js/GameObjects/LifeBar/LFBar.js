@@ -18,6 +18,12 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+import {LFBarFX} from "./LFBarFX";
+import {LFBarFXRed} from "./LFBarFXRed";
+import {LFPulse} from "./LFPulse";
+import {LFTip} from "./LFTip";
+
 class LFBar extends GameObject {
 
     _barFX ;
@@ -175,3 +181,5 @@ class LFBar extends GameObject {
         return this._object ;
     }
 }
+
+export {LFBar} ;

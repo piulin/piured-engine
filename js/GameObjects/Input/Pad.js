@@ -20,6 +20,8 @@
 
 
 
+import {GameObject} from "../GameObject";
+
 class Pad extends GameObject {
 
 
@@ -274,3 +276,5 @@ class Pad extends GameObject {
 
 
 }
+
+export {Pad} ;

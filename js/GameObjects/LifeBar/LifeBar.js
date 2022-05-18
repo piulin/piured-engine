@@ -20,6 +20,11 @@
 
 
 
+import {GameObject} from "../GameObject";
+import {LFBack} from "./LFBack";
+import {LFFront} from "./LFFront";
+import {LFBar} from "./LFBar";
+
 class LifeBar extends GameObject {
 
 
@@ -112,3 +117,5 @@ class LifeBar extends GameObject {
 
 
 }
+
+export {LifeBar} ;

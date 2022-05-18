@@ -19,6 +19,8 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
+import readFileContent from "../../Utils/FileReader";
+
 class BackgroundMaterial {
 
 
@@ -127,3 +129,5 @@ class BackgroundMaterial {
         return this._material;
     }
 }
+
+export {BackgroundMaterial} ;

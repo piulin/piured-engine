@@ -19,6 +19,12 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
+import {GameObject} from "../GameObject";
+import {Background} from "./Background";
+import {PlayerStage} from "./PlayerStage";
+import {StepNoteTexture} from "../AnimatedTextures/StepNoteTexture";
+import {HoldExtensibleTexture} from "../AnimatedTextures/HoldExtensibleTexture";
+
 class Stage extends GameObject {
 
 
@@ -183,3 +189,5 @@ class Stage extends GameObject {
 
 
 }
+
+export {Stage} ;

@@ -20,6 +20,9 @@
 
 
 
+import {Pad} from "./Pad";
+import {TouchTile} from "./TouchTile";
+
 class TouchPad extends Pad {
 
     _mesh ;
@@ -103,3 +106,5 @@ class TouchPad extends Pad {
 
 
 }
+
+export {TouchPad} ;

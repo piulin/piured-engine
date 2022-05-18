@@ -18,6 +18,8 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+
 class Combo extends GameObject {
 
     _mesh ;
@@ -102,3 +104,5 @@ class Combo extends GameObject {
         return this._object;
     }
 }
+
+export {Combo} ;

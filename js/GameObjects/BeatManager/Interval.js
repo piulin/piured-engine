@@ -128,3 +128,5 @@ class Interval {
         return this._openRight;
     }
 }
+
+export {Interval} ;

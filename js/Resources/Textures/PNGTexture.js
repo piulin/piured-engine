@@ -64,3 +64,5 @@ class PNGTexture {
 
     }
 }
+
+export {PNGTexture} ;

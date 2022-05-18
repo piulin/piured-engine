@@ -29,3 +29,5 @@ class HoldGeometry {
         return new THREE.PlaneGeometry( 1 , 1 , 1, 1 ) ;
     }
 }
+
+export {HoldGeometry} ;

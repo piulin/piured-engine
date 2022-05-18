@@ -21,6 +21,9 @@
 
 
 // This class is responsible for the input of a pad (5 steps)
+import {GameObject} from "../GameObject";
+import {IPad} from "./IPad";
+
 class IInput extends GameObject {
 
     _mesh ;
@@ -158,3 +161,5 @@ class IInput extends GameObject {
     }
 
 }
+
+export {IInput} ;

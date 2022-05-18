@@ -21,6 +21,8 @@
 
 
 
+import {Point} from "./Point";
+
 class SongTime2Second {
 
 
@@ -152,3 +154,5 @@ class SongTime2Second {
 
 
 }
+
+export {SongTime2Second} ;

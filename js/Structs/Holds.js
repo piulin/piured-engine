@@ -137,3 +137,5 @@ class Holds {
         this._dr = value;
     }
 }
+
+export {Holds} ;

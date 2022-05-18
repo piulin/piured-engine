@@ -20,6 +20,12 @@
 
 
 
+import {GameObject} from "../GameObject";
+import {StepBounce} from "../FX/StepBounce";
+import {Explosion} from "../FX/Explosion";
+import {Tap} from "../FX/Tap";
+import {WhiteTap} from "../FX/WhiteTap";
+
 class Receptor extends GameObject {
 
 
@@ -286,3 +292,5 @@ class Receptor extends GameObject {
 
 
 }
+
+export {Receptor} ;

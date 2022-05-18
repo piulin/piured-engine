@@ -20,6 +20,8 @@
 
 
 
+import {Pad} from "./Pad";
+
 class IPad extends Pad {
 
 
@@ -133,3 +135,5 @@ class IPad extends Pad {
 
 
 }
+
+export {IPad} ;

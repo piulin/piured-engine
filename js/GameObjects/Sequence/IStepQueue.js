@@ -18,6 +18,12 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+import {HoldsState} from "../../Structs/HoldsState";
+import {StepHold} from "../StepNotes/StepHold";
+import {Id} from "./SeqLog/Id";
+import {StepInfo} from "./StepInfo";
+
 class IStepQueue extends GameObject {
 
     _stepDict ;
@@ -220,3 +226,5 @@ class IStepQueue extends GameObject {
 
 
 }
+
+export {IStepQueue} ;

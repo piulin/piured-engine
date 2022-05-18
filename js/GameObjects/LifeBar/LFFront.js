@@ -18,6 +18,8 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+
 class LFFront extends GameObject {
 
     _mesh ;
@@ -56,3 +58,5 @@ class LFFront extends GameObject {
         return this._mesh;
     }
 }
+
+export {LFFront} ;

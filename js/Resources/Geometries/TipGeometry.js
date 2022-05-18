@@ -35,3 +35,5 @@ class TipGeometry {
         return this._geometry;
     }
 }
+
+export {TipGeometry} ;

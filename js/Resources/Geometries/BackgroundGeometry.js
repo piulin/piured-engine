@@ -36,3 +36,5 @@ class BackgroundGeometry {
         return this._backgroundGeometry;
     }
 }
+
+export {BackgroundGeometry} ;

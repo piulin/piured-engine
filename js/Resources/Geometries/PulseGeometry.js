@@ -35,3 +35,5 @@ class PulseGeometry {
         return this._geometry;
     }
 }
+
+export {PulseGeometry} ;

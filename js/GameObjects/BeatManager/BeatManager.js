@@ -20,6 +20,12 @@
 
 
 
+import {GameObject} from "../GameObject";
+import {Second2Beat} from "./Second2Beat";
+import {Second2Displacement} from "./Second2Displacement";
+import {SongTime2Second} from "./SongTime2Second";
+import {Beat2Speed} from "./Beat2Speed";
+
 class BeatManager extends GameObject {
 
 
@@ -183,3 +189,5 @@ class BeatManager extends GameObject {
 
 
 }
+
+export {BeatManager} ;

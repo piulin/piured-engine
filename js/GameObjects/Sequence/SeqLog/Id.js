@@ -27,3 +27,5 @@ class Id {
     }
 
 }
+
+export {Id} ;

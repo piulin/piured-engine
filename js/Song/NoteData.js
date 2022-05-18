@@ -46,3 +46,5 @@ class NoteData {
 
 }
 
+export {NoteData} ;
+

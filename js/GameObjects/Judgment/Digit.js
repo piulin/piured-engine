@@ -18,6 +18,8 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
+import {GameObject} from "../GameObject";
+
 class Digit extends GameObject {
 
     _mesh ;
@@ -102,3 +104,5 @@ class Digit extends GameObject {
         return this._mesh;
     }
 }
+
+export {Digit} ;

@@ -35,3 +35,5 @@ class DLifeBarGeometry {
         return this._geometry;
     }
 }
+
+export {DLifeBarGeometry} ;

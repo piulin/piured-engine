@@ -35,3 +35,5 @@ class JudgmentGeometry {
         return this._judgmentGeometry;
     }
 }
+
+export {JudgmentGeometry} ;

@@ -23,6 +23,8 @@
 
 // Data structure that supports the StepQueue functionality
 // It holds at a given time, the current holds and their state.
+import {Holds} from "./Holds";
+
 class HoldsState {
 
     constructor(padIds) {
@@ -87,3 +89,5 @@ class HoldsState {
     }
 
 }
+
+export {HoldsState} ;
