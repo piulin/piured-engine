@@ -18,7 +18,9 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-import {GameObject} from "../GameObject";
+import {GameObject} from "../GameObject.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
+import {TWEEN} from "../../../lib/tween.min.js";
 
 class Combo extends GameObject {
 

@@ -29,3 +29,5 @@
 class RemoteInput {
 
 }
+
+export {RemoteInput}

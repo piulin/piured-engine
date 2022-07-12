@@ -20,9 +20,9 @@
 
 
 
-import {Point} from "./Point";
-import {Curve} from "./Curve";
-import {Interval} from "./Interval";
+import {Point} from "./Point.js";
+import {Curve} from "./Curve.js";
+import {Interval} from "./Interval.js";
 
 class Beat2Speed {
 

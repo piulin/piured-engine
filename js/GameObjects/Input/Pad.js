@@ -20,7 +20,7 @@
 
 
 
-import {GameObject} from "../GameObject";
+import {GameObject} from "../GameObject.js";
 
 class Pad extends GameObject {
 

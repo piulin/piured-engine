@@ -19,8 +19,8 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
-import {GameObject} from "../GameObject";
-import {Judgment} from "./Judgment";
+import {GameObject} from "../GameObject.js";
+import {Judgment} from "./Judgment.js";
 
 class JudgmentScale extends GameObject {
 

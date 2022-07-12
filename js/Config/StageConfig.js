@@ -25,7 +25,6 @@
  * @param {string} audioFile path to the audio file in mp3 or ogg format associated with the SSC file
  * @param {number} playBackSpeed song playback rate. A `playBackSpeed` equal to 1.0 configure the engine to play the song at the normal speed
  * @param {number} offset synchronization offset. Use it to synchronize off-the-beat charts with the audio
- * @param {string} resourcePath path to the `piured-engine` folder
  * @param {Array} noteskins list of noteskins available to use for playerStages. Include those only used in them.
  * @param {Function} onReadyToStart callback function. This function will be called once the engine has loaded up completely the stage
  * and it's ready to begin the playback
@@ -58,12 +57,12 @@ class StageConfig {
     _onReadyToStart = undefined ;
 
 
-    constructor(SSCFile, audioFile, playBackSpeed, offset, resourcePath, noteskins, onReadyToStart = () => {} ) {
+    constructor(SSCFile, audioFile, playBackSpeed, offset, noteskins, onReadyToStart = () => {} ) {
         this._SSCFile = SSCFile;
         this._audioFile = audioFile;
         this._playBackSpeed = playBackSpeed;
         this._offset = offset;
-        this._resourcePath = resourcePath;
+        this._resourcePath = '../';
         this._noteskins = noteskins;
         this._onReadyToStart = onReadyToStart ;
     }
@@ -97,3 +96,5 @@ class StageConfig {
         return this._onReadyToStart;
     }
 }
+
+export {StageConfig}

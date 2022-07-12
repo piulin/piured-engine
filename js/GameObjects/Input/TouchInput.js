@@ -21,8 +21,10 @@
 
 
 // This class is responsible for the input of a pad (5 steps)
-import {GameObject} from "../GameObject";
-import {TouchPad} from "./TouchPad";
+import {GameObject} from "../GameObject.js";
+import {TouchPad} from "./TouchPad.js";
+import {engine} from "../../Engine.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class TouchInput extends GameObject {
 

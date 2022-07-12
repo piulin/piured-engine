@@ -20,7 +20,9 @@
 
 
 
-import {GameObject} from "../GameObject";
+import {GameObject} from "../GameObject.js";
+import {engine} from "../../Engine.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class TouchTile extends GameObject {
 

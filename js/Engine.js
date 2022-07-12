@@ -21,9 +21,12 @@
  */
 
 
-import {Song} from "./Song/Song";
-import {ResourceManager} from "./Resources/ResourceManager";
-import {Stage} from "./GameObjects/Stage/Stage";
+import {Song} from "./Song/Song.js";
+import {ResourceManager} from "./Resources/ResourceManager.js";
+import {Stage} from "./GameObjects/Stage/Stage.js";
+import {RemoteInput} from "./Config/RemoteInput.js";
+import * as THREE from '../node_modules/three/src/Three.js'
+import {TWEEN} from "../lib/tween.min.js";
 
 /**
  * PIURED is a Pump It Up stage simulator that works directly in your browser.
@@ -67,93 +70,103 @@ import {Stage} from "./GameObjects/Stage/Stage";
  *
  * This class is intended to be used only as javascript code on the client-side, as it will attempt to draw stuff on the browser.
  *
- * The constructor returns an initialized {@link Engine} object. It essentially sets up the renderer and places the camera into position.
- * @returns {Engine} for the class {@link Engine} to work properly, the returned object must be stored as a global variable `engine` on the client side.
- * Make sure that there is just one engine instance running across the client side.
+ * @example <caption>Importing the engine via ES6 modules</caption>
  *
- * @example <caption>Creating a new engine. Make sure that the variable `engine` is globally accessible.</caption>
- * let engine = new Engine() ;
+ * import {
+ *     piuredEngine,
+ *     StageConfig,
+ *     KeyInputConfig,
+ *     PlayerConfig, TouchInputConfig
+ * } from "@piured/engine"
  *
  * @example <caption>Full example to configure a working engine.</caption>
  *
+ * import {
+ *     piuredEngine,
+ *     StageConfig,
+ *     KeyInputConfig,
+ *     PlayerConfig
+ * } from "@piured/engine"
+ *
+ *
  * function stageCleared(performance) {
- *
- *   console.log(performance) ;
- *   document.removeEventListener( 'touchstart', onTouchDown, false );
- *   document.removeEventListener( 'touchend', onTouchUp, false );
- *   engine = null ;
- *   window.close() ;
- *
- *
+ *     console.log(performance) ;
+ *     piuredEngine = null ;
+ * }
+ * function onKeyDown(event) {
+ *     piuredEngine.keyDown(event) ;
  * }
  *
- * let engine = new Engine() ;
+ * function onKeyUp(event) {
+ *     piuredEngine.keyUp(event) ;
+ * }
  *
- * let speed = config.speed ;
+ * let speed = 4.0 ;
  * let playback = 1.0 ;
  * let offset = 0.0 ;
  * let noteskin = 'NX' ;
- * let resourcePath = 'piured-engine' ;
+ * let touchpadSize = 1.0 ;
  * let leftKeyMap = {
- *    dl: 'Z',
- *    ul : 'Q',
- *    c : 'S',
- *    ur : 'E',
- *    dr: 'C'
+ *     dl: 'Z',
+ *     ul : 'Q',
+ *     c : 'S',
+ *     ur : 'E',
+ *     dr: 'C'
  * }
  * let rightKeyMap = {
- *    dl: 'V',
- *    ul : 'R',
- *    c : 'G',
- *    ur : 'Y',
- *    dr: 'N'
+ *     dl: 'V',
+ *     ul : 'R',
+ *     c : 'G',
+ *     ur : 'Y',
+ *     dr: 'N'
  * }
  * let chartLevel = 0 ;
  *
- *
- * let stageConfig = new StageConfig('song.ssc',
- *          'song.mp3',
- *          playback,
- *          offset,
- *          resourcePath,
- *          [noteskin],
- *          () => {
- *              let dateToStart = new Date() ;
- *              // delay of 2 secs
- *              dateToStart.setMilliseconds(dateToStart.getMilliseconds() + 2000.0) ;
- *              engine.startPlayBack(dateToStart, () => {return new Date() ;}) ;
- *          }
+ * let stageConfig = new StageConfig('<uri-ssc>',
+ *     '<uri-mp3>',
+ *     playback,
+ *     offset,
+ *     [noteskin],
+ *     () => {
+ *         let dateToStart = new Date() ;
+ *         // delay of 2 secs
+ *         dateToStart.setMilliseconds(dateToStart.getMilliseconds() + 2000.0) ;
+ *         piuredEngine.startPlayBack(dateToStart, () => {return new Date() ;}) ;
+ *     }
  * ) ;
  *
- * engine.configureStage(stageConfig) ;
+ * await piuredEngine.configureStage(stageConfig) ;
  *
  * let p1InputConfig ;
  * let accuracyMargin = 0.15 ;
  *
  * accuracyMargin = 0.25 ;
  *
- * window.onkeydown = engine.onKeyDown ;
- * window.onkeyup = engine.onKeyUp ;
+ * window.onkeydown = onKeyDown ;
+ * window.onkeyup = onKeyUp ;
  *
  * p1InputConfig = new KeyInputConfig(leftKeyMap, rightKeyMap) ;
  *
  * let p1Config = new PlayerConfig(p1InputConfig,
- *                      noteskin,
- *                      chartLevel,
- *                      speed,
- *                      accuracyMargin) ;
+ *     noteskin,
+ *     chartLevel,
+ *     speed,
+ *     accuracyMargin) ;
  *
  *
- * engine.addPlayer(p1Config) ;
+ * piuredEngine.addPlayer(p1Config) ;
  *
- * engine.addToDOM('container');
+ * piuredEngine.addToDOM('container');
  *
- * window.addEventListener( 'resize', engine.onWindowResize.bind(engine), false );
+ * window.addEventListener( 'resize', piuredEngine.onWindowResize.bind(piuredEngine), false );
  *
- * engine.onStageCleared = stageCleared ;
+ * piuredEngine.onStageCleared = stageCleared ;
  *
- * engine.start();
+ * piuredEngine.start();
+ *
+ *
  */
+
 class Engine {
 
     _updateList = [] ;
@@ -247,11 +260,12 @@ class Engine {
      * let stageConfig = new StageConfig( ... ) ;
      * engine.configureStage(stageConfig) ;
      */
-    configureStage( stageConfig ) {
+    async configureStage( stageConfig ) {
 
         this.resourcePath = stageConfig.resourcePath ;
         this.playBackSpeed = stageConfig.playBackSpeed ;
         this.song = new Song(stageConfig.SSCFile, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
+        await this.song.initSSC()
         let resourceManager = new ResourceManager(stageConfig.resourcePath, 'noteskins/', stageConfig.noteskins, 'stage_UHD') ;
         this.stage = new Stage(resourceManager, this.song, stageConfig.noteskins) ;
         this.scene.add(this.stage.object) ;
@@ -724,5 +738,5 @@ class Engine {
 
 
 }
-
-export default {Engine} ;
+let engine = new Engine();
+export {engine} ;

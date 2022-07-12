@@ -19,7 +19,7 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
-import {GameObject} from "../GameObject";
+import {GameObject} from "../GameObject.js";
 
 class StepNoteTexture extends GameObject {
 

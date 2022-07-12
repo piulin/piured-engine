@@ -18,10 +18,11 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-import {GameObject} from "../GameObject";
-import {Banner} from "./Banner";
-import {Combo} from "./Combo";
-import {Digits} from "./Digits";
+import {GameObject} from "../GameObject.js";
+import {Banner} from "./Banner.js";
+import {Combo} from "./Combo.js";
+import {Digits} from "./Digits.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class Judgment extends GameObject {
 

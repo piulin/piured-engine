@@ -23,7 +23,7 @@
 
 // Data structure that supports the StepQueue functionality
 // It holds at a given time, the current holds and their state.
-import {Holds} from "./Holds";
+import {Holds} from "./Holds.js";
 
 class HoldsState {
 

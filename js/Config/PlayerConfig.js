@@ -102,3 +102,5 @@ class PlayerConfig {
         return this._scale;
     }
 }
+
+export {PlayerConfig}

@@ -18,22 +18,23 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-import {BackgroundGeometry} from "./Geometries/BackgroundGeometry";
-import {ComboGeometry} from "./Geometries/ComboGeometry";
-import {DigitGeometry} from "./Geometries/DigitGeometry";
-import {StepGeometry} from "./Geometries/StepGeometry";
-import {HoldGeometry} from "./Geometries/HoldGeometry";
-import {JudgmentGeometry} from "./Geometries/JudgmentGeometry";
-import {ReceptorGeometry} from "./Geometries/ReceptorGeometry";
-import {LifeBarGeometry} from "./Geometries/LifeBarGeometry";
-import {DLifeBarGeometry} from "./Geometries/DLifeBarGeometry";
-import {TipGeometry} from "./Geometries/TipGeometry";
-import {PulseGeometry} from "./Geometries/PulseGeometry";
-import {PNGTexture} from "./Textures/PNGTexture";
-import {TransparentMaterial} from "./Materials/TransparentMaterial";
-import {BackgroundMaterial} from "./Shaders/BackgroundMaterial";
-import {AdditiveMaterial} from "./Materials/AdditiveMaterial";
-import {ReceptorMaterial} from "./Shaders/ReceptorMaterial";
+import {BackgroundGeometry} from "./Geometries/BackgroundGeometry.js";
+import {ComboGeometry} from "./Geometries/ComboGeometry.js";
+import {DigitGeometry} from "./Geometries/DigitGeometry.js";
+import {StepGeometry} from "./Geometries/StepGeometry.js";
+import {HoldGeometry} from "./Geometries/HoldGeometry.js";
+import {JudgmentGeometry} from "./Geometries/JudgmentGeometry.js";
+import {ReceptorGeometry} from "./Geometries/ReceptorGeometry.js";
+import {LifeBarGeometry} from "./Geometries/LifeBarGeometry.js";
+import {DLifeBarGeometry} from "./Geometries/DLifeBarGeometry.js";
+import {TipGeometry} from "./Geometries/TipGeometry.js";
+import {PulseGeometry} from "./Geometries/PulseGeometry.js";
+import {PNGTexture} from "./Textures/PNGTexture.js";
+import {TransparentMaterial} from "./Materials/TransparentMaterial.js";
+import {BackgroundMaterial} from "./Shaders/BackgroundMaterial.js";
+import {AdditiveMaterial} from "./Materials/AdditiveMaterial.js";
+import {ReceptorMaterial} from "./Shaders/ReceptorMaterial.js";
+import * as THREE from '../../node_modules/three/src/Three.js'
 
 class ResourceManager {
 

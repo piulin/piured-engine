@@ -18,11 +18,12 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-import {GameObject} from "../GameObject";
-import {LFBarFX} from "./LFBarFX";
-import {LFBarFXRed} from "./LFBarFXRed";
-import {LFPulse} from "./LFPulse";
-import {LFTip} from "./LFTip";
+import {GameObject} from "../GameObject.js";
+import {LFBarFX} from "./LFBarFX.js";
+import {LFBarFXRed} from "./LFBarFXRed.js";
+import {LFPulse} from "./LFPulse.js";
+import {LFTip} from "./LFTip.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class LFBar extends GameObject {
 

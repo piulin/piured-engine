@@ -21,7 +21,9 @@
 
 
 
-import {Point} from "./Point";
+import {Point} from "./Point.js";
+import {Curve} from "./Curve.js";
+import {Interval} from "./Interval.js";
 
 class SongTime2Second {
 

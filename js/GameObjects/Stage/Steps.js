@@ -19,9 +19,11 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
-import {StepNote} from "../StepNotes/StepNote";
-import {StepHold} from "../StepNotes/StepHold";
-import {GameObject} from "../GameObject";
+import {StepNote} from "../StepNotes/StepNote.js";
+import {StepHold} from "../StepNotes/StepHold.js";
+import {GameObject} from "../GameObject.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
+import {Id} from "../Sequence/SeqLog/Id.js";
 
 class Steps extends GameObject {
 

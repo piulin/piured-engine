@@ -21,8 +21,8 @@
 
 
 
-import {Second2Beat} from "./Second2Beat";
-import {Point} from "./Point";
+import {Second2Beat} from "./Second2Beat.js";
+import {Point} from "./Point.js";
 
 class Second2Displacement {
 

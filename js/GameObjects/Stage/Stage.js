@@ -19,11 +19,12 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
-import {GameObject} from "../GameObject";
-import {Background} from "./Background";
-import {PlayerStage} from "./PlayerStage";
-import {StepNoteTexture} from "../AnimatedTextures/StepNoteTexture";
-import {HoldExtensibleTexture} from "../AnimatedTextures/HoldExtensibleTexture";
+import {GameObject} from "../GameObject.js";
+import {Background} from "./Background.js";
+import {PlayerStage} from "./PlayerStage.js";
+import {StepNoteTexture} from "../AnimatedTextures/StepNoteTexture.js";
+import {HoldExtensibleTexture} from "../AnimatedTextures/HoldExtensibleTexture.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class Stage extends GameObject {
 

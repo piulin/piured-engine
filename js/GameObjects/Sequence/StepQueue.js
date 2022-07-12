@@ -18,11 +18,11 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-import {GameObject} from "../GameObject";
-import {HoldsState} from "../../Structs/HoldsState";
-import {Id} from "./SeqLog/Id";
-import {StepInfo} from "./StepInfo";
-import {StepHold} from "../StepNotes/StepHold";
+import {GameObject} from "../GameObject.js";
+import {HoldsState} from "../../Structs/HoldsState.js";
+import {Id} from "./SeqLog/Id.js";
+import {StepInfo} from "./StepInfo.js";
+import {StepHold} from "../StepNotes/StepHold.js";
 
 class StepQueue extends GameObject {
 

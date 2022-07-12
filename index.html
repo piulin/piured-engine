@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset='utf-8'>
-  <title>piured-engine API  | Documentation</title>
+  <title>piured-engine API 0.0.1 | Documentation</title>
+  <meta name='description' content='A web-based Pump It Up engine'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' rel='stylesheet'>
   <link href='assets/style.css' rel='stylesheet'>
@@ -14,7 +15,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>piured-engine API</h3>
-          <div class='mb1'><code></code></div>
+          <div class='mb1'><code>0.0.1</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -298,36 +299,22 @@ trying to mimick the structure of any game engine. The source code can be found 
 methods necessary to create a new stage, add an indefinite number of local and remote players, load Stepmania SSC files,
 and report players' performance.</p>
 <p>This class is intended to be used only as javascript code on the client-side, as it will attempt to draw stuff on the browser.</p>
-<p>The constructor returns an initialized <a href="#engine">Engine</a> object. It essentially sets up the renderer and places the camera into position.</p>
 
-    <div class='pre p1 fill-light mt0'>new Engine(): <a href="#engine">Engine</a></div>
-  
-  
-
-  
-  
-  
-  
+    <div class='pre p1 fill-light mt0'>new Engine()</div>
   
   
 
+  
+  
+  
+  
+  
   
 
   
 
   
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="#engine">Engine</a></code>:
-        for the class 
-<a href="#engine">Engine</a>
- to work properly, the returned object must be stored as a global variable 
-<code>engine</code>
- on the client side.
-Make sure that there is just one engine instance running across the client side.
 
-      
-    
   
 
   
@@ -337,89 +324,99 @@ Make sure that there is just one engine instance running across the client side.
   
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
-      <p><p>Creating a new engine. Make sure that the variable <code>engine</code> is globally accessible.</p>
+      <p><p>Importing the engine via ES6 modules</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> engine = <span class="hljs-keyword">new</span> Engine() ;</pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {
+    piuredEngine,
+    StageConfig,
+    KeyInputConfig,
+    PlayerConfig, TouchInputConfig
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@piured/engine&quot;</span></pre>
     
       <p><p>Full example to configure a working engine.</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stageCleared</span>(<span class="hljs-params">performance</span>) </span>{
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {
+    piuredEngine,
+    StageConfig,
+    KeyInputConfig,
+    PlayerConfig
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@piured/engine&quot;</span>
 
-  <span class="hljs-built_in">console</span>.log(performance) ;
-  <span class="hljs-built_in">document</span>.removeEventListener( <span class="hljs-string">&#x27;touchstart&#x27;</span>, onTouchDown, <span class="hljs-literal">false</span> );
-  <span class="hljs-built_in">document</span>.removeEventListener( <span class="hljs-string">&#x27;touchend&#x27;</span>, onTouchUp, <span class="hljs-literal">false</span> );
-  engine = <span class="hljs-literal">null</span> ;
-  <span class="hljs-built_in">window</span>.close() ;
 
-
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stageCleared</span>(<span class="hljs-params">performance</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(performance) ;
+    piuredEngine = <span class="hljs-literal">null</span> ;
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyDown</span>(<span class="hljs-params">event</span>) </span>{
+    piuredEngine.keyDown(event) ;
 }
 
-<span class="hljs-keyword">let</span> engine = <span class="hljs-keyword">new</span> Engine() ;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyUp</span>(<span class="hljs-params">event</span>) </span>{
+    piuredEngine.keyUp(event) ;
+}
 
-<span class="hljs-keyword">let</span> speed = config.speed ;
+<span class="hljs-keyword">let</span> speed = <span class="hljs-number">4.0</span> ;
 <span class="hljs-keyword">let</span> playback = <span class="hljs-number">1.0</span> ;
 <span class="hljs-keyword">let</span> offset = <span class="hljs-number">0.0</span> ;
 <span class="hljs-keyword">let</span> noteskin = <span class="hljs-string">&#x27;NX&#x27;</span> ;
-<span class="hljs-keyword">let</span> resourcePath = <span class="hljs-string">&#x27;piured-engine&#x27;</span> ;
+<span class="hljs-keyword">let</span> touchpadSize = <span class="hljs-number">1.0</span> ;
 <span class="hljs-keyword">let</span> leftKeyMap = {
-   <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;Z&#x27;</span>,
-   <span class="hljs-attr">ul</span> : <span class="hljs-string">&#x27;Q&#x27;</span>,
-   <span class="hljs-attr">c</span> : <span class="hljs-string">&#x27;S&#x27;</span>,
-   <span class="hljs-attr">ur</span> : <span class="hljs-string">&#x27;E&#x27;</span>,
-   <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;C&#x27;</span>
+    <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;Z&#x27;</span>,
+    <span class="hljs-attr">ul</span> : <span class="hljs-string">&#x27;Q&#x27;</span>,
+    <span class="hljs-attr">c</span> : <span class="hljs-string">&#x27;S&#x27;</span>,
+    <span class="hljs-attr">ur</span> : <span class="hljs-string">&#x27;E&#x27;</span>,
+    <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;C&#x27;</span>
 }
 <span class="hljs-keyword">let</span> rightKeyMap = {
-   <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;V&#x27;</span>,
-   <span class="hljs-attr">ul</span> : <span class="hljs-string">&#x27;R&#x27;</span>,
-   <span class="hljs-attr">c</span> : <span class="hljs-string">&#x27;G&#x27;</span>,
-   <span class="hljs-attr">ur</span> : <span class="hljs-string">&#x27;Y&#x27;</span>,
-   <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;N&#x27;</span>
+    <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;V&#x27;</span>,
+    <span class="hljs-attr">ul</span> : <span class="hljs-string">&#x27;R&#x27;</span>,
+    <span class="hljs-attr">c</span> : <span class="hljs-string">&#x27;G&#x27;</span>,
+    <span class="hljs-attr">ur</span> : <span class="hljs-string">&#x27;Y&#x27;</span>,
+    <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;N&#x27;</span>
 }
 <span class="hljs-keyword">let</span> chartLevel = <span class="hljs-number">0</span> ;
 
-
-<span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> StageConfig(<span class="hljs-string">&#x27;song.ssc&#x27;</span>,
-         <span class="hljs-string">&#x27;song.mp3&#x27;</span>,
-         playback,
-         offset,
-         resourcePath,
-         [noteskin],
-         <span class="hljs-function">() =&gt;</span> {
-             <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ;
-             <span class="hljs-comment">// delay of 2 secs</span>
-             dateToStart.setMilliseconds(dateToStart.getMilliseconds() + <span class="hljs-number">2000.0</span>) ;
-             engine.startPlayBack(dateToStart, <span class="hljs-function">() =&gt;</span> {<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ;}) ;
-         }
+<span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> StageConfig(<span class="hljs-string">&#x27;&lt;uri-ssc&gt;&#x27;</span>,
+    <span class="hljs-string">&#x27;&lt;uri-mp3&gt;&#x27;</span>,
+    playback,
+    offset,
+    [noteskin],
+    <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ;
+        <span class="hljs-comment">// delay of 2 secs</span>
+        dateToStart.setMilliseconds(dateToStart.getMilliseconds() + <span class="hljs-number">2000.0</span>) ;
+        piuredEngine.startPlayBack(dateToStart, <span class="hljs-function">() =&gt;</span> {<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ;}) ;
+    }
 ) ;
 
-engine.configureStage(stageConfig) ;
+<span class="hljs-keyword">await</span> piuredEngine.configureStage(stageConfig) ;
 
 <span class="hljs-keyword">let</span> p1InputConfig ;
 <span class="hljs-keyword">let</span> accuracyMargin = <span class="hljs-number">0.15</span> ;
 
 accuracyMargin = <span class="hljs-number">0.25</span> ;
 
-<span class="hljs-built_in">window</span>.onkeydown = engine.onKeyDown ;
-<span class="hljs-built_in">window</span>.onkeyup = engine.onKeyUp ;
+<span class="hljs-built_in">window</span>.onkeydown = onKeyDown ;
+<span class="hljs-built_in">window</span>.onkeyup = onKeyUp ;
 
 p1InputConfig = <span class="hljs-keyword">new</span> KeyInputConfig(leftKeyMap, rightKeyMap) ;
 
 <span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> PlayerConfig(p1InputConfig,
-                     noteskin,
-                     chartLevel,
-                     speed,
-                     accuracyMargin) ;
+    noteskin,
+    chartLevel,
+    speed,
+    accuracyMargin) ;
 
 
-engine.addPlayer(p1Config) ;
+piuredEngine.addPlayer(p1Config) ;
 
-engine.addToDOM(<span class="hljs-string">&#x27;container&#x27;</span>);
+piuredEngine.addToDOM(<span class="hljs-string">&#x27;container&#x27;</span>);
 
-<span class="hljs-built_in">window</span>.addEventListener( <span class="hljs-string">&#x27;resize&#x27;</span>, engine.onWindowResize.bind(engine), <span class="hljs-literal">false</span> );
+<span class="hljs-built_in">window</span>.addEventListener( <span class="hljs-string">&#x27;resize&#x27;</span>, piuredEngine.onWindowResize.bind(piuredEngine), <span class="hljs-literal">false</span> );
 
-engine.onStageCleared = stageCleared ;
+piuredEngine.onStageCleared = stageCleared ;
 
-engine.start();</pre>
+piuredEngine.start();</pre>
     
   
 
@@ -1899,7 +1896,7 @@ by reaching the end of the song). It can be used to report the player's performa
 
   <p>This class holds the configuration of a stage.</p>
 
-    <div class='pre p1 fill-light mt0'>new StageConfig(SSCFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, audioFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, playBackSpeed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, offset: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, resourcePath: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, noteskins: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, onReadyToStart: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new StageConfig(SSCFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, audioFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, playBackSpeed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, offset: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, noteskins: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, onReadyToStart: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
   
   
 
@@ -1947,17 +1944,6 @@ by reaching the end of the song). It can be used to report the player's performa
           <div>
             <span class='code bold'>offset</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
 	    synchronization offset. Use it to synchronize off-the-beat charts with the audio
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>resourcePath</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    path to the 
-<code>piured-engine</code>
- folder
 
           </div>
           

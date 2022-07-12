@@ -1,4 +1,3 @@
-
 /*
  * # Copyright (C) Pedro G. Bascoy
  # This file is part of piured-engine <https://github.com/piulin/piured-engine>.
@@ -18,17 +17,26 @@
  *
  */
 
-export default function readFileContent (pathToFile, callbackFunction) {
+export default async function readFileContent (pathToFile, callbackFunction) {
 
-    $.ajax(
-        {
-            url: pathToFile,
-            method: 'GET',
-            success: callbackFunction,
-            crossDomain: true,
-            async: false
-        }
-    ) ;
+    let response = await fetch(pathToFile, {method: 'GET', mode: 'cors'})
+    let content = await response.text()
+    callbackFunction(content)
+    // fetch(pathToFile, {method: 'GET', mode: 'cors'}).then( res => res.text())
+    //     .then(content => {
+    //         callbackFunction(content)
+    //     }).catch((reason => {
+    //         console.log(reason)
+    // }))
+    // $.ajax(
+    //     {
+    //         url: pathToFile,
+    //         method: 'GET',
+    //         success: callbackFunction,
+    //         crossDomain: true,
+    //         async: false
+    //     }
+    // ) ;
 
 }
 

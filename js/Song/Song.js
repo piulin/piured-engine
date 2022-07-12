@@ -20,41 +20,42 @@
 
 
 import readFileContent from "../Utils/FileReader.js";
-
+import {parseSSC} from '../../node_modules/ssc-parser/index.js'
+import * as THREE from '../../node_modules/three/src/Three.js'
+import {engine} from "../Engine.js";
 class Song {
 
-    constructor( pathToSSCFile, audioBuf, offset, playBackSpeed, onReadyToStart ) {
+    constructor(pathToSSCFile, audioBuf, offset, playBackSpeed, onReadyToStart) {
 
 
-        this.pathToSSCFile = pathToSSCFile ;
+        this.pathToSSCFile = pathToSSCFile;
 
         // Metadata of the song
-        this.meta = {} ;
+        this.meta = {};
 
         // NoteData of each level.
-        this.levels = [] ;
+        this.levels = [];
 
-        this.playBackSpeed = playBackSpeed ;
+        this.playBackSpeed = playBackSpeed;
 
-        this.syncTime = offset ;
+        this.syncTime = offset;
 
-        this.audioBuf = audioBuf ;
+        this.audioBuf = audioBuf;
 
-        this.requiresResync = false ;
+        this.requiresResync = false;
 
-        this.readyToStart = false ;
+        this.readyToStart = false;
 
-        this.onReadyToStart = onReadyToStart ;
+        this.onReadyToStart = onReadyToStart;
 
-        this.delay = 0.0 ;
-
-        // $.get(pathToSSCFile, this.parse.bind(this), 'text');
-
-        // Not that convenient way of reading files from disk.
-        readFileContent(pathToSSCFile,this.loadSSC.bind(this)) ;
+        this.delay = 0.0;
 
 
 
+    }
+
+    async initSSC(){
+        await readFileContent(this.pathToSSCFile, this.loadSSC.bind(this));
     }
 
     getWARPS(level) {
@@ -215,7 +216,7 @@ class Song {
 
     loadSSC(content) {
 
-        const parse = sscParser.parse(content) ;
+        const parse = parseSSC(content) ;
         this.meta = parse.header ;
         this.levels = parse.levels ;
 

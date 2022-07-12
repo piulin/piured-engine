@@ -21,8 +21,8 @@
 
 
 // This class is responsible for the input of a pad (5 steps)
-import {GameObject} from "../GameObject";
-import {IPad} from "./IPad";
+import {GameObject} from "../GameObject.js";
+import {IPad} from "./IPad.js";
 
 class IInput extends GameObject {
 

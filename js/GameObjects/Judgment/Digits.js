@@ -18,8 +18,10 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-import {GameObject} from "../GameObject";
-import {Digit} from "./Digit";
+import {GameObject} from "../GameObject.js";
+import {Digit} from "./Digit.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
+import {TWEEN} from "../../../lib/tween.min.js";
 
 class Digits extends GameObject {
 

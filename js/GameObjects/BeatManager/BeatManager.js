@@ -20,11 +20,11 @@
 
 
 
-import {GameObject} from "../GameObject";
-import {Second2Beat} from "./Second2Beat";
-import {Second2Displacement} from "./Second2Displacement";
-import {SongTime2Second} from "./SongTime2Second";
-import {Beat2Speed} from "./Beat2Speed";
+import {GameObject} from "../GameObject.js";
+import {Second2Beat} from "./Second2Beat.js";
+import {Second2Displacement} from "./Second2Displacement.js";
+import {SongTime2Second} from "./SongTime2Second.js";
+import {Beat2Speed} from "./Beat2Speed.js";
 
 class BeatManager extends GameObject {
 

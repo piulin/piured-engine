@@ -21,8 +21,10 @@
 
 
 // This class is responsible for the input of a pad (5 steps)
-import {GameObject} from "../GameObject";
-import {Pad} from "./Pad";
+import {GameObject} from "../GameObject.js";
+import {Pad} from "./Pad.js";
+import {engine} from "../../Engine.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class KeyInput extends GameObject {
 

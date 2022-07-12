@@ -65,3 +65,5 @@ class KeyInputConfig {
 
 
 }
+
+export {KeyInputConfig}

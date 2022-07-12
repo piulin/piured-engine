@@ -56,3 +56,5 @@ class TouchInputConfig {
         return this._Y;
     }
 }
+
+export {TouchInputConfig}

@@ -19,8 +19,8 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 
-import {Point} from "./Point";
-import {Interval} from "./Interval";
+import {Point} from "./Point.js";
+import {Interval} from "./Interval.js";
 
 class Curve {
 

@@ -20,7 +20,7 @@
 
 
 
-import {Pad} from "./Pad";
+import {Pad} from "./Pad.js";
 
 class IPad extends Pad {
 

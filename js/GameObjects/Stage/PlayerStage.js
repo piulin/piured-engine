@@ -20,18 +20,23 @@
 
 
 
-import {GameObject} from "../GameObject";
-import {Steps} from "./Steps";
-import {Receptor} from "./Receptor";
-import {FrameLog} from "../Sequence/SeqLog/FrameLog";
-import {BeatManager} from "../BeatManager/BeatManager";
-import {KeyInput} from "../Input/KeyInput";
-import {TouchInput} from "../Input/TouchInput";
-import {IInput} from "../Input/IInput";
-import {IStepQueue} from "../Sequence/IStepQueue";
-import {StepQueue} from "../Sequence/StepQueue";
-import {JudgmentScale} from "../Judgment/JudgmentScale";
-import {LifeBar} from "../LifeBar/LifeBar";
+import {GameObject} from "../GameObject.js";
+import {Steps} from "./Steps.js";
+import {Receptor} from "./Receptor.js";
+import {FrameLog} from "../Sequence/SeqLog/FrameLog.js";
+import {BeatManager} from "../BeatManager/BeatManager.js";
+import {KeyInput} from "../Input/KeyInput.js";
+import {TouchInput} from "../Input/TouchInput.js";
+import {IInput} from "../Input/IInput.js";
+import {IStepQueue} from "../Sequence/IStepQueue.js";
+import {StepQueue} from "../Sequence/StepQueue.js";
+import {JudgmentScale} from "../Judgment/JudgmentScale.js";
+import {LifeBar} from "../LifeBar/LifeBar.js";
+import {KeyInputConfig} from "../../Config/KeyInputConfig.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
+import {RemoteInput} from "../../Config/RemoteInput.js";
+import {TouchInputConfig} from "../../Config/TouchInputConfig.js";
+import {engine} from "../../Engine.js";
 
 class PlayerStage extends GameObject {
     _id ;

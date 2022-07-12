@@ -1,16 +1,19 @@
 # PIURED: A Web-based Pump It Up Engine
 ![PIURED](https://github.com/piulin/piured-engine/blob/main/imgs/piuredg.gif?raw=true)
 
+## Installation
+
+Install through `npm`:
+```shell
+$ npm install @piured/engine
+```
 
 ## Introduction
 
-PIURED is a Pump It Up stage simulator that works directly in your browser.
+PIURED-engine is a Pump It Up engine that works directly on your browser.
 There are already a number of dance simulators for Windows and Linux, most of them being StepMania-based. 
 Stepmania is a great choice for DDR-style rhythm games, however it lacks to capture the behaviour as well as
 the feel & look of a Pump It Up arcade. 
-
-In this sense, PIURED's goal is to recreate as accurately as possible the Pump It Up-style experience
-whilst keeping the engine cross-platform (web-based), so it can be enjoyed anywhere and anytime.
 
 ## Engine Review
 
@@ -65,11 +68,6 @@ To see a working example, you can always have a look at the code of PIURED's [de
 If you only care about playing pump it up and not that much about the code, just go to the [demo web](https://piulin.github.io/piured/) and
 play some charts!
 
-
-## Future Work
-
-This project is currently being migrated to Godot. The final goal is to create a battle
-platform, similar in style and functionality to [lichess](https://lichess.org).
 
 ## License
 

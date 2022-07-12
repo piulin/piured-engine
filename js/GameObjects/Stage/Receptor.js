@@ -20,11 +20,13 @@
 
 
 
-import {GameObject} from "../GameObject";
-import {StepBounce} from "../FX/StepBounce";
-import {Explosion} from "../FX/Explosion";
-import {Tap} from "../FX/Tap";
-import {WhiteTap} from "../FX/WhiteTap";
+import {GameObject} from "../GameObject.js";
+import {StepBounce} from "../FX/StepBounce.js";
+import {Explosion} from "../FX/Explosion.js";
+import {Tap} from "../FX/Tap.js";
+import {WhiteTap} from "../FX/WhiteTap.js";
+import {engine} from "../../Engine.js";
+import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class Receptor extends GameObject {
 
