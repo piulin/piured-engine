@@ -1,13 +1,12 @@
 {
-  "name": "piured-engine",
+  "name": "@piured/engine",
   "version": "0.0.1",
   "description": "A web-based Pump It Up engine",
   "main": "index.js",
   "type": "module",
   "directories": {
     "doc": "docs",
-    "lib": "lib",
-    "test": "test"
+    "lib": "lib"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
