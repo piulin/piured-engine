@@ -197,15 +197,25 @@ class Engine {
     constructor() {
     }
 
-    //FIXME: add docstring
+    /**
+     * Configures the renderer and sets the camera into position. Call this method before setting up the stage through {@link Engine#configureStage}.
+     * @param width width of canvas
+     * @param height height of canvas
+     * @param pixelRatio pixel ratio of screen
+     * @param window window object from browser, to respond to frames requests
+     *
+     * @example <caption> Initializing a new engine. </caption>
+     *
+     * engine.init( 1270, 768, window.devicePixelRatio, window )
+     */
     init(
          width,
          height,
          pixelRatio,
-         frameRequester
+         window
          ) {
 
-        this.frameRequester = frameRequester
+        this.window = window
         this.clock = new THREE.Clock();
 
         // For grading the window is fixed in size; here's general code:
@@ -479,7 +489,6 @@ class Engine {
         this.performReady() ;
         this.song.play() ;
     }
-    //FIXME: update docstring
     /**
      * Schedules when the engine should start playing the song and starts the rendering main loop.
      * You may only call this function once {@link StageConfig#onReadyToStart} callback
@@ -521,13 +530,13 @@ class Engine {
 
     }
 
-    //FIXME: docstring
     /**
-     * Update size of drawable canvas.
+     * Update size of drawable canvas. You might call this function when the engine is running.
      * @return {undefined}
-     *
-     * @example <caption> Call it when the browser detects that the window has been resized </caption>
-     * window.addEventListener( 'resize', engine.onWindowResize.bind(engine), false );
+     * @param newWidth new width of canvas
+     * @param newHeight new height of canvas
+     * @example <caption> Resize drawable canvas to 500x500 px </caption>
+     * engine.resize(500, 500)
      */
     resize (newWidth, newHeight ) {
 
@@ -673,7 +682,8 @@ class Engine {
 
     animate() {
         //Note that .bind(this) is important so it doesnt lose the local context.
-        this._id = window.requestAnimationFrame(this.animate.bind(this));
+        this._id = this.window.requestAnimationFrame(this.animate.bind(this));
+        // this._id = this.frameRequester(this.animate.bind(this))
         this.render();
 
     }

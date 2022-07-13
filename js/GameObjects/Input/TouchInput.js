@@ -92,7 +92,7 @@ class TouchInput extends GameObject {
 
     onTouchDown( event ) {
 
-        var canvasPosition = engine.renderer.domElement.getBoundingClientRect();
+        var canvasPosition =this.engine.renderer.domElement.getBoundingClientRect();
 
         for ( let i = 0 ; i < event.touches.length ; i++) {
 
@@ -143,7 +143,7 @@ class TouchInput extends GameObject {
 
     onTouchUp( event ) {
 
-        var canvasPosition = engine.renderer.domElement.getBoundingClientRect();
+        var canvasPosition = this.engine.renderer.domElement.getBoundingClientRect();
 
         for ( let i = 0 ; i < event.changedTouches.length ; i++) {
 
