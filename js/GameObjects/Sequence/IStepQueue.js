@@ -28,9 +28,9 @@ class IStepQueue extends GameObject {
 
     _stepDict ;
 
-    constructor(resourceManager, playerStage, keyInput, beatManager, accuracyMargin) {
+    constructor(resourceManager, engine, playerStage, keyInput, beatManager, accuracyMargin) {
 
-        super(resourceManager) ;
+        super(resourceManager, engine) ;
 
         this.playerStage = playerStage ;
 

@@ -25,8 +25,8 @@ import {Pad} from "./Pad.js";
 class IPad extends Pad {
 
 
-    constructor(resourceManager, padId) {
-        super(resourceManager, null, padId) ;
+    constructor(resourceManager, engine, padId) {
+        super(resourceManager, engine, null, padId) ;
 
     }
 

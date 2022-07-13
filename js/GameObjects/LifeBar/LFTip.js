@@ -25,8 +25,8 @@ class LFTip extends GameObject {
     _mesh ;
     _show ;
 
-    constructor( resourceManager ) {
-        super(resourceManager);
+    constructor( resourceManager, engine ) {
+        super(resourceManager, engine);
 
         let tip = this._resourceManager.constructLifeBarTip() ;
         tip.material.map.repeat.set(1,1/2);

@@ -38,18 +38,18 @@ class LFBar extends GameObject {
 
 
 
-    constructor( resourceManager, beatManager, kind ) {
-        super(resourceManager);
+    constructor( resourceManager, engine, beatManager, kind ) {
+        super(resourceManager, engine);
 
         this._object = new THREE.Object3D() ;
 
 
         this.kind = kind ;
 
-        this._barFX = new LFBarFX(this._resourceManager, kind) ;
-        this._barFXRed = new LFBarFXRed(this._resourceManager, beatManager, kind) ;
-        this._pulse = new LFPulse(this._resourceManager, beatManager, kind) ;
-        this._tip = new LFTip(this._resourceManager) ;
+        this._barFX = new LFBarFX(this._resourceManager,this.engine, kind) ;
+        this._barFXRed = new LFBarFXRed(this._resourceManager,this.engine, beatManager, kind) ;
+        this._pulse = new LFPulse(this._resourceManager,this.engine, beatManager, kind) ;
+        this._tip = new LFTip(this._resourceManager,this.engine) ;
 
         this.pulseXSize = this._pulse.size ;
         this.pulseXHalfSize = this.pulseXSize / 2 ;

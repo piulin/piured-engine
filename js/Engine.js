@@ -272,10 +272,10 @@ class Engine {
 
         this.resourcePath = stageConfig.resourcePath ;
         this.playBackSpeed = stageConfig.playBackSpeed ;
-        this.song = new Song(stageConfig.SSCFile, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
+        this.song = new Song(this, stageConfig.SSCFile, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
         await this.song.initSSC()
-        let resourceManager = new ResourceManager(stageConfig.resourcePath, 'noteskins/', stageConfig.noteskins, 'stage_UHD') ;
-        this.stage = new Stage(resourceManager, this.song, stageConfig.noteskins) ;
+        let resourceManager = new ResourceManager(this.renderer, stageConfig.resourcePath, 'noteskins/', stageConfig.noteskins, 'stage_UHD') ;
+        this.stage = new Stage(resourceManager, this, this.song, stageConfig.noteskins) ;
         this.scene.add(this.stage.object) ;
 
     }
@@ -746,5 +746,4 @@ class Engine {
 
 
 }
-let engine = new Engine();
-export {engine} ;
+export {Engine} ;

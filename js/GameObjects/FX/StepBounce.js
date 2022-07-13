@@ -33,9 +33,9 @@ class StepBounce extends GameObject {
 
 
 
-    constructor(resourceManager, kind, stepAnimationRate, noteskin) {
+    constructor(resourceManager, engine,  kind, stepAnimationRate, noteskin) {
 
-        super(resourceManager);
+        super(resourceManager, engine);
         this._kind = kind ;
         this._stepAnimationRate = stepAnimationRate ;
         this._mesh = this._resourceManager.constructStepBounce( this._kind, noteskin ) ;

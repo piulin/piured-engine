@@ -40,8 +40,8 @@ class LifeBar extends GameObject {
     _animationRate ;
     _object ;
 
-    constructor(resourceManager, beatManager, kind) {
-        super(resourceManager);
+    constructor(resourceManager, engine, beatManager, kind) {
+        super(resourceManager, engine);
         this._beatManager = beatManager ;
         this._object = new THREE.Object3D() ;
 
@@ -76,7 +76,7 @@ class LifeBar extends GameObject {
 
 
     setUpBack(kind) {
-        let back = new LFBack(this._resourceManager, kind) ;
+        let back = new LFBack(this._resourceManager,this.engine, kind) ;
         back.object.position.z = 0.01 ;
         back.object.material.opacity = 1.0 ;
         this._object.add(back.object) ;
@@ -84,7 +84,7 @@ class LifeBar extends GameObject {
     }
 
     setUpFront(kind) {
-        let front = new LFFront(this._resourceManager, kind) ;
+        let front = new LFFront(this._resourceManager,this.engine, kind) ;
         front.object.position.z = 0.03 ;
         front.object.scale.x = 1.01 ;
         front.object.scale.y = 1.05 ;
@@ -94,7 +94,7 @@ class LifeBar extends GameObject {
     }
 
     setUpBar(kind) {
-        let bar = new LFBar(this._resourceManager, this._beatManager, kind) ;
+        let bar = new LFBar(this._resourceManager,this.engine, this._beatManager, kind) ;
         bar.object.position.z = 0.02 ;
         this._object.add(bar.object) ;
         return bar ;

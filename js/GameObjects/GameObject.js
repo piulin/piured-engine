@@ -18,14 +18,14 @@
  */
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-import {engine} from '../Engine.js'
 
 class GameObject {
 
     _resourceManager ;
 
-    constructor(resourceManager) {
+    constructor(resourceManager, engine) {
         this._resourceManager = resourceManager ;
+        this.engine = engine ;
         engine.addToUpdateList(this) ;
     }
 

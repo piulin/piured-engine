@@ -29,8 +29,8 @@ class Background extends GameObject {
     _elapsedTime ;
     _frame  ;
 
-    constructor(resourceManager, beatManager) {
-        super(resourceManager);
+    constructor(resourceManager, engine, beatManager) {
+        super(resourceManager, engine);
 
         this._mesh = resourceManager.constructBackground() ;
         this._beatManager = beatManager ;

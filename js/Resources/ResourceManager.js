@@ -45,7 +45,8 @@ class ResourceManager {
     _shadersDict =  { } ;
 
 
-    constructor( resourcePath, noteskinPath, noteskinIds, stagePath ) {
+    constructor( renderer, resourcePath, noteskinPath, noteskinIds, stagePath ) {
+        this.renderer = renderer
         this.resourcePath = resourcePath ;
         this.loadGeometries() ;
         noteskinIds.forEach((noteskinId)=>{
@@ -82,28 +83,28 @@ class ResourceManager {
         let stepDic = {} ;
         // StepNotes
 
-        stepDic['SDL'] = new PNGTexture(noteskinPath + '/DownLeft TapNote 3x2.PNG') ;
-        stepDic['SUL'] = new PNGTexture(noteskinPath + '/UpLeft TapNote 3x2.PNG') ;
-        stepDic['SC'] = new PNGTexture(noteskinPath + '/Center TapNote 3x2.PNG') ;
-        stepDic['SUR'] = new PNGTexture(noteskinPath + '/UpRight TapNote 3x2.PNG') ;
-        stepDic['SDR'] = new PNGTexture(noteskinPath + '/DownRight TapNote 3x2.PNG') ;
+        stepDic['SDL'] = new PNGTexture(this.renderer,noteskinPath + '/DownLeft TapNote 3x2.PNG') ;
+        stepDic['SUL'] = new PNGTexture(this.renderer,noteskinPath + '/UpLeft TapNote 3x2.PNG') ;
+        stepDic['SC'] = new PNGTexture(this.renderer,noteskinPath + '/Center TapNote 3x2.PNG') ;
+        stepDic['SUR'] = new PNGTexture(this.renderer,noteskinPath + '/UpRight TapNote 3x2.PNG') ;
+        stepDic['SDR'] = new PNGTexture(this.renderer,noteskinPath + '/DownRight TapNote 3x2.PNG') ;
 
 
         //Holds & EndNotes
-        stepDic['HDL'] = new PNGTexture(noteskinPath + '/DownLeft Hold 6x1.PNG') ;
-        stepDic['HUL'] = new PNGTexture(noteskinPath + '/UpLeft Hold 6x1.PNG') ;
-        stepDic['HC'] = new PNGTexture(noteskinPath + '/Center Hold 6x1.PNG') ;
-        stepDic['HUR'] = new PNGTexture(noteskinPath + '/UpRight Hold 6x1.PNG') ;
-        stepDic['HDR'] = new PNGTexture(noteskinPath + '/DownRight Hold 6x1.PNG') ;
+        stepDic['HDL'] = new PNGTexture(this.renderer,noteskinPath + '/DownLeft Hold 6x1.PNG') ;
+        stepDic['HUL'] = new PNGTexture(this.renderer,noteskinPath + '/UpLeft Hold 6x1.PNG') ;
+        stepDic['HC'] = new PNGTexture(this.renderer,noteskinPath + '/Center Hold 6x1.PNG') ;
+        stepDic['HUR'] = new PNGTexture(this.renderer,noteskinPath + '/UpRight Hold 6x1.PNG') ;
+        stepDic['HDR'] = new PNGTexture(this.renderer,noteskinPath + '/DownRight Hold 6x1.PNG') ;
 
         //Receptor
-        stepDic['R'] = new PNGTexture(noteskinPath + '/Center Receptor 1x2.PNG') ;
+        stepDic['R'] = new PNGTexture(this.renderer,noteskinPath + '/Center Receptor 1x2.PNG') ;
 
         //Taps
-        stepDic['T'] = new PNGTexture(noteskinPath + '/Tap 5x2.PNG') ;
+        stepDic['T'] = new PNGTexture(this.renderer,noteskinPath + '/Tap 5x2.PNG') ;
 
         // FX
-        stepDic['FX'] = new PNGTexture(noteskinPath + '/StepFX 5x1.PNG') ;
+        stepDic['FX'] = new PNGTexture(this.renderer,noteskinPath + '/StepFX 5x1.PNG') ;
 
         this._textureDict['NOTESKINS'][noteskinId] = stepDic ;
 
@@ -112,34 +113,34 @@ class ResourceManager {
     loadStageTextures ( stagePath ) {
 
         // Digits Normal
-        this._textureDict['DN'] = new PNGTexture(stagePath + '/Combo numbers Normal 4x4_XX.png') ;
+        this._textureDict['DN'] = new PNGTexture(this.renderer,stagePath + '/Combo numbers Normal 4x4_XX.png') ;
 
         // Digits Miss
-        this._textureDict['DM'] = new PNGTexture(stagePath + '/Combo numbers Miss 4x4.png') ;
+        this._textureDict['DM'] = new PNGTexture(this.renderer,stagePath + '/Combo numbers Miss 4x4.png') ;
 
         // Combo
-        this._textureDict['C'] = new PNGTexture(stagePath + '/Combo 1x2_XX_r.png') ;
+        this._textureDict['C'] = new PNGTexture(this.renderer,stagePath + '/Combo 1x2_XX_r.png') ;
 
         // Judgment
-        this._textureDict['J'] = new PNGTexture(stagePath + '/Player_Judgment Rank 1x6_XX_r.png') ;
+        this._textureDict['J'] = new PNGTexture(this.renderer,stagePath + '/Player_Judgment Rank 1x6_XX_r.png') ;
 
 
 
         // Life meter bar
-        this._textureDict['SLBACK'] = new PNGTexture(stagePath + '/LifeMeterBar_S_Back 1x2.png') ;
-        this._textureDict['SLBAR'] = new PNGTexture(stagePath + '/LifeMeterBar_S_Bar 1x2.png') ;
-        this._textureDict['SLBARFX'] = new PNGTexture(stagePath + '/LifeMeterBar_S_Bar_FX.png') ;
-        this._textureDict['SLBARFXRED'] = new PNGTexture(stagePath + '/LifeMeterBar_S_Bar_FX_Red.png') ;
-        this._textureDict['SLFRONT'] = new PNGTexture(stagePath + '/LifeMeterBar_S_Front.png') ;
+        this._textureDict['SLBACK'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_S_Back 1x2.png') ;
+        this._textureDict['SLBAR'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_S_Bar 1x2.png') ;
+        this._textureDict['SLBARFX'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_S_Bar_FX.png') ;
+        this._textureDict['SLBARFXRED'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_S_Bar_FX_Red.png') ;
+        this._textureDict['SLFRONT'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_S_Front.png') ;
 
-        this._textureDict['DLBACK'] = new PNGTexture(stagePath + '/LifeMeterBar_D_Back 1x2.png') ;
-        this._textureDict['DLBAR'] = new PNGTexture(stagePath + '/LifeMeterBar_D_Bar 1x2.png') ;
-        this._textureDict['DLBARFX'] = new PNGTexture(stagePath + '/LifeMeterBar_D_Bar_FX.png') ;
-        this._textureDict['DLBARFXRED'] = new PNGTexture(stagePath + '/LifeMeterBar_D_Bar_FX_Red.png') ;
-        this._textureDict['DLFRONT'] = new PNGTexture(stagePath + '/LifeMeterBar_D_Front.png') ;
+        this._textureDict['DLBACK'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_D_Back 1x2.png') ;
+        this._textureDict['DLBAR'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_D_Bar 1x2.png') ;
+        this._textureDict['DLBARFX'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_D_Bar_FX.png') ;
+        this._textureDict['DLBARFXRED'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_D_Bar_FX_Red.png') ;
+        this._textureDict['DLFRONT'] = new PNGTexture(this.renderer,stagePath + '/LifeMeterBar_D_Front.png') ;
 
-        this._textureDict['LP'] = new PNGTexture(stagePath + '/pulse.png') ;
-        this._textureDict['LT'] = new PNGTexture(stagePath + '/SG-TIP 1x2.png') ;
+        this._textureDict['LP'] = new PNGTexture(this.renderer,stagePath + '/pulse.png') ;
+        this._textureDict['LT'] = new PNGTexture(this.renderer,stagePath + '/SG-TIP 1x2.png') ;
 
 
     }

@@ -26,8 +26,8 @@ class LFBarFXRed extends GameObject {
     _show ;
     _blink ;
     _beatManager ;
-    constructor( resourceManager, beatManager, kind ) {
-        super(resourceManager);
+    constructor( resourceManager, engine, beatManager, kind ) {
+        super(resourceManager, engine);
 
         this._mesh = this._resourceManager.constructSLifeBarBarFXRed() ;
 

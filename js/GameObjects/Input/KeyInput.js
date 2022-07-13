@@ -23,20 +23,19 @@
 // This class is responsible for the input of a pad (5 steps)
 import {GameObject} from "../GameObject.js";
 import {Pad} from "./Pad.js";
-import {engine} from "../../Engine.js";
 import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class KeyInput extends GameObject {
 
     _mesh ;
 
-    constructor(resourceManager, frameLog) {
+    constructor(resourceManager, engine, frameLog) {
 
-        super(resourceManager) ;
+        super(resourceManager, engine) ;
 
         // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
-        engine.addToKeyDownList(this) ;
-        engine.addToKeyUpList(this) ;
+        this.engine.addToKeyDownList(this) ;
+        this.engine.addToKeyUpList(this) ;
 
         this.frameLog = frameLog ;
 
@@ -54,7 +53,7 @@ class KeyInput extends GameObject {
 
     addPad(keyMap, padId) {
 
-        const pad = new Pad(this._resourceManager, keyMap, padId, this.frameLog) ;
+        const pad = new Pad(this._resourceManager,this.engine, keyMap, padId, this.frameLog) ;
         this.pads.push( pad ) ;
         this.padsDic[padId] = pad ;
     }

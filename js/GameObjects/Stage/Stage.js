@@ -38,9 +38,9 @@ class Stage extends GameObject {
     song ;
     animationRate ;
 
-    constructor( resourceManager, song, noteskins ) { //...
+    constructor( resourceManager, engine, song, noteskins ) { //...
 
-        super(resourceManager);
+        super(resourceManager, engine);
         this.animationRate = 30;
         this.song = song;
 
@@ -65,22 +65,22 @@ class Stage extends GameObject {
     }
 
     configureNoteTextures(noteskin) {
-        new StepNoteTexture(this._resourceManager, 'dl', this.animationRate, noteskin) ;
-        new StepNoteTexture(this._resourceManager, 'ul', this.animationRate, noteskin) ;
-        new StepNoteTexture(this._resourceManager, 'c', this.animationRate, noteskin) ;
-        new StepNoteTexture(this._resourceManager, 'ur', this.animationRate, noteskin) ;
-        new StepNoteTexture(this._resourceManager, 'dr', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager,this.engine, 'dl', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager,this.engine, 'ul', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager,this.engine, 'c', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager,this.engine, 'ur', this.animationRate, noteskin) ;
+        new StepNoteTexture(this._resourceManager,this.engine, 'dr', this.animationRate, noteskin) ;
 
-        new HoldExtensibleTexture(this._resourceManager, 'dl', this.animationRate, noteskin) ;
-        new HoldExtensibleTexture(this._resourceManager, 'ul', this.animationRate, noteskin) ;
-        new HoldExtensibleTexture(this._resourceManager, 'c', this.animationRate, noteskin) ;
-        new HoldExtensibleTexture(this._resourceManager, 'ur', this.animationRate, noteskin) ;
-        new HoldExtensibleTexture(this._resourceManager, 'dr', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager,this.engine, 'dl', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager,this.engine, 'ul', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager,this.engine, 'c', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager,this.engine, 'ur', this.animationRate, noteskin) ;
+        new HoldExtensibleTexture(this._resourceManager,this.engine, 'dr', this.animationRate, noteskin) ;
     }
 
     configureBG() {
 
-        this._bg = new Background(this._resourceManager, this._playerStages[0].beatManager) ;
+        this._bg = new Background(this._resourceManager,this.engine, this._playerStages[0].beatManager) ;
         this._bg.object.position.y = -3 ;
         this._bg.object.position.z = -1 ;
         this._object.add(this._bg.object) ;
@@ -100,7 +100,7 @@ class Stage extends GameObject {
         }
 
 
-        let stage = new PlayerStage(this._resourceManager,
+        let stage = new PlayerStage(this._resourceManager,this.engine,
             this.song,
             playerConfig,
             playBackSpeed,

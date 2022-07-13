@@ -20,7 +20,6 @@
 
 
 import {GameObject} from "../../GameObject.js";
-import {engine} from "../../../Engine.js";
 
 class FrameLog extends GameObject  {
 
@@ -29,8 +28,8 @@ class FrameLog extends GameObject  {
 
 
 
-    constructor(resourceManager, playerStageId) {
-        super(resourceManager);
+    constructor(resourceManager, engine, playerStageId) {
+        super(resourceManager, engine);
         this._playerStageId = playerStageId;
     }
 
@@ -88,7 +87,7 @@ class FrameLog extends GameObject  {
     update(delta) {
         if ( Object.keys(this._json).length !== 0) {
 
-            engine.addToOutputFrameLogList(this) ;
+            this.engine.addToOutputFrameLogList(this) ;
         }
 
 

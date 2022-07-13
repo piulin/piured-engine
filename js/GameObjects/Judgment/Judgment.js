@@ -35,9 +35,9 @@ class Judgment extends GameObject {
     _object ;
 
 
-    constructor(resourceManager, ) {
+    constructor(resourceManager, engine) {
 
-        super(resourceManager);
+        super(resourceManager, engine);
 
 
         this.judgmentZDepth = 0.00002;
@@ -46,12 +46,12 @@ class Judgment extends GameObject {
         this._object = new THREE.Object3D() ;
 
 
-        this._banner = new Banner(this._resourceManager) ;
+        this._banner = new Banner(this._resourceManager, this.engine) ;
         this._banner.object.position.z = this.judgmentZDepth ;
         this._object.add(this._banner.object) ;
 
 
-        this._combo = new Combo(this._resourceManager) ;
+        this._combo = new Combo(this._resourceManager, this.engine) ;
         this.comboYPosition = this._banner.object.position.y - 0.50 ;
         this._combo.object.position.z = this.judgmentZDepth ;
         this._combo.object.position.y = this.comboYPosition ;
@@ -59,7 +59,7 @@ class Judgment extends GameObject {
 
 
 
-        this._whiteDigits = new Digits(this._resourceManager, this.maxNumDigits) ;
+        this._whiteDigits = new Digits(this._resourceManager, this.engine, this.maxNumDigits) ;
         this._whiteDigits.object.position.z = this.judgmentZDepth ;
         this._whiteDigits.object.position.y = this.comboYPosition - 0.35;
         this._object.add(this._whiteDigits.object) ;

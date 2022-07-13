@@ -30,8 +30,8 @@ class LFPulse extends GameObject {
     _size ;
 
 
-    constructor( resourceManager, beatManager, kind ) {
-        super(resourceManager);
+    constructor( resourceManager, engine, beatManager, kind ) {
+        super(resourceManager, engine);
 
 
 

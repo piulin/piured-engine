@@ -22,12 +22,13 @@
 import readFileContent from "../Utils/FileReader.js";
 import {parseSSC} from '../../node_modules/ssc-parser/index.js'
 import * as THREE from '../../node_modules/three/src/Three.js'
-import {engine} from "../Engine.js";
+
+
 class Song {
 
-    constructor(pathToSSCFile, audioBuf, offset, playBackSpeed, onReadyToStart) {
+    constructor(engine, pathToSSCFile, audioBuf, offset, playBackSpeed, onReadyToStart) {
 
-
+        this.engine = engine
         this.pathToSSCFile = pathToSSCFile;
 
         // Metadata of the song
@@ -291,7 +292,7 @@ class Song {
 
     playBackEnded() {
         this.context.close() ;
-        engine.stop( ) ;
+        this.engine.stop( ) ;
     }
 
     // This method is called when the buffer with the song is ready.

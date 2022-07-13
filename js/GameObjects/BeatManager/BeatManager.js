@@ -29,9 +29,9 @@ import {Beat2Speed} from "./Beat2Speed.js";
 class BeatManager extends GameObject {
 
 
-    constructor(resourceManager, song, level, speed, keyBoardLag, playBackSpeed) {
+    constructor(resourceManager, engine, song, level, speed, keyBoardLag, playBackSpeed) {
 
-        super(resourceManager) ;
+        super(resourceManager, engine) ;
 
         this.playBackSpeed = playBackSpeed ;
 

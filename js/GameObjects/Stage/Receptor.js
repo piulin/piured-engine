@@ -25,7 +25,6 @@ import {StepBounce} from "../FX/StepBounce.js";
 import {Explosion} from "../FX/Explosion.js";
 import {Tap} from "../FX/Tap.js";
 import {WhiteTap} from "../FX/WhiteTap.js";
-import {engine} from "../../Engine.js";
 import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class Receptor extends GameObject {
@@ -38,10 +37,10 @@ class Receptor extends GameObject {
     _keyInput ;
     _padId ;
 
-    constructor(resourceManager, beatManager, keyInput, padId, animationRate, noteskin) {
-        super(resourceManager);
+    constructor(resourceManager, engine, beatManager, keyInput, padId, animationRate, noteskin) {
+        super(resourceManager, engine);
 
-        engine.addToInputList(this) ;
+        this.engine.addToInputList(this) ;
         this._noteskin = noteskin ;
         this._keyInput = keyInput ;
         this._beatManager = beatManager ;
@@ -101,7 +100,7 @@ class Receptor extends GameObject {
 
     setUpBounce(kind, XPosition) {
 
-        let bounce = new StepBounce(this._resourceManager, kind, this._animationRate, this._noteskin) ;
+        let bounce = new StepBounce(this._resourceManager,this.engine, kind, this._animationRate, this._noteskin) ;
         bounce.object.position.x = XPosition ;
         bounce.object.position.z = this.stepEffectZDepth ;
         bounce.object.material.opacity = 0.0 ;
@@ -111,7 +110,7 @@ class Receptor extends GameObject {
 
     setUpExplosion(XPosition) {
 
-        let explosion = new Explosion(this._resourceManager, this._noteskin) ;
+        let explosion = new Explosion(this._resourceManager,this.engine, this._noteskin) ;
         explosion.object.position.z = this.explosionZDepth ;
         explosion.object.position.x = XPosition;
         explosion.object.material.opacity = 0.0 ;
@@ -123,7 +122,7 @@ class Receptor extends GameObject {
 
 
     setUpTap(kind, XPosition) {
-        let tap = new Tap(this._resourceManager, kind, this._noteskin) ;
+        let tap = new Tap(this._resourceManager,this.engine, kind, this._noteskin) ;
         tap.object.position.x = XPosition ;
         // tap.object.position.z = 0.01 ;
         tap.object.material.opacity = 0.0 ;
@@ -135,7 +134,7 @@ class Receptor extends GameObject {
     }
 
     setUpWhiteTap(kind, XPosition) {
-        let tap = new WhiteTap(this._resourceManager, kind, this._noteskin) ;
+        let tap = new WhiteTap(this._resourceManager,this.engine, kind, this._noteskin) ;
         tap.object.position.x = XPosition ;
         tap.object.position.z = 0.01 ;
         tap.object.material.opacity = 0.0 ;

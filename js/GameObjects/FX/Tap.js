@@ -30,9 +30,9 @@ class Tap extends GameObject {
 
 
 
-    constructor(resourceManager, kind, noteskin ) {
+    constructor(resourceManager, engine, kind, noteskin ) {
 
-        super(resourceManager);
+        super(resourceManager, engine);
         this._kind = kind ;
         // this._mesh = this._resourceManager.constructGenericTap( ) ;
 

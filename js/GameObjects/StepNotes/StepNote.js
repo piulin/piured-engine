@@ -32,8 +32,8 @@ class StepNote extends GameObject {
     _id ;
 
 
-    constructor(resourceManager, kind, padId, timeStamp, noteskin) {
-        super(resourceManager);
+    constructor(resourceManager, engine, kind, padId, timeStamp, noteskin) {
+        super(resourceManager, engine);
 
         this._kind = kind ;
         this._padId = padId ;

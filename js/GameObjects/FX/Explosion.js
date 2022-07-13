@@ -28,9 +28,9 @@ class Explosion extends GameObject {
     _animationPosition ;
 
 
-    constructor(resourceManager, noteskin) {
+    constructor(resourceManager, engine, noteskin) {
 
-        super(resourceManager);
+        super(resourceManager, engine);
         this._explosionAnimationRate = 3 ;
         this._mesh = this._resourceManager.constructExplosion( noteskin ) ;
 

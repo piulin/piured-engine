@@ -39,15 +39,15 @@ class JudgmentScale extends GameObject {
     score;
     generalScoreMultiplier ;
 
-    constructor(resourceManager, accuracyMargin, levelStyle, levelDifficulty, lifeBar, frameLog) {
+    constructor(resourceManager, engine, accuracyMargin, levelStyle, levelDifficulty, lifeBar, frameLog) {
 
-        super(resourceManager) ;
+        super(resourceManager, engine) ;
 
         this._lifeBar = lifeBar ;
         this.accuracyMargin = accuracyMargin ;
         this.levelStyle = levelStyle ;
         this.levelDifficulty = levelDifficulty ;
-        this._judgment = new Judgment(this._resourceManager) ;
+        this._judgment = new Judgment(this._resourceManager, this.engine) ;
         this._frameLog = frameLog ;
 
     }

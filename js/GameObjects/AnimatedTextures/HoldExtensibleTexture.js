@@ -31,8 +31,8 @@ class HoldExtensibleTexture extends GameObject {
     _stepAnimationRate ;
     _animationDelta ;
 
-    constructor(resourceManager, kind, animationRate, noteskin) {
-        super(resourceManager);
+    constructor(resourceManager, engine, kind, animationRate, noteskin) {
+        super(resourceManager, engine);
         this._kind = kind;
         this._stepAnimationRate = animationRate ;
 

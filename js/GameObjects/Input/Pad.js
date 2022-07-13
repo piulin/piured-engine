@@ -27,8 +27,8 @@ class Pad extends GameObject {
 
 
 
-    constructor(resourceManager, keyMap, padId, frameLog) {
-        super(resourceManager) ;
+    constructor(resourceManager, engine, keyMap, padId, frameLog) {
+        super(resourceManager, engine) ;
         // Key maps
         if (keyMap !== null) {
             this._dlKey =  keyMap.dl.toLowerCase() ;

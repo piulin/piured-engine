@@ -26,9 +26,9 @@ class Banner extends GameObject {
     _mesh ;
 
 
-    constructor(resourceManager) {
+    constructor(resourceManager, engine) {
 
-        super(resourceManager);
+        super(resourceManager, engine);
 
         this._mesh = this._resourceManager.constructJudgmentBanner( ) ;
 

@@ -25,9 +25,9 @@ class LFFront extends GameObject {
     _mesh ;
 
 
-    constructor( resourceManager, kind ) {
+    constructor( resourceManager, engine, kind ) {
 
-        super(resourceManager);
+        super(resourceManager, engine);
 
 
         if (kind === 'single') {

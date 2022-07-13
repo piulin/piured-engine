@@ -28,8 +28,8 @@ class Hold extends GameObject {
     _kind ;
 
 
-    constructor(resourceManager, kind, noteskin) {
-        super(resourceManager);
+    constructor(resourceManager, engine, kind, noteskin) {
+        super(resourceManager, engine);
 
         this._kind = kind ;
         this._mesh = this._resourceManager.constructHoldExtensible( this._kind, noteskin ) ;

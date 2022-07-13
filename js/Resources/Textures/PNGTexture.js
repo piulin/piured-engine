@@ -19,15 +19,13 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 import * as THREE from '../../../node_modules/three/src/Three.js'
-import {engine} from '../../Engine.js'
 
 class PNGTexture {
 
 
     _map ;
 
-    constructor(texturePath) {
-
+    constructor(renderer,texturePath) {
         this.clonedTextures = [] ;
         let clonedTexturesLocal = this.clonedTextures ;
         let mapLocal =  new THREE.TextureLoader().load( texturePath ,
@@ -35,7 +33,7 @@ class PNGTexture {
             for ( const map of clonedTexturesLocal ) {
                 map.image = mapLocal.image;
                 map.needsUpdate = true ;
-                engine.renderer.initTexture(map) ;
+                renderer.initTexture(map) ;
             }
         }) ;
 
@@ -48,7 +46,7 @@ class PNGTexture {
         this._map.wrapS = THREE.RepeatWrapping;
 
 
-        engine.renderer.initTexture(this._map) ;
+        renderer.initTexture(this._map) ;
 
 
 

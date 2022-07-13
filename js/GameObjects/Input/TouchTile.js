@@ -21,7 +21,6 @@
 
 
 import {GameObject} from "../GameObject.js";
-import {engine} from "../../Engine.js";
 import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class TouchTile extends GameObject {
@@ -36,8 +35,8 @@ class TouchTile extends GameObject {
     _spritePosition ;
     _stepAnimationRate ;
 
-    constructor(resourceManager, kind, noteskin) {
-        super(resourceManager);
+    constructor(resourceManager, engine, kind, noteskin) {
+        super(resourceManager, engine);
         this._kind = kind ;
         this._mesh = this._resourceManager.constructStepNoteCloned( this._kind, noteskin )
         this._active = false ;
@@ -89,8 +88,8 @@ class TouchTile extends GameObject {
         );
 
         // engine.camera.updateMatrixWorld();
-        topLeft.project(engine.camera);
-        downRight.project(engine.camera);
+        topLeft.project(this.engine.camera);
+        downRight.project(this.engine.camera);
 
         const topLeftX = (1 + topLeft.x) / 2 * window.innerWidth;
         const topLeftY = (1 - topLeft.y) / 2 * window.innerHeight;

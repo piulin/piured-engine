@@ -23,7 +23,6 @@
 // This class is responsible for the input of a pad (5 steps)
 import {GameObject} from "../GameObject.js";
 import {TouchPad} from "./TouchPad.js";
-import {engine} from "../../Engine.js";
 import * as THREE from '../../../node_modules/three/src/Three.js'
 
 class TouchInput extends GameObject {
@@ -33,13 +32,13 @@ class TouchInput extends GameObject {
     _noteskin ;
 
 
-    constructor(resourceManager, frameLog, noteskin) {
+    constructor(resourceManager, engine, frameLog, noteskin) {
 
-        super(resourceManager) ;
+        super(resourceManager, engine) ;
 
         // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
-        engine.addToTouchDownList(this) ;
-        engine.addToTouchUpList(this) ;
+        this.engine.addToTouchDownList(this) ;
+        this.engine.addToTouchUpList(this) ;
 
         this.pads = [] ;
         this.padsDic = {} ;
@@ -59,7 +58,7 @@ class TouchInput extends GameObject {
     }
 
     addTouchPad(padId) {
-        const pad = new TouchPad(this._resourceManager, padId, this.frameLog, this._noteskin) ;
+        const pad = new TouchPad(this._resourceManager,this.engine, padId, this.frameLog, this._noteskin) ;
         // pad.object.position.z = 0.05;
         // pad.object.position.y = -9;
         pad.object.scale.x = 4.0;

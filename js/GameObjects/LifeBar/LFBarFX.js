@@ -26,8 +26,8 @@ class LFBarFX extends GameObject {
     _show ;
     _blink ;
 
-    constructor( resourceManager, kind) {
-        super(resourceManager);
+    constructor( resourceManager, engine, kind) {
+        super(resourceManager, engine);
         if ( kind === 'single') {
             this._mesh = this._resourceManager.constructSLifeBarBarFX() ;
         } else if ( kind === 'double') {

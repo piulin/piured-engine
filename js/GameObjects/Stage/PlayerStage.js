@@ -36,7 +36,6 @@ import {KeyInputConfig} from "../../Config/KeyInputConfig.js";
 import * as THREE from '../../../node_modules/three/src/Three.js'
 import {RemoteInput} from "../../Config/RemoteInput.js";
 import {TouchInputConfig} from "../../Config/TouchInputConfig.js";
-import {engine} from "../../Engine.js";
 
 class PlayerStage extends GameObject {
     _id ;
@@ -59,13 +58,14 @@ class PlayerStage extends GameObject {
     frameLog ;
 
     constructor(resourceManager,
+                engine,
                 song,
                 playerConfig,
                 playBackSpeed,
                 id,
                 lifebarOrientation = 'left2right') {
 
-        super(resourceManager);
+        super(resourceManager, engine);
 
         // Save properties.
         this.playerConfig = playerConfig ;
@@ -86,7 +86,7 @@ class PlayerStage extends GameObject {
         this.padReceptors = { } ;
         this._receptors = new THREE.Object3D();
 
-        this.frameLog = new FrameLog(this._resourceManager,this._id) ;
+        this.frameLog = new FrameLog(this._resourceManager, this.engine, this._id) ;
 
         this.configureBeatManager() ;
 
@@ -96,7 +96,7 @@ class PlayerStage extends GameObject {
 
     configureBeatManager() {
         // creates a new beat manager with the options of the player
-        this.beatManager = new BeatManager(this._resourceManager,
+        this.beatManager = new BeatManager(this._resourceManager,this.engine,
             this._song,
             this._level,
             this._userSpeed,
@@ -108,7 +108,7 @@ class PlayerStage extends GameObject {
     configureKeyInputPlayerStage(inputConfig) {
 
         // Create a KeyInput object
-        let playerInput = new KeyInput(this._resourceManager, this.frameLog)  ;
+        let playerInput = new KeyInput(this._resourceManager,this.engine, this.frameLog)  ;
 
         // Pad ids are used for identifying steps in double-style.
         let pad1Id = '0' ;
@@ -131,7 +131,7 @@ class PlayerStage extends GameObject {
     configureTouchInputPlayerStage(inputConfig) {
 
         // Create a TouchInput object
-        let playerInput = new TouchInput(this._resourceManager, this.frameLog, this._noteskin) ;
+        let playerInput = new TouchInput(this._resourceManager,this.engine, this.frameLog, this._noteskin) ;
 
         // We create two pads. Theoretically, more than 2 pads can be added, but in practice we only have either one or two.
         let pad1Id = '0' ;
@@ -160,7 +160,7 @@ class PlayerStage extends GameObject {
     }
 
     configureRemoteInputPlayerStage(inputConfig) {
-        let playerInput = new IInput(this._resourceManager, this.frameLog) ;
+        let playerInput = new IInput(this._resourceManager,this.engine, this.frameLog) ;
         let pad1Id = '0' ;
         let pad2Id = '1' ;
         playerInput.addPad(pad1Id) ;
@@ -247,16 +247,16 @@ class PlayerStage extends GameObject {
 
     constructStepQueue() {
         if (this.playerConfig.inputConfig instanceof RemoteInput ) {
-            this.stepQueue = new IStepQueue(this._resourceManager, this, this.keyListener, this.beatManager, this.accuracyMargin) ;
+            this.stepQueue = new IStepQueue(this._resourceManager, this.engine,this, this.keyListener, this.beatManager, this.accuracyMargin) ;
         } else {
-            this.stepQueue = new StepQueue(this._resourceManager, this, this.keyListener, this.beatManager, this.accuracyMargin, this.frameLog) ;
-            engine.addToInputList(this.stepQueue) ;
+            this.stepQueue = new StepQueue(this._resourceManager,this.engine, this, this.keyListener, this.beatManager, this.accuracyMargin, this.frameLog) ;
+            this.engine.addToInputList(this.stepQueue) ;
         }
 
     }
 
     constructSteps() {
-        this._steps = new Steps(this._resourceManager,
+        this._steps = new Steps(this._resourceManager,this.engine,
             this.stepQueue,
             this.beatManager,
             this._song,
@@ -270,7 +270,7 @@ class PlayerStage extends GameObject {
     }
 
     constructJudgment() {
-        this.judgment = new JudgmentScale(this._resourceManager, this.accuracyMargin, this._song.getLevelStyle(this._level),
+        this.judgment = new JudgmentScale(this._resourceManager,this.engine, this.accuracyMargin, this._song.getLevelStyle(this._level),
             this._song.getLevelDifficulty(this._level), this._lifeBar, this.frameLog) ;
         this.judgment.object.position.y = -2.25 ;
         this._object.add(this.judgment.object) ;
@@ -278,7 +278,7 @@ class PlayerStage extends GameObject {
 
     // Construct generic receptor
     getReceptor(padId) {
-        let receptor = new Receptor(this._resourceManager, this.beatManager, this.keyListener, padId, this.stepTextureAnimationRate, this._noteskin ) ;
+        let receptor = new Receptor(this._resourceManager,this.engine, this.beatManager, this.keyListener, padId, this.stepTextureAnimationRate, this._noteskin ) ;
         receptor.object.position.z = this.receptorZDepth;
         return receptor ;
     }
@@ -335,7 +335,7 @@ class PlayerStage extends GameObject {
 
     getLifeBar(kind) {
 
-        let lifebar = new LifeBar(this._resourceManager, this.beatManager, kind ) ;
+        let lifebar = new LifeBar(this._resourceManager,this.engine, this.beatManager, kind ) ;
 
         if (this.lifebarOrientation === 'left2right') {
             return lifebar ;

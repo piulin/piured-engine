@@ -25,8 +25,8 @@ class LFBack extends GameObject {
     _mesh ;
 
 
-    constructor( resourceManager, kind ) {
-        super(resourceManager);
+    constructor( resourceManager, engine, kind ) {
+        super(resourceManager, engine);
         let back = null ;
 
         if (kind === 'single') {

@@ -58,6 +58,7 @@ class Steps extends GameObject {
     id ;
 
     constructor(resourceManager,
+                engine,
                 stepQueue,
                 beatManager,
                 song,
@@ -67,7 +68,7 @@ class Steps extends GameObject {
                 idRightPad,
                 keyListener,
                 noteskin) {
-        super(resourceManager);
+        super(resourceManager, engine);
 
 
         // Set up positions for steps
@@ -298,7 +299,7 @@ class Steps extends GameObject {
         if ( note === '1' || note === '2' ) {
 
             // let step = this.stepFactory.getStep(kind);
-            let step = new StepNote( this._resourceManager, kind, padId, currentTimeInSong, this._noteskin ) ;
+            let step = new StepNote( this._resourceManager,this.engine, kind, padId, currentTimeInSong, this._noteskin ) ;
 
             let stepMesh = step.object ;
 
@@ -310,7 +311,7 @@ class Steps extends GameObject {
 
             if (note === '2') {
 
-                let stepHold = new StepHold(this._resourceManager, step, kind ) ;
+                let stepHold = new StepHold(this._resourceManager,this.engine, step, kind ) ;
 
                 // don't add steps into the stepqueue if they are inside a warp section
                 if (!this.beatManager.isNoteInWarp(beat)) {

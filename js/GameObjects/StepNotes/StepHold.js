@@ -36,8 +36,8 @@ class StepHold extends GameObject {
     holdZDepth = -0.00002 ;
     _id ;
 
-    constructor(resourceManager, stepNote, kind) {
-        super(resourceManager);
+    constructor(resourceManager, engine, stepNote, kind) {
+        super(resourceManager, engine);
 
         this._kind = kind ;
         this._stepNote = stepNote ;
@@ -76,7 +76,7 @@ class StepHold extends GameObject {
     constructHoldExtensible(endBeat, noteskin) {
         this._endBeat = endBeat ;
         this._originalEndBeat = endBeat ;
-        this._holdExtensible = new Hold(this._resourceManager,this.kind, noteskin) ;
+        this._holdExtensible = new Hold(this._resourceManager,this.engine,this.kind, noteskin) ;
         this._holdExtensible.object.position.z = this.holdZDepth ;
         this._holdExtensible.object.position.x = this._stepNote.object.position.x ;
         this._object.add(this._holdExtensible.object) ;

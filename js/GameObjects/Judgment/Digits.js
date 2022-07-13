@@ -32,9 +32,9 @@ class Digits extends GameObject {
     _object ;
 
 
-    constructor(resourceManager, maxNumDigits) {
+    constructor(resourceManager, engine, maxNumDigits) {
 
-        super( resourceManager );
+        super( resourceManager, engine);
 
         this.opacityFadeTween = null ;
 
@@ -49,7 +49,7 @@ class Digits extends GameObject {
         for ( var i = 0 ; i < this.maxNumDigits ; i++ ) {
 
 
-            let normal = new Digit(this._resourceManager) ;
+            let normal = new Digit(this._resourceManager, this.engine) ;
 
             // place them into position
             normal.object.scale.set( this.XscaleDigits , this.XscaleDigits ) ;
