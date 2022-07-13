@@ -195,12 +195,22 @@ class Engine {
     //public
 
     constructor() {
+    }
 
+    //FIXME: add docstring
+    init(
+         width,
+         height,
+         pixelRatio,
+         frameRequester
+         ) {
+
+        this.frameRequester = frameRequester
         this.clock = new THREE.Clock();
 
         // For grading the window is fixed in size; here's general code:
-        var canvasWidth = window.innerWidth;
-        var canvasHeight = window.innerHeight;
+        var canvasWidth = width;
+        var canvasHeight = height;
         var canvasRatio = canvasWidth / canvasHeight;
         // scene
         this.scene = new THREE.Scene();
@@ -231,7 +241,7 @@ class Engine {
         // Important for HiDPI devices.
 
 
-        this.renderer.setPixelRatio( window.devicePixelRatio );
+        this.renderer.setPixelRatio( pixelRatio );
         this.renderer.setSize( canvasWidth, canvasHeight );
         // this.renderer.setClearColor(new THREE.Color(0xffffff));
         this.renderer.autoClear = false;
@@ -244,8 +254,6 @@ class Engine {
         // document.body.appendChild( this.stats.domElement );
 
         // document.addEventListener( 'mousedown', this.onDocumentMouseDown.bind(this), false );
-
-
 
     }
 
@@ -471,7 +479,7 @@ class Engine {
         this.performReady() ;
         this.song.play() ;
     }
-
+    //FIXME: update docstring
     /**
      * Schedules when the engine should start playing the song and starts the rendering main loop.
      * You may only call this function once {@link StageConfig#onReadyToStart} callback
@@ -513,6 +521,7 @@ class Engine {
 
     }
 
+    //FIXME: docstring
     /**
      * Update size of drawable canvas.
      * @return {undefined}
@@ -520,12 +529,11 @@ class Engine {
      * @example <caption> Call it when the browser detects that the window has been resized </caption>
      * window.addEventListener( 'resize', engine.onWindowResize.bind(engine), false );
      */
-    onWindowResize ( ) {
+    resize (newWidth, newHeight ) {
 
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.aspect = newWidth / newHeight ;
         this.camera.updateProjectionMatrix();
-
-        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.setSize( newWidth, newHeight) ;
 
     }
 
