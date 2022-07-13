@@ -24,7 +24,7 @@ import {Background} from "./Background.js";
 import {PlayerStage} from "./PlayerStage.js";
 import {StepNoteTexture} from "../AnimatedTextures/StepNoteTexture.js";
 import {HoldExtensibleTexture} from "../AnimatedTextures/HoldExtensibleTexture.js";
-import * as THREE from '../../../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 
 class Stage extends GameObject {
 

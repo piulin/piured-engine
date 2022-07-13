@@ -25,7 +25,7 @@ import {Song} from "./Song/Song.js";
 import {ResourceManager} from "./Resources/ResourceManager.js";
 import {Stage} from "./GameObjects/Stage/Stage.js";
 import {RemoteInput} from "./Config/RemoteInput.js";
-import * as THREE from '../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 import {TWEEN} from "../lib/tween.min.js";
 
 /**
@@ -72,98 +72,100 @@ import {TWEEN} from "../lib/tween.min.js";
  *
  * @example <caption>Importing the engine via ES6 modules</caption>
  *
- * import {
- *     piuredEngine,
- *     StageConfig,
- *     KeyInputConfig,
- *     PlayerConfig, TouchInputConfig
- * } from "@piured/engine"
+ * import {PiuredEngine, StageConfig, PlayerConfig, KeyInputConfig} from '@piured/engine'
  *
  * @example <caption>Full example to configure a working engine.</caption>
  *
- * import {
- *     piuredEngine,
- *     StageConfig,
- *     KeyInputConfig,
- *     PlayerConfig
- * } from "@piured/engine"
+ * import {PiuredEngine, StageConfig, PlayerConfig, KeyInputConfig} from '@piured/engine'
  *
+ * async function setUpEngine (dom) {
+ *     let engine = new Engine()
  *
- * function stageCleared(performance) {
- *     console.log(performance) ;
- *     piuredEngine = null ;
- * }
- * function onKeyDown(event) {
- *     piuredEngine.keyDown(event) ;
- * }
- *
- * function onKeyUp(event) {
- *     piuredEngine.keyUp(event) ;
- * }
- *
- * let speed = 4.0 ;
- * let playback = 1.0 ;
- * let offset = 0.0 ;
- * let noteskin = 'NX' ;
- * let touchpadSize = 1.0 ;
- * let leftKeyMap = {
- *     dl: 'Z',
- *     ul : 'Q',
- *     c : 'S',
- *     ur : 'E',
- *     dr: 'C'
- * }
- * let rightKeyMap = {
- *     dl: 'V',
- *     ul : 'R',
- *     c : 'G',
- *     ur : 'Y',
- *     dr: 'N'
- * }
- * let chartLevel = 0 ;
- *
- * let stageConfig = new StageConfig('<uri-ssc>',
- *     '<uri-mp3>',
- *     playback,
- *     offset,
- *     [noteskin],
- *     () => {
- *         let dateToStart = new Date() ;
- *         // delay of 2 secs
- *         dateToStart.setMilliseconds(dateToStart.getMilliseconds() + 2000.0) ;
- *         piuredEngine.startPlayBack(dateToStart, () => {return new Date() ;}) ;
+ *     function stageCleared(performance) {
+ *         console.log(performance);
+ *         engine = null;
  *     }
- * ) ;
  *
- * await piuredEngine.configureStage(stageConfig) ;
+ *     function onKeyDown(event) {
+ *         engine.keyDown(event);
+ *     }
  *
- * let p1InputConfig ;
- * let accuracyMargin = 0.15 ;
+ *     function onKeyUp(event) {
+ *         engine.keyUp(event);
+ *     }
  *
- * accuracyMargin = 0.25 ;
+ *     let speed = 4.0;
+ *     let playback = 1.0;
+ *     let offset = 0.0;
+ *     let noteskin = 'NX';
+ *     let touchpadSize = 1.0;
+ *     let leftKeyMap = {
+ *         dl: 'Z',
+ *         ul: 'Q',
+ *         c: 'S',
+ *         ur: 'E',
+ *         dr: 'C'
+ *     }
+ *     let rightKeyMap = {
+ *         dl: 'V',
+ *         ul: 'R',
+ *         c: 'G',
+ *         ur: 'Y',
+ *         dr: 'N'
+ *     }
+ *     let chartLevel = 0;
+ *     let innerWidth = 800
+ *     let innerHeight = 800
+ *     let pixelRatio = window.devicePixelRatio
  *
- * window.onkeydown = onKeyDown ;
- * window.onkeyup = onKeyUp ;
+ *     engine.init(innerWidth, innerHeight, pixelRatio, window)
  *
- * p1InputConfig = new KeyInputConfig(leftKeyMap, rightKeyMap) ;
+ *     let stageConfig = new StageConfig('<mp3-url>',
+ *         '<ssc-url>',
+ *         playback,
+ *         offset,
+ *         [noteskin],
+ *         () => {
+ *             let dateToStart = new Date();
+ *             // delay of 2 secs
+ *             dateToStart.setMilliseconds(dateToStart.getMilliseconds() + 2000.0);
+ *             engine.startPlayBack(dateToStart, () => {
+ *                 return new Date();
+ *             });
+ *         }
+ *     );
  *
- * let p1Config = new PlayerConfig(p1InputConfig,
- *     noteskin,
- *     chartLevel,
- *     speed,
- *     accuracyMargin) ;
+ *     await engine.configureStage(stageConfig);
+ *
+ *     let p1InputConfig;
+ *     let accuracyMargin = 0.15;
+ *
+ *     accuracyMargin = 0.25;
+ *
+ *     window.onkeydown = onKeyDown;
+ *     window.onkeyup = onKeyUp;
+ *
+ *     p1InputConfig = new KeyInputConfig(leftKeyMap, rightKeyMap);
+ *
+ *     let p1Config = new PlayerConfig(p1InputConfig,
+ *         noteskin,
+ *         chartLevel,
+ *         speed,
+ *         accuracyMargin);
  *
  *
- * piuredEngine.addPlayer(p1Config) ;
+ *     engine.addPlayer(p1Config);
  *
- * piuredEngine.addToDOM('container');
+ *     engine.addToDOM(dom);
  *
- * window.addEventListener( 'resize', piuredEngine.onWindowResize.bind(piuredEngine), false );
+ *     window.addEventListener( 'resize', engine.onWindowResize.bind(engine), false );
  *
- * piuredEngine.onStageCleared = stageCleared ;
+ *     engine.onStageCleared = stageCleared;
  *
- * piuredEngine.start();
+ *     engine.start();
+ * }
  *
+ * await setUpEngine('<container>')
  *
  */
 

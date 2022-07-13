@@ -22,7 +22,7 @@
 
 import {Pad} from "./Pad.js";
 import {TouchTile} from "./TouchTile.js";
-import * as THREE from '../../../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 
 class TouchPad extends Pad {
 

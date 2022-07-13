@@ -20,7 +20,7 @@
 
 import {GameObject} from "../GameObject.js";
 import {Digit} from "./Digit.js";
-import * as THREE from '../../../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 import {TWEEN} from "../../../lib/tween.min.js";
 
 class Digits extends GameObject {

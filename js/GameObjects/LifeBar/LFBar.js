@@ -23,7 +23,7 @@ import {LFBarFX} from "./LFBarFX.js";
 import {LFBarFXRed} from "./LFBarFXRed.js";
 import {LFPulse} from "./LFPulse.js";
 import {LFTip} from "./LFTip.js";
-import * as THREE from '../../../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 
 class LFBar extends GameObject {
 

@@ -52,6 +52,12 @@
                       <li class='h5'><span>Instance members</span></li>
                       
                       <li><a
+                        href='#engineinit'
+                        class='regular pre-open'>
+                        #init
+                      </a></li>
+                      
+                      <li><a
                         href='#engineconfigurestage'
                         class='regular pre-open'>
                         #configureStage
@@ -136,9 +142,9 @@
                       </a></li>
                       
                       <li><a
-                        href='#engineonwindowresize'
+                        href='#engineresize'
                         class='regular pre-open'>
-                        #onWindowResize
+                        #resize
                       </a></li>
                       
                       <li><a
@@ -326,97 +332,100 @@ and report players' performance.</p>
     
       <p><p>Importing the engine via ES6 modules</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {
-    piuredEngine,
-    StageConfig,
-    KeyInputConfig,
-    PlayerConfig, TouchInputConfig
-} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@piured/engine&quot;</span></pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {PiuredEngine, StageConfig, PlayerConfig, KeyInputConfig} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@piured/engine&#x27;</span></pre>
     
       <p><p>Full example to configure a working engine.</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {
-    piuredEngine,
-    StageConfig,
-    KeyInputConfig,
-    PlayerConfig
-} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@piured/engine&quot;</span>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {PiuredEngine, StageConfig, PlayerConfig, KeyInputConfig} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@piured/engine&#x27;</span>
 
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setUpEngine</span> (<span class="hljs-params">dom</span>) </span>{
+    <span class="hljs-keyword">let</span> engine = <span class="hljs-keyword">new</span> Engine()
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stageCleared</span>(<span class="hljs-params">performance</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(performance) ;
-    piuredEngine = <span class="hljs-literal">null</span> ;
-}
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyDown</span>(<span class="hljs-params">event</span>) </span>{
-    piuredEngine.keyDown(event) ;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyUp</span>(<span class="hljs-params">event</span>) </span>{
-    piuredEngine.keyUp(event) ;
-}
-
-<span class="hljs-keyword">let</span> speed = <span class="hljs-number">4.0</span> ;
-<span class="hljs-keyword">let</span> playback = <span class="hljs-number">1.0</span> ;
-<span class="hljs-keyword">let</span> offset = <span class="hljs-number">0.0</span> ;
-<span class="hljs-keyword">let</span> noteskin = <span class="hljs-string">&#x27;NX&#x27;</span> ;
-<span class="hljs-keyword">let</span> touchpadSize = <span class="hljs-number">1.0</span> ;
-<span class="hljs-keyword">let</span> leftKeyMap = {
-    <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;Z&#x27;</span>,
-    <span class="hljs-attr">ul</span> : <span class="hljs-string">&#x27;Q&#x27;</span>,
-    <span class="hljs-attr">c</span> : <span class="hljs-string">&#x27;S&#x27;</span>,
-    <span class="hljs-attr">ur</span> : <span class="hljs-string">&#x27;E&#x27;</span>,
-    <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;C&#x27;</span>
-}
-<span class="hljs-keyword">let</span> rightKeyMap = {
-    <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;V&#x27;</span>,
-    <span class="hljs-attr">ul</span> : <span class="hljs-string">&#x27;R&#x27;</span>,
-    <span class="hljs-attr">c</span> : <span class="hljs-string">&#x27;G&#x27;</span>,
-    <span class="hljs-attr">ur</span> : <span class="hljs-string">&#x27;Y&#x27;</span>,
-    <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;N&#x27;</span>
-}
-<span class="hljs-keyword">let</span> chartLevel = <span class="hljs-number">0</span> ;
-
-<span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> StageConfig(<span class="hljs-string">&#x27;&lt;uri-ssc&gt;&#x27;</span>,
-    <span class="hljs-string">&#x27;&lt;uri-mp3&gt;&#x27;</span>,
-    playback,
-    offset,
-    [noteskin],
-    <span class="hljs-function">() =&gt;</span> {
-        <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ;
-        <span class="hljs-comment">// delay of 2 secs</span>
-        dateToStart.setMilliseconds(dateToStart.getMilliseconds() + <span class="hljs-number">2000.0</span>) ;
-        piuredEngine.startPlayBack(dateToStart, <span class="hljs-function">() =&gt;</span> {<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ;}) ;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stageCleared</span>(<span class="hljs-params">performance</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(performance);
+        engine = <span class="hljs-literal">null</span>;
     }
-) ;
 
-<span class="hljs-keyword">await</span> piuredEngine.configureStage(stageConfig) ;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyDown</span>(<span class="hljs-params">event</span>) </span>{
+        engine.keyDown(event);
+    }
 
-<span class="hljs-keyword">let</span> p1InputConfig ;
-<span class="hljs-keyword">let</span> accuracyMargin = <span class="hljs-number">0.15</span> ;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyUp</span>(<span class="hljs-params">event</span>) </span>{
+        engine.keyUp(event);
+    }
 
-accuracyMargin = <span class="hljs-number">0.25</span> ;
+    <span class="hljs-keyword">let</span> speed = <span class="hljs-number">4.0</span>;
+    <span class="hljs-keyword">let</span> playback = <span class="hljs-number">1.0</span>;
+    <span class="hljs-keyword">let</span> offset = <span class="hljs-number">0.0</span>;
+    <span class="hljs-keyword">let</span> noteskin = <span class="hljs-string">&#x27;NX&#x27;</span>;
+    <span class="hljs-keyword">let</span> touchpadSize = <span class="hljs-number">1.0</span>;
+    <span class="hljs-keyword">let</span> leftKeyMap = {
+        <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;Z&#x27;</span>,
+        <span class="hljs-attr">ul</span>: <span class="hljs-string">&#x27;Q&#x27;</span>,
+        <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;S&#x27;</span>,
+        <span class="hljs-attr">ur</span>: <span class="hljs-string">&#x27;E&#x27;</span>,
+        <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;C&#x27;</span>
+    }
+    <span class="hljs-keyword">let</span> rightKeyMap = {
+        <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;V&#x27;</span>,
+        <span class="hljs-attr">ul</span>: <span class="hljs-string">&#x27;R&#x27;</span>,
+        <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;G&#x27;</span>,
+        <span class="hljs-attr">ur</span>: <span class="hljs-string">&#x27;Y&#x27;</span>,
+        <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;N&#x27;</span>
+    }
+    <span class="hljs-keyword">let</span> chartLevel = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> innerWidth = <span class="hljs-number">800</span>
+    <span class="hljs-keyword">let</span> innerHeight = <span class="hljs-number">800</span>
+    <span class="hljs-keyword">let</span> pixelRatio = <span class="hljs-built_in">window</span>.devicePixelRatio
 
-<span class="hljs-built_in">window</span>.onkeydown = onKeyDown ;
-<span class="hljs-built_in">window</span>.onkeyup = onKeyUp ;
+    engine.init(innerWidth, innerHeight, pixelRatio, <span class="hljs-built_in">window</span>)
 
-p1InputConfig = <span class="hljs-keyword">new</span> KeyInputConfig(leftKeyMap, rightKeyMap) ;
+    <span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> StageConfig(<span class="hljs-string">&#x27;&lt;mp3-url&gt;&#x27;</span>,
+        <span class="hljs-string">&#x27;&lt;ssc-url&gt;&#x27;</span>,
+        playback,
+        offset,
+        [noteskin],
+        <span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+            <span class="hljs-comment">// delay of 2 secs</span>
+            dateToStart.setMilliseconds(dateToStart.getMilliseconds() + <span class="hljs-number">2000.0</span>);
+            engine.startPlayBack(dateToStart, <span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+            });
+        }
+    );
 
-<span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> PlayerConfig(p1InputConfig,
-    noteskin,
-    chartLevel,
-    speed,
-    accuracyMargin) ;
+    <span class="hljs-keyword">await</span> engine.configureStage(stageConfig);
+
+    <span class="hljs-keyword">let</span> p1InputConfig;
+    <span class="hljs-keyword">let</span> accuracyMargin = <span class="hljs-number">0.15</span>;
+
+    accuracyMargin = <span class="hljs-number">0.25</span>;
+
+    <span class="hljs-built_in">window</span>.onkeydown = onKeyDown;
+    <span class="hljs-built_in">window</span>.onkeyup = onKeyUp;
+
+    p1InputConfig = <span class="hljs-keyword">new</span> KeyInputConfig(leftKeyMap, rightKeyMap);
+
+    <span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> PlayerConfig(p1InputConfig,
+        noteskin,
+        chartLevel,
+        speed,
+        accuracyMargin);
 
 
-piuredEngine.addPlayer(p1Config) ;
+    engine.addPlayer(p1Config);
 
-piuredEngine.addToDOM(<span class="hljs-string">&#x27;container&#x27;</span>);
+    engine.addToDOM(dom);
 
-<span class="hljs-built_in">window</span>.addEventListener( <span class="hljs-string">&#x27;resize&#x27;</span>, piuredEngine.onWindowResize.bind(piuredEngine), <span class="hljs-literal">false</span> );
+    <span class="hljs-built_in">window</span>.addEventListener( <span class="hljs-string">&#x27;resize&#x27;</span>, engine.onWindowResize.bind(engine), <span class="hljs-literal">false</span> );
 
-piuredEngine.onStageCleared = stageCleared ;
+    engine.onStageCleared = stageCleared;
 
-piuredEngine.start();</pre>
+    engine.start();
+}
+
+<span class="hljs-keyword">await</span> setUpEngine(<span class="hljs-string">&#x27;&lt;container&gt;&#x27;</span>)</pre>
     
   
 
@@ -425,6 +434,103 @@ piuredEngine.start();</pre>
   
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
+  
+    <div class='border-bottom' id='engineinit'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>init(width, height, pixelRatio, window)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Configures the renderer and sets the camera into position. Call this method before setting up the stage through <a href="#engineconfigurestage">Engine#configureStage</a>.</p>
+
+    <div class='pre p1 fill-light mt0'>init(width: any, height: any, pixelRatio: any, window: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>width</span> <code class='quiet'>(any)</code>
+	    width of canvas
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>height</span> <code class='quiet'>(any)</code>
+	    height of canvas
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>pixelRatio</span> <code class='quiet'>(any)</code>
+	    pixel ratio of screen
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>window</span> <code class='quiet'>(any)</code>
+	    window object from browser, to respond to frames requests
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      <p><p>Initializing a new engine.</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'>engine.init( <span class="hljs-number">1270</span>, <span class="hljs-number">768</span>, <span class="hljs-built_in">window</span>.devicePixelRatio, <span class="hljs-built_in">window</span> )</pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
   
     <div class='border-bottom' id='engineconfigurestage'>
       <div class="clearfix small pointer toggle-sibling">
@@ -1559,11 +1665,11 @@ must not be used again. This method is called automatically once the song has re
       </div>
     </div>
   
-    <div class='border-bottom' id='engineonwindowresize'>
+    <div class='border-bottom' id='engineresize'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>onWindowResize()</span>
+            <span class='code strong strong truncate'>resize(newWidth, newHeight)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1571,19 +1677,42 @@ must not be used again. This method is called automatically once the song has re
 
   
 
-  <p>Update size of drawable canvas.</p>
+  <p>Update size of drawable canvas. You might call this function when the engine is running.</p>
 
-    <div class='pre p1 fill-light mt0'>onWindowResize(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
-  
-  
-
-  
-  
-  
-  
+    <div class='pre p1 fill-light mt0'>resize(newWidth: any, newHeight: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
   
   
 
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>newWidth</span> <code class='quiet'>(any)</code>
+	    new width of canvas
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>newHeight</span> <code class='quiet'>(any)</code>
+	    new height of canvas
+
+          </div>
+          
+        </div>
+      
+    </div>
   
 
   
@@ -1604,9 +1733,9 @@ must not be used again. This method is called automatically once the song has re
   
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
-      <p><p>Call it when the browser detects that the window has been resized</p>
+      <p><p>Resize drawable canvas to 500x500 px</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-built_in">window</span>.addEventListener( <span class="hljs-string">&#x27;resize&#x27;</span>, engine.onWindowResize.bind(engine), <span class="hljs-literal">false</span> );</pre>
+      <pre class='p1 overflow-auto round fill-light'>engine.resize(<span class="hljs-number">500</span>, <span class="hljs-number">500</span>)</pre>
     
   
 

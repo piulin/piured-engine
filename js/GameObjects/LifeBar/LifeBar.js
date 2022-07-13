@@ -24,7 +24,7 @@ import {GameObject} from "../GameObject.js";
 import {LFBack} from "./LFBack.js";
 import {LFFront} from "./LFFront.js";
 import {LFBar} from "./LFBar.js";
-import * as THREE from '../../../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 
 class LifeBar extends GameObject {
 

@@ -20,8 +20,8 @@
 
 
 import readFileContent from "../Utils/FileReader.js";
-import {parseSSC} from '../../node_modules/ssc-parser/index.js'
-import * as THREE from '../../node_modules/three/src/Three.js'
+import {parseSSC} from 'ssc-parser'
+import * as THREE from 'three'
 
 
 class Song {

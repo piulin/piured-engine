@@ -34,7 +34,7 @@ import {TransparentMaterial} from "./Materials/TransparentMaterial.js";
 import {BackgroundMaterial} from "./Shaders/BackgroundMaterial.js";
 import {AdditiveMaterial} from "./Materials/AdditiveMaterial.js";
 import {ReceptorMaterial} from "./Shaders/ReceptorMaterial.js";
-import * as THREE from '../../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 
 class ResourceManager {
 

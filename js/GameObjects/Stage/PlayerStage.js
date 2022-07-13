@@ -33,7 +33,7 @@ import {StepQueue} from "../Sequence/StepQueue.js";
 import {JudgmentScale} from "../Judgment/JudgmentScale.js";
 import {LifeBar} from "../LifeBar/LifeBar.js";
 import {KeyInputConfig} from "../../Config/KeyInputConfig.js";
-import * as THREE from '../../../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 import {RemoteInput} from "../../Config/RemoteInput.js";
 import {TouchInputConfig} from "../../Config/TouchInputConfig.js";
 

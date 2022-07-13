@@ -20,7 +20,7 @@
 
 
 import readFileContent from "../../Utils/FileReader.js";
-import * as THREE from '../../../node_modules/three/src/Three.js'
+import * as THREE from 'three'
 
 class BackgroundMaterial {
 
