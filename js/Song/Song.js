@@ -26,10 +26,11 @@ import * as THREE from 'three'
 
 class Song {
 
-    constructor(engine, pathToSSCFile, audioBuf, offset, playBackSpeed, onReadyToStart) {
+    constructor(engine, pathToSSCFile, parsedSSC,  audioBuf, offset, playBackSpeed, onReadyToStart) {
 
         this.engine = engine
         this.pathToSSCFile = pathToSSCFile;
+        this.parsedSSC = parsedSSC;
 
         // Metadata of the song
         this.meta = {};
@@ -56,7 +57,12 @@ class Song {
     }
 
     async initSSC(){
-        await readFileContent(this.pathToSSCFile, this.loadSSC.bind(this));
+        if (this.pathToSSCFile !== undefined) {
+            await readFileContent(this.pathToSSCFile, this.loadSSC.bind(this));
+        } else {
+            this.meta = this.parsedSSC.header ;
+            this.levels = this.parsedSSC.levels ;
+        }
     }
 
     getWARPS(level) {

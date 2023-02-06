@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset='utf-8'>
-  <title>piured-engine API 0.0.1 | Documentation</title>
+  <title>@piured/engine 0.0.2 | Documentation</title>
   <meta name='description' content='A web-based Pump It Up engine'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' rel='stylesheet'>
@@ -14,8 +14,8 @@
     <div class='flex'>
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
-          <h3 class='mb0 no-anchor'>piured-engine API</h3>
-          <div class='mb1'><code>0.0.1</code></div>
+          <h3 class='mb0 no-anchor'>@piured/engine</h3>
+          <div class='mb1'><code>0.0.2</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -298,9 +298,9 @@ trying to mimick the structure of any game engine. The source code can be found 
 <li>BGA in any video format is not supported.</li>
 <li>Dance pads or Joysticks are not supported as input methods.</li>
 <li>Performance metrics may not be deterministic.</li>
-<li>Only Pump-single, Pump-double and Pump-halfdouble styles are supported. Any other style may cause</li>
+<li>Only Pump-single, Pump-double and Pump-halfdouble styles are supported. Any other style may cause
+the engine to crash.</li>
 </ol>
-<p>the engine to crash.</p>
 <p>The <a href="#engine">Engine</a> class is the main abstraction for creating a pump it up stage and playing a chart. It contains all
 methods necessary to create a new stage, add an indefinite number of local and remote players, load Stepmania SSC files,
 and report players' performance.</p>
@@ -332,26 +332,26 @@ and report players' performance.</p>
     
       <p><p>Importing the engine via ES6 modules</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {PiuredEngine, StageConfig, PlayerConfig, KeyInputConfig} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@piured/engine&#x27;</span></pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {<span class="hljs-title class_">PiuredEngine</span>, <span class="hljs-title class_">StageConfig</span>, <span class="hljs-title class_">PlayerConfig</span>, <span class="hljs-title class_">KeyInputConfig</span>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@piured/engine&#x27;</span></pre>
     
       <p><p>Full example to configure a working engine.</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {PiuredEngine, StageConfig, PlayerConfig, KeyInputConfig} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@piured/engine&#x27;</span>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">import</span> {<span class="hljs-title class_">PiuredEngine</span>, <span class="hljs-title class_">StageConfig</span>, <span class="hljs-title class_">PlayerConfig</span>, <span class="hljs-title class_">KeyInputConfig</span>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@piured/engine&#x27;</span>
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setUpEngine</span> (<span class="hljs-params">dom</span>) </span>{
-    <span class="hljs-keyword">let</span> engine = <span class="hljs-keyword">new</span> Engine()
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">setUpEngine</span> (dom) {
+    <span class="hljs-keyword">let</span> engine = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Engine</span>()
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stageCleared</span>(<span class="hljs-params">performance</span>) </span>{
-        <span class="hljs-built_in">console</span>.log(performance);
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">stageCleared</span>(<span class="hljs-params">performance</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(performance);
         engine = <span class="hljs-literal">null</span>;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyDown</span>(<span class="hljs-params">event</span>) </span>{
-        engine.keyDown(event);
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">onKeyDown</span>(<span class="hljs-params">event</span>) {
+        engine.<span class="hljs-title function_">keyDown</span>(event);
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onKeyUp</span>(<span class="hljs-params">event</span>) </span>{
-        engine.keyUp(event);
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">onKeyUp</span>(<span class="hljs-params">event</span>) {
+        engine.<span class="hljs-title function_">keyUp</span>(event);
     }
 
     <span class="hljs-keyword">let</span> speed = <span class="hljs-number">4.0</span>;
@@ -376,56 +376,56 @@ and report players' performance.</p>
     <span class="hljs-keyword">let</span> chartLevel = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">let</span> innerWidth = <span class="hljs-number">800</span>
     <span class="hljs-keyword">let</span> innerHeight = <span class="hljs-number">800</span>
-    <span class="hljs-keyword">let</span> pixelRatio = <span class="hljs-built_in">window</span>.devicePixelRatio
+    <span class="hljs-keyword">let</span> pixelRatio = <span class="hljs-variable language_">window</span>.<span class="hljs-property">devicePixelRatio</span>
 
-    engine.init(innerWidth, innerHeight, pixelRatio, <span class="hljs-built_in">window</span>)
+    engine.<span class="hljs-title function_">init</span>(innerWidth, innerHeight, pixelRatio, <span class="hljs-variable language_">window</span>)
 
-    <span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> StageConfig(<span class="hljs-string">&#x27;&lt;mp3-url&gt;&#x27;</span>,
+    <span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> <span class="hljs-title class_">StageConfig</span>(<span class="hljs-string">&#x27;&lt;mp3-url&gt;&#x27;</span>,
         <span class="hljs-string">&#x27;&lt;ssc-url&gt;&#x27;</span>,
         playback,
         offset,
         [noteskin],
         <span class="hljs-function">() =&gt;</span> {
-            <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+            <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>();
             <span class="hljs-comment">// delay of 2 secs</span>
-            dateToStart.setMilliseconds(dateToStart.getMilliseconds() + <span class="hljs-number">2000.0</span>);
-            engine.startPlayBack(dateToStart, <span class="hljs-function">() =&gt;</span> {
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+            dateToStart.<span class="hljs-title function_">setMilliseconds</span>(dateToStart.<span class="hljs-title function_">getMilliseconds</span>() + <span class="hljs-number">2000.0</span>);
+            engine.<span class="hljs-title function_">startPlayBack</span>(dateToStart, <span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>();
             });
         }
     );
 
-    <span class="hljs-keyword">await</span> engine.configureStage(stageConfig);
+    <span class="hljs-keyword">await</span> engine.<span class="hljs-title function_">configureStage</span>(stageConfig);
 
     <span class="hljs-keyword">let</span> p1InputConfig;
     <span class="hljs-keyword">let</span> accuracyMargin = <span class="hljs-number">0.15</span>;
 
     accuracyMargin = <span class="hljs-number">0.25</span>;
 
-    <span class="hljs-built_in">window</span>.onkeydown = onKeyDown;
-    <span class="hljs-built_in">window</span>.onkeyup = onKeyUp;
+    <span class="hljs-variable language_">window</span>.<span class="hljs-property">onkeydown</span> = onKeyDown;
+    <span class="hljs-variable language_">window</span>.<span class="hljs-property">onkeyup</span> = onKeyUp;
 
-    p1InputConfig = <span class="hljs-keyword">new</span> KeyInputConfig(leftKeyMap, rightKeyMap);
+    p1InputConfig = <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyInputConfig</span>(leftKeyMap, rightKeyMap);
 
-    <span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> PlayerConfig(p1InputConfig,
+    <span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PlayerConfig</span>(p1InputConfig,
         noteskin,
         chartLevel,
         speed,
         accuracyMargin);
 
 
-    engine.addPlayer(p1Config);
+    engine.<span class="hljs-title function_">addPlayer</span>(p1Config);
 
-    engine.addToDOM(dom);
+    engine.<span class="hljs-title function_">addToDOM</span>(dom);
 
-    <span class="hljs-built_in">window</span>.addEventListener( <span class="hljs-string">&#x27;resize&#x27;</span>, engine.onWindowResize.bind(engine), <span class="hljs-literal">false</span> );
+    <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>( <span class="hljs-string">&#x27;resize&#x27;</span>, engine.<span class="hljs-property">onWindowResize</span>.<span class="hljs-title function_">bind</span>(engine), <span class="hljs-literal">false</span> );
 
-    engine.onStageCleared = stageCleared;
+    engine.<span class="hljs-property">onStageCleared</span> = stageCleared;
 
-    engine.start();
+    engine.<span class="hljs-title function_">start</span>();
 }
 
-<span class="hljs-keyword">await</span> setUpEngine(<span class="hljs-string">&#x27;&lt;container&gt;&#x27;</span>)</pre>
+<span class="hljs-keyword">await</span> <span class="hljs-title function_">setUpEngine</span>(<span class="hljs-string">&#x27;&lt;container&gt;&#x27;</span>)</pre>
     
   
 
@@ -516,7 +516,7 @@ and report players' performance.</p>
     
       <p><p>Initializing a new engine.</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.init( <span class="hljs-number">1270</span>, <span class="hljs-number">768</span>, <span class="hljs-built_in">window</span>.devicePixelRatio, <span class="hljs-built_in">window</span> )</pre>
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-title function_">init</span>( <span class="hljs-number">1270</span>, <span class="hljs-number">768</span>, <span class="hljs-variable language_">window</span>.<span class="hljs-property">devicePixelRatio</span>, <span class="hljs-variable language_">window</span> )</pre>
     
   
 
@@ -595,8 +595,8 @@ This method must be called before adding new players to the stage through <a hre
     
       <p><p>Configuring a new stage. Details of the <a href="#stageconfig">StageConfig</a> object are omitted.</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> StageConfig( ... ) ;
-engine.configureStage(stageConfig) ;</pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> <span class="hljs-title class_">StageConfig</span>( ... ) ;
+engine.<span class="hljs-title function_">configureStage</span>(stageConfig) ;</pre>
     
   
 
@@ -676,8 +676,8 @@ Players could play locally by using traditional input methods (e.g., Keyboard, T
     
       <p><p>Adding a new player to the stage. Details of the <a href="#playerconfig">PlayerConfig</a> object are omitted.</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> PlayerConfig( ... ) ;
-<span class="hljs-keyword">let</span> p1Id = engine.addPlayer(p1Config) ;</pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PlayerConfig</span>( ... ) ;
+<span class="hljs-keyword">let</span> p1Id = engine.<span class="hljs-title function_">addPlayer</span>(p1Config) ;</pre>
     
   
 
@@ -755,7 +755,7 @@ You need to call this function so that the engine has a canvas to draw on.</p>
     
       <p><p>Granted we have defined in a HTML document the following container <code>&#x3C;div id="container">&#x3C;/div></code>, we add the engine to the DOM</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.addToDOM(<span class="hljs-string">&#x27;container&#x27;</span>) ;</pre>
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-title function_">addToDOM</span>(<span class="hljs-string">&#x27;container&#x27;</span>) ;</pre>
     
   
 
@@ -844,7 +844,7 @@ engine is running.</p>
     
       <p><p>Updating the offset by 0.01 seconds for player with id <code>p1Id := 0</code>.</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.updateOffset(p1Id, <span class="hljs-number">0.01</span>) ;</pre>
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-title function_">updateOffset</span>(p1Id, <span class="hljs-number">0.01</span>) ;</pre>
     
   
 
@@ -925,10 +925,10 @@ while the engine is running. This function won't have any effect if there are re
       <p><p>Speeding up the playback rate to 110% (1.1x)</p>
 </p>
       <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// changes the playback speed to 110%</span>
-engine.tunePlayBackSpeed(<span class="hljs-number">1.1</span>) ;
+engine.<span class="hljs-title function_">tunePlayBackSpeed</span>(<span class="hljs-number">1.1</span>) ;
 
 <span class="hljs-comment">// Essentially stops the playback</span>
-engine.tunePlayBackSpeed(<span class="hljs-number">0.0</span>) ;</pre>
+engine.<span class="hljs-title function_">tunePlayBackSpeed</span>(<span class="hljs-number">0.0</span>) ;</pre>
     
   
 
@@ -1006,7 +1006,7 @@ engine.tunePlayBackSpeed(<span class="hljs-number">0.0</span>) ;</pre>
     
       <p><p>Configuring the browser to log the key strokes into the engine</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-built_in">window</span>.onkeydown = engine.keyDown ;</pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-variable language_">window</span>.<span class="hljs-property">onkeydown</span> = engine.<span class="hljs-property">keyDown</span> ;</pre>
     
   
 
@@ -1084,7 +1084,7 @@ engine.tunePlayBackSpeed(<span class="hljs-number">0.0</span>) ;</pre>
     
       <p><p>Configuring the browser to log the key strokes into the engine</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-built_in">window</span>.onkeyup = engine.keyUp ;</pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-variable language_">window</span>.<span class="hljs-property">onkeyup</span> = engine.<span class="hljs-property">keyUp</span> ;</pre>
     
   
 
@@ -1162,12 +1162,12 @@ engine.tunePlayBackSpeed(<span class="hljs-number">0.0</span>) ;</pre>
     
       <p><p>Configuring the browser to log touch down events into the engine</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-built_in">document</span>.addEventListener( <span class="hljs-string">&#x27;touchstart&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>( <span class="hljs-string">&#x27;touchstart&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
     <span class="hljs-comment">// disable default actions</span>
-    event.preventDefault();
-    event.stopPropagation();
+    event.<span class="hljs-title function_">preventDefault</span>();
+    event.<span class="hljs-title function_">stopPropagation</span>();
 
-    engine.touchDown(event) ;
+    engine.<span class="hljs-title function_">touchDown</span>(event) ;
 }, <span class="hljs-literal">false</span> );</pre>
     
   
@@ -1246,12 +1246,12 @@ engine.tunePlayBackSpeed(<span class="hljs-number">0.0</span>) ;</pre>
     
       <p><p>Configuring the browser to log touch down events into the engine</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-built_in">document</span>.addEventListener( <span class="hljs-string">&#x27;touchend&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>( <span class="hljs-string">&#x27;touchend&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
     <span class="hljs-comment">// disable default actions</span>
-    event.preventDefault();
-    event.stopPropagation();
+    event.<span class="hljs-title function_">preventDefault</span>();
+    event.<span class="hljs-title function_">stopPropagation</span>();
 
-    engine.touchUp(event) ;
+    engine.<span class="hljs-title function_">touchUp</span>(event) ;
 }, <span class="hljs-literal">false</span> );</pre>
     
   
@@ -1347,7 +1347,7 @@ engine.tunePlayBackSpeed(<span class="hljs-number">0.0</span>) ;</pre>
     
       <p><p>Moving the camera backwards to fully show players' stages when both are playing <code>pump-double</code> styles</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.setCameraPosition(<span class="hljs-number">0</span>,-<span class="hljs-number">3.4</span>,<span class="hljs-number">12</span>) ;</pre>
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-title function_">setCameraPosition</span>(<span class="hljs-number">0</span>,-<span class="hljs-number">3.4</span>,<span class="hljs-number">12</span>) ;</pre>
     
   
 
@@ -1430,9 +1430,9 @@ engine.tunePlayBackSpeed(<span class="hljs-number">0.0</span>) ;</pre>
     
       <p><p>Query if one player is playing <code>pump-double</code> to reposition the camera</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1StageType = engine.queryStageType(P1chartLevel) ;
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1StageType = engine.<span class="hljs-title function_">queryStageType</span>(P1chartLevel) ;
 <span class="hljs-keyword">if</span> (p1StageType === <span class="hljs-string">&#x27;pump-double&#x27;</span>) {
-    engine.setCameraPosition(<span class="hljs-number">0</span>,-<span class="hljs-number">3.4</span>,<span class="hljs-number">12</span>) ;
+    engine.<span class="hljs-title function_">setCameraPosition</span>(<span class="hljs-number">0</span>,-<span class="hljs-number">3.4</span>,<span class="hljs-number">12</span>) ;
 }</pre>
     
   
@@ -1498,7 +1498,7 @@ the initialization is completed.</p>
     
       <p><p>Starting the engine</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.start() ;</pre>
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-title function_">start</span>() ;</pre>
     
   
 
@@ -1587,11 +1587,11 @@ is called.</p>
     
       <p><p>We let the engine start playing back after 2 seconds once the engine has loaded up</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> onReadyToStart = <span class="hljs-function">() =&gt;</span> {
-     <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ;
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> <span class="hljs-title function_">onReadyToStart</span> = (<span class="hljs-params"></span>) =&gt; {
+     <span class="hljs-keyword">let</span> dateToStart = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>() ;
      <span class="hljs-comment">// delay of 2 secs</span>
-     dateToStart.setMilliseconds(dateToStart.getMilliseconds() + <span class="hljs-number">2000.0</span>) ;
-     engine.startPlayBack(dateToStart, <span class="hljs-function">() =&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() ; }
+     dateToStart.<span class="hljs-title function_">setMilliseconds</span>(dateToStart.<span class="hljs-title function_">getMilliseconds</span>() + <span class="hljs-number">2000.0</span>) ;
+     engine.<span class="hljs-title function_">startPlayBack</span>(dateToStart, <span class="hljs-function">() =&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>() ; }
 }</pre>
     
   
@@ -1735,7 +1735,7 @@ must not be used again. This method is called automatically once the song has re
     
       <p><p>Resize drawable canvas to 500x500 px</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.resize(<span class="hljs-number">500</span>, <span class="hljs-number">500</span>)</pre>
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-title function_">resize</span>(<span class="hljs-number">500</span>, <span class="hljs-number">500</span>)</pre>
     
   
 
@@ -1814,7 +1814,7 @@ players are configured. They enable the engine to know what is the current statu
       <p><p>To learn more about how to use frame logs for communicating a pair of engines, have a look at
 the repo at <a href="https://github.com/piulin/piured">https://github.com/piulin/piured</a></p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.logFrame(<span class="hljs-built_in">JSON</span>) ;</pre>
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-title function_">logFrame</span>(<span class="hljs-title class_">JSON</span>) ;</pre>
     
   
 
@@ -1892,9 +1892,9 @@ local player. Ideally, the content of the JSON is sent through the network someh
       <p><p>To learn more about how to use frame logs for communicating a pair of engines, have a look at
 the repo at <a href="https://github.com/piulin/piured">https://github.com/piulin/piured</a></p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.onFrameLog = (frameLog) {
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-property">onFrameLog</span> = (frameLog) {
     <span class="hljs-comment">//send it to the remote engine somehow</span>
-    mm.sendFrameLog(frameLog) ;
+    mm.<span class="hljs-title function_">sendFrameLog</span>(frameLog) ;
 }</pre>
     
   
@@ -1965,9 +1965,9 @@ by reaching the end of the song). It can be used to report the player's performa
     
       <p><p>We report the player's performance when the stage is cleared</p>
 </p>
-      <pre class='p1 overflow-auto round fill-light'>engine.onStageCleared = <span class="hljs-function">(<span class="hljs-params">performance</span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(performance) ;
-    <span class="hljs-built_in">window</span>.close() ;
+      <pre class='p1 overflow-auto round fill-light'>engine.<span class="hljs-property">onStageCleared</span> = <span class="hljs-function">(<span class="hljs-params">performance</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(performance) ;
+    <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">close</span>() ;
 }</pre>
     
   
@@ -2025,7 +2025,7 @@ by reaching the end of the song). It can be used to report the player's performa
 
   <p>This class holds the configuration of a stage.</p>
 
-    <div class='pre p1 fill-light mt0'>new StageConfig(SSCFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, audioFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, playBackSpeed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, offset: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, noteskins: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, onReadyToStart: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new StageConfig(SSCFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, parsedSSC: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, audioFile: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, playBackSpeed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, offset: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, noteskins: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, onReadyToStart: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
   
   
 
@@ -2043,7 +2043,22 @@ by reaching the end of the song). It can be used to report the player's performa
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>SSCFile</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    path to the Stepmania SSC file describing the levels and steps available
+	    path to the Stepmania SSC file describing the levels and steps available. This parameter can be 
+<code>undefined</code>
+ if parsedSSC is provided.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>parsedSSC</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    parsed SSC file in JSON format (output of ssc-parser). If this parameter is 
+<code>undefined</code>
+ then, parameter 
+<code>SSCFile</code>
+ must be provided.
 
           </div>
           
@@ -2113,19 +2128,20 @@ and it's ready to begin the playback
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
       
-      <pre class='p1 overflow-auto round fill-light'>let stageConfig = new StageConfig(&#x27;song.ssc&#x27;,
-         &#x27;song.mp3&#x27;,
-         1.0,
-         0.0,
-         &#x27;piured-engine,
-         [&#x27;NXA&#x27;],
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> stageConfig = <span class="hljs-keyword">new</span> <span class="hljs-title class_">StageConfig</span>(<span class="hljs-string">&#x27;song.ssc&#x27;</span>,
+         <span class="hljs-literal">undefined</span>,
+         <span class="hljs-string">&#x27;song.mp3&#x27;</span>,
+         <span class="hljs-number">1.0</span>,
+         <span class="hljs-number">0.0</span>,
+         <span class="hljs-string">&#x27;piured-engine,
+         [&#x27;</span><span class="hljs-variable constant_">NXA</span><span class="hljs-string">&#x27;],
          () =&gt; {
              let dateToStart = new Date() ;
              // delay of 2 secs
              dateToStart.setMilliseconds(dateToStart.getMilliseconds() + 2000.0) ;
              engine.startPlayBack(dateToStart, () =&gt; {return new Date() ;}) ;
          }
-) ;</pre>
+) ;</span></pre>
     
   
 
@@ -2267,8 +2283,8 @@ and it's ready to begin the playback
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
       
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1InputConfig = RemoteInput() ;
-<span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> PlayerConfig(p1InputConfig,
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1InputConfig = <span class="hljs-title class_">RemoteInput</span>() ;
+<span class="hljs-keyword">let</span> p1Config = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PlayerConfig</span>(p1InputConfig,
                      <span class="hljs-string">&#x27;NXA&#x27;</span>,
                      <span class="hljs-number">0</span>,
                      <span class="hljs-number">3.0</span>,
@@ -2353,18 +2369,18 @@ and <a href="#enginekeyup">Engine#keyUp</a>.</p>
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
       
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1InputConfig = <span class="hljs-keyword">new</span> KeyInputConfig({
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1InputConfig = <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyInputConfig</span>({
    <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;Z&#x27;</span>,
-   <span class="hljs-attr">ul</span> : <span class="hljs-string">&#x27;Q&#x27;</span>,
-   <span class="hljs-attr">c</span> : <span class="hljs-string">&#x27;S&#x27;</span>,
-   <span class="hljs-attr">ur</span> : <span class="hljs-string">&#x27;E&#x27;</span>,
+   ul : <span class="hljs-string">&#x27;Q&#x27;</span>,
+   c : <span class="hljs-string">&#x27;S&#x27;</span>,
+   ur : <span class="hljs-string">&#x27;E&#x27;</span>,
    <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;C&#x27;</span>
 },
 {
    <span class="hljs-attr">dl</span>: <span class="hljs-string">&#x27;V&#x27;</span>,
-   <span class="hljs-attr">ul</span> : <span class="hljs-string">&#x27;R&#x27;</span>,
-   <span class="hljs-attr">c</span> : <span class="hljs-string">&#x27;G&#x27;</span>,
-   <span class="hljs-attr">ur</span> : <span class="hljs-string">&#x27;Y&#x27;</span>,
+   ul : <span class="hljs-string">&#x27;R&#x27;</span>,
+   c : <span class="hljs-string">&#x27;G&#x27;</span>,
+   ur : <span class="hljs-string">&#x27;Y&#x27;</span>,
    <span class="hljs-attr">dr</span>: <span class="hljs-string">&#x27;N&#x27;</span>
 }) ;</pre>
     
@@ -2459,7 +2475,7 @@ and <a href="#enginetouchup">Engine#touchUp</a>.</p>
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
       
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1InputConfig = <span class="hljs-keyword">new</span> TouchInputConfig() ;</pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> p1InputConfig = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TouchInputConfig</span>() ;</pre>
     
   
 
@@ -2516,7 +2532,7 @@ using remote input through <a href="#enginelogframe">Engine#logFrame</a></p>
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
       
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> remoteInputConfig = <span class="hljs-keyword">new</span> remoteInput() ;</pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> remoteInputConfig = <span class="hljs-keyword">new</span> <span class="hljs-title function_">remoteInput</span>() ;</pre>
     
   
 

@@ -284,7 +284,7 @@ class Engine {
 
         this.resourcePath = stageConfig.resourcePath ;
         this.playBackSpeed = stageConfig.playBackSpeed ;
-        this.song = new Song(this, stageConfig.SSCFile, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
+        this.song = new Song(this, stageConfig.SSCFile, stageConfig.parsedSSC, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
         await this.song.initSSC()
         let resourceManager = new ResourceManager(this.renderer, stageConfig.resourcePath, 'noteskins/', stageConfig.noteskins, 'stage_UHD') ;
         this.stage = new Stage(resourceManager, this, this.song, stageConfig.noteskins) ;

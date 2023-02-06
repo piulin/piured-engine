@@ -21,7 +21,8 @@
 
 /**
  * This class holds the configuration of a stage.
- * @param {string} SSCFile path to the Stepmania SSC file describing the levels and steps available
+ * @param {string} SSCFile path to the Stepmania SSC file describing the levels and steps available. This parameter can be `undefined` if parsedSSC is provided.
+ * @param {string} parsedSSC parsed SSC file in JSON format (output of ssc-parser). If this parameter is `undefined` then, parameter `SSCFile` must be provided.
  * @param {string} audioFile path to the audio file in mp3 or ogg format associated with the SSC file
  * @param {number} playBackSpeed song playback rate. A `playBackSpeed` equal to 1.0 configure the engine to play the song at the normal speed
  * @param {number} offset synchronization offset. Use it to synchronize off-the-beat charts with the audio
@@ -32,6 +33,7 @@
  * @example
  *
  * let stageConfig = new StageConfig('song.ssc',
+ *          undefined,
  *          'song.mp3',
  *          1.0,
  *          0.0,
@@ -57,8 +59,9 @@ class StageConfig {
     _onReadyToStart = undefined ;
 
 
-    constructor(SSCFile, audioFile, playBackSpeed, offset, noteskins, onReadyToStart = () => {} ) {
+    constructor(SSCFile, parsedSSC, audioFile, playBackSpeed, offset, noteskins, onReadyToStart = () => {} ) {
         this._SSCFile = SSCFile;
+        this._parsedSSC = parsedSSC ; 
         this._audioFile = audioFile;
         this._playBackSpeed = playBackSpeed;
         this._offset = offset;
@@ -70,6 +73,10 @@ class StageConfig {
 
     get SSCFile() {
         return this._SSCFile;
+    }
+
+    get parsedSSC() {
+        return this._parsedSSC;
     }
 
     get audioFile() {
