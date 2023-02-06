@@ -27,6 +27,7 @@
  * @param {number} playBackSpeed song playback rate. A `playBackSpeed` equal to 1.0 configure the engine to play the song at the normal speed
  * @param {number} offset synchronization offset. Use it to synchronize off-the-beat charts with the audio
  * @param {Array} noteskins list of noteskins available to use for playerStages. Include those only used in them.
+ * @param {string} resourceURL URL to grab the stage assets
  * @param {Function} onReadyToStart callback function. This function will be called once the engine has loaded up completely the stage
  * and it's ready to begin the playback
  *
@@ -39,6 +40,7 @@
  *          0.0,
  *          'piured-engine,
  *          ['NXA'],
+ *          '../',
  *          () => {
  *              let dateToStart = new Date() ;
  *              // delay of 2 secs
@@ -56,16 +58,17 @@ class StageConfig {
     _offset ;
     _resourcePath ;
     _noteskins ;
+    _parsedSSC;
     _onReadyToStart = undefined ;
 
 
-    constructor(SSCFile, parsedSSC, audioFile, playBackSpeed, offset, noteskins, onReadyToStart = () => {} ) {
+    constructor(SSCFile, parsedSSC, audioFile, playBackSpeed, offset, noteskins, resourceURL = '../', onReadyToStart = () => {} ) {
         this._SSCFile = SSCFile;
         this._parsedSSC = parsedSSC ; 
         this._audioFile = audioFile;
         this._playBackSpeed = playBackSpeed;
         this._offset = offset;
-        this._resourcePath = '../';
+        this._resourcePath = resourceURL; 
         this._noteskins = noteskins;
         this._onReadyToStart = onReadyToStart ;
     }
