@@ -1,6 +1,6 @@
 {
-  "name": "@piured/engine",
-  "version": "0.0.3",
+  "name": "@piured/engine-dev",
+  "version": "0.0.5",
   "description": "A web-based Pump It Up engine",
   "main": "index.js",
   "type": "module",

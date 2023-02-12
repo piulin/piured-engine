@@ -281,9 +281,11 @@ class Engine {
      * engine.configureStage(stageConfig) ;
      */
     async configureStage( stageConfig ) {
+        console.log('configuring-stagee!!!!!!!')
 
         this.resourcePath = stageConfig.resourcePath ;
-        this.playBackSpeed = stageConfig.playBackSpeed ;
+        this.tunePlayBackSpeed(stageConfig.playBackSpeed)
+
         this.song = new Song(this, stageConfig.SSCFile, stageConfig.parsedSSC, stageConfig.audioFile, stageConfig.offset, stageConfig.playBackSpeed, stageConfig.onReadyToStart);
         await this.song.initSSC()
         let resourceManager = new ResourceManager(this.renderer, stageConfig.resourcePath, 'noteskins/', stageConfig.noteskins, 'stage_UHD') ;
