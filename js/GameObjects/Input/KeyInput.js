@@ -16,172 +16,146 @@
  # along with piured-engine.If not, see <http://www.gnu.org/licenses/>.
  *
  */
-"use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
-
-
+'use strict'; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 // This class is responsible for the input of a pad (5 steps)
-import {GameObject} from "../GameObject.js";
-import {Pad} from "./Pad.js";
-import * as THREE from 'three'
+import * as THREE from 'three';
+import { GameObject } from '../GameObject.js';
+import { Pad } from './Pad.js';
 
 class KeyInput extends GameObject {
+  _mesh;
 
-    _mesh ;
+  constructor(resourceManager, engine, frameLog, autoplay = false) {
+    super(resourceManager, engine);
 
-    constructor(resourceManager, engine, frameLog) {
+    // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
+    this.engine.addToKeyDownList(this);
+    this.engine.addToKeyUpList(this);
 
-        super(resourceManager, engine) ;
+    this.frameLog = frameLog;
 
-        // Connect to update lists, so it can be updated every frame and can keep track of key inputs.
-        this.engine.addToKeyDownList(this) ;
-        this.engine.addToKeyUpList(this) ;
+    this.pads = [];
+    this.padsDic = {};
+    this.autoplay = autoplay;
 
-        this.frameLog = frameLog ;
+    this._mesh = new THREE.Object3D();
+  }
 
-        this.pads = [] ;
-        this.padsDic = {} ;
+  getPadIds() {
+    return Object.keys(this.padsDic);
+  }
 
-        this._mesh = new THREE.Object3D() ;
+  addPad(keyMap, padId) {
+    const pad = new Pad(
+      this._resourceManager,
+      this.engine,
+      keyMap,
+      padId,
+      this.frameLog
+    );
+    this.pads.push(pad);
+    this.padsDic[padId] = pad;
+  }
 
+  onKeyDown(event) {
+    const key = event.key.toLowerCase();
 
+    for (let pad of this.pads) {
+      if (key === pad.dlKey && !pad.dlKeyHold) {
+        pad.dlKeyHold = true;
+        pad.dlKeyPressed = true;
+        // console.log('dl down: ' +key) ;
+      } else if (key === pad.ulKey && !pad.ulKeyHold) {
+        pad.ulKeyHold = true;
+        pad.ulKeyPressed = true;
+        // console.log('ul down : ' +key)
+      } else if (key === pad.cKey && !pad.cKeyHold) {
+        pad.cKeyHold = true;
+        pad.cKeyPressed = true;
+        // console.log('c down: ' +key)
+      } else if (key === pad.urKey && !pad.urKeyHold) {
+        pad.urKeyHold = true;
+        pad.urKeyPressed = true;
+        // console.log('ur down: ' +key)
+      } else if (key === pad.drKey && !pad.drKeyHold) {
+        pad.drKeyHold = true;
+        pad.drKeyPressed = true;
+        // console.log('dr down: ' +key)
+      }
+    }
+  }
+
+  onKeyUp(event) {
+    const key = event.key;
+
+    for (let pad of this.pads) {
+      if (key === pad.dlKey) {
+        pad.dlKeyHold = false;
+        // console.log('dl up: ' + key);
+      } else if (key === pad.ulKey) {
+        pad.ulKeyHold = false;
+        // console.log('ul up: ' + key);
+      } else if (key === pad.cKey) {
+        pad.cKeyHold = false;
+        // console.log('c up: ' + key);
+      } else if (key === pad.urKey) {
+        pad.urKeyHold = false;
+        // console.log('ur up: ' + key);
+      } else if (key === pad.drKey) {
+        pad.drKeyHold = false;
+        // console.log('dr up: ' + key);
+      }
+    }
+  }
+
+  isPressed(kind, padId) {
+    return this.padsDic[padId].isPressed(kind);
+  }
+
+  isHeld(kind, padId) {
+    if (this.autoplay) {
+      return true;
+    } else {
+      return this.padsDic[padId].isHeld(kind);
+    }
+  }
+
+  ready() {}
+
+  update(delta) {}
+
+  getPressed() {
+    var list = [];
+
+    for (let pad of this.pads) {
+      if (pad.dlKeyPressed) {
+        list.push(['dl', pad.padId]);
+      }
+
+      if (pad.ulKeyPressed) {
+        list.push(['ul', pad.padId]);
+      }
+
+      if (pad.cKeyPressed) {
+        list.push(['c', pad.padId]);
+      }
+
+      if (pad.urKeyPressed) {
+        list.push(['ur', pad.padId]);
+      }
+
+      if (pad.drKeyPressed) {
+        list.push(['dr', pad.padId]);
+      }
     }
 
-    getPadIds() {
-        return Object.keys(this.padsDic) ;
-    }
+    return list;
+  }
 
-    addPad(keyMap, padId) {
-
-        const pad = new Pad(this._resourceManager,this.engine, keyMap, padId, this.frameLog) ;
-        this.pads.push( pad ) ;
-        this.padsDic[padId] = pad ;
-    }
-
-
-    onKeyDown( event ) {
-
-
-        const key =  event.key.toLowerCase() ;
-
-        for ( let pad of this.pads ) {
-            if ( key === pad.dlKey && !pad.dlKeyHold ) {
-                pad.dlKeyHold = true ;
-                pad.dlKeyPressed = true ;
-                // console.log('dl down: ' +key) ;
-            }
-            else if ( key === pad.ulKey && !pad.ulKeyHold ) {
-                pad.ulKeyHold = true ;
-                pad.ulKeyPressed = true ;
-                // console.log('ul down : ' +key)
-            }
-            else if ( key === pad.cKey && !pad.cKeyHold ) {
-                pad.cKeyHold = true ;
-                pad.cKeyPressed = true ;
-                // console.log('c down: ' +key)
-            }
-            else if ( key === pad.urKey && !pad.urKeyHold ) {
-                pad.urKeyHold = true ;
-                pad.urKeyPressed = true ;
-                // console.log('ur down: ' +key)
-            }
-            else if ( key === pad.drKey && !pad.drKeyHold ) {
-                pad.drKeyHold = true ;
-                pad.drKeyPressed = true ;
-                // console.log('dr down: ' +key)
-            }
-        }
-
-
-    }
-
-    onKeyUp(event) {
-
-        const key = event.key ;
-
-        for ( let pad of this.pads ) {
-            if ( key === pad.dlKey ) {
-                pad.dlKeyHold = false ;
-                // console.log('dl up: ' + key);
-
-            }
-            else if ( key === pad.ulKey ) {
-                pad.ulKeyHold = false ;
-                // console.log('ul up: ' + key);
-
-            }
-            else if ( key === pad.cKey ) {
-                pad.cKeyHold = false ;
-                // console.log('c up: ' + key);
-
-            }
-            else if ( key === pad.urKey ) {
-                pad.urKeyHold = false ;
-                // console.log('ur up: ' + key);
-
-            }
-            else if ( key === pad.drKey ) {
-                pad.drKeyHold = false ;
-                // console.log('dr up: ' + key);
-
-            }
-        }
-
-    }
-
-    isPressed( kind, padId ) {
-        return this.padsDic[padId].isPressed(kind) ;
-    }
-
-    isHeld( kind, padId ) {
-        return this.padsDic[padId].isHeld(kind) ;
-    }
-
-
-    ready() {
-
-    }
-
-    update(delta) {
-
-    }
-
-
-    getPressed() {
-
-        var list = [] ;
-
-        for ( let pad of this.pads ) {
-
-            if ( pad.dlKeyPressed ) {
-                list.push(['dl', pad.padId]) ;
-            }
-
-            if ( pad.ulKeyPressed ) {
-                list.push(['ul', pad.padId]) ;
-            }
-
-            if ( pad.cKeyPressed ) {
-                list.push(['c', pad.padId]) ;
-            }
-
-            if ( pad.urKeyPressed ) {
-                list.push(['ur', pad.padId]) ;
-            }
-
-            if ( pad.drKeyPressed ) {
-                list.push(['dr', pad.padId]) ;
-            }
-
-        }
-
-        return list ;
-    }
-
-    get object () {
-        return this._mesh ;
-    }
-
+  get object() {
+    return this._mesh;
+  }
 }
 
-export {KeyInput} ;
+export { KeyInput };

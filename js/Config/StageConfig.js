@@ -16,8 +16,7 @@
  # along with piured-engine.If not, see <http://www.gnu.org/licenses/>.
  *
  */
-"use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
-
+'use strict'; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
 /**
  * This class holds the configuration of a stage.
@@ -51,60 +50,73 @@
  *
  */
 class StageConfig {
+  _SSCFile;
+  _audioFile;
+  _playBackSpeed;
+  _offset;
+  _resourcePath;
+  _noteskins;
+  _parsedSSC;
+  _autoPlay;
+  _onReadyToStart = undefined;
 
-    _SSCFile ;
-    _audioFile ;
-    _playBackSpeed ;
-    _offset ;
-    _resourcePath ;
-    _noteskins ;
-    _parsedSSC;
-    _onReadyToStart = undefined ;
+  constructor(
+    SSCFile,
+    parsedSSC,
+    audioFile,
+    playBackSpeed,
+    offset,
+    noteskins,
+    resourceURL = '../',
+    onReadyToStart = () => {},
+    autoPlay = false
+  ) {
+    this._SSCFile = SSCFile;
+    this._parsedSSC = parsedSSC;
+    this._audioFile = audioFile;
+    this._playBackSpeed = playBackSpeed;
+    this._offset = offset;
+    this._resourcePath = resourceURL;
+    this._noteskins = noteskins;
+    this._onReadyToStart = onReadyToStart;
+    this._autoPlay = autoPlay;
+  }
 
+  get SSCFile() {
+    return this._SSCFile;
+  }
 
-    constructor(SSCFile, parsedSSC, audioFile, playBackSpeed, offset, noteskins, resourceURL = '../', onReadyToStart = () => {} ) {
-        this._SSCFile = SSCFile;
-        this._parsedSSC = parsedSSC ; 
-        this._audioFile = audioFile;
-        this._playBackSpeed = playBackSpeed;
-        this._offset = offset;
-        this._resourcePath = resourceURL; 
-        this._noteskins = noteskins;
-        this._onReadyToStart = onReadyToStart ;
-    }
+  get parsedSSC() {
+    return this._parsedSSC;
+  }
 
+  get audioFile() {
+    return this._audioFile;
+  }
 
-    get SSCFile() {
-        return this._SSCFile;
-    }
+  get playBackSpeed() {
+    return this._playBackSpeed;
+  }
 
-    get parsedSSC() {
-        return this._parsedSSC;
-    }
+  get offset() {
+    return this._offset;
+  }
 
-    get audioFile() {
-        return this._audioFile;
-    }
+  get resourcePath() {
+    return this._resourcePath;
+  }
 
-    get playBackSpeed() {
-        return this._playBackSpeed;
-    }
+  get noteskins() {
+    return this._noteskins;
+  }
 
-    get offset() {
-        return this._offset;
-    }
+  get onReadyToStart() {
+    return this._onReadyToStart;
+  }
 
-    get resourcePath() {
-        return this._resourcePath;
-    }
-
-    get noteskins() {
-        return this._noteskins;
-    }
-
-    get onReadyToStart() {
-        return this._onReadyToStart;
-    }
+  get autoPlay() {
+    return this._autoPlay;
+  }
 }
 
-export {StageConfig}
+export { StageConfig };

@@ -16,179 +16,227 @@
  # along with piured-engine.If not, see <http://www.gnu.org/licenses/>.
  *
  */
-"use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
+'use strict'; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 
-
-import {GameObject} from "../GameObject.js";
-import {Background} from "./Background.js";
-import {PlayerStage} from "./PlayerStage.js";
-import {StepNoteTexture} from "../AnimatedTextures/StepNoteTexture.js";
-import {HoldExtensibleTexture} from "../AnimatedTextures/HoldExtensibleTexture.js";
-import * as THREE from 'three'
+import * as THREE from 'three';
+import { HoldExtensibleTexture } from '../AnimatedTextures/HoldExtensibleTexture.js';
+import { StepNoteTexture } from '../AnimatedTextures/StepNoteTexture.js';
+import { GameObject } from '../GameObject.js';
+import { Background } from './Background.js';
+import { PlayerStage } from './PlayerStage.js';
 
 class Stage extends GameObject {
+  _object;
+  _bg;
+  _playerStages;
+  _noteskins;
+  p1;
+  song;
+  animationRate;
 
+  constructor(resourceManager, engine, song, noteskins, autoplay = false) {
+    //...
 
+    super(resourceManager, engine);
+    this.animationRate = 30;
+    this.song = song;
 
-    _object ;
-    _bg ;
-    _playerStages ;
-    _noteskins ;
-    p1 ;
-    song ;
-    animationRate ;
+    this._object = new THREE.Object3D();
 
-    constructor( resourceManager, engine, song, noteskins ) { //...
+    this._playerStages = [];
+    this.autoplay = autoplay;
 
-        super(resourceManager, engine);
-        this.animationRate = 30;
-        this.song = song;
+    noteskins.forEach(noteskin => {
+      this.configureNoteTextures(noteskin);
+    });
+  }
 
-        this._object = new THREE.Object3D();
+  retrievePerformancePlayerStages() {
+    let performances = [];
+    for (let i = 0; i < this._playerStages.length; i++) {
+      performances.push(this._playerStages[i].judgment.performance);
+    }
+    return performances;
+  }
 
-        this._playerStages = [] ;
+  configureNoteTextures(noteskin) {
+    new StepNoteTexture(
+      this._resourceManager,
+      this.engine,
+      'dl',
+      this.animationRate,
+      noteskin
+    );
+    new StepNoteTexture(
+      this._resourceManager,
+      this.engine,
+      'ul',
+      this.animationRate,
+      noteskin
+    );
+    new StepNoteTexture(
+      this._resourceManager,
+      this.engine,
+      'c',
+      this.animationRate,
+      noteskin
+    );
+    new StepNoteTexture(
+      this._resourceManager,
+      this.engine,
+      'ur',
+      this.animationRate,
+      noteskin
+    );
+    new StepNoteTexture(
+      this._resourceManager,
+      this.engine,
+      'dr',
+      this.animationRate,
+      noteskin
+    );
 
-        noteskins.forEach( (noteskin) => {
-            this.configureNoteTextures(noteskin) ;
-        }) ;
+    new HoldExtensibleTexture(
+      this._resourceManager,
+      this.engine,
+      'dl',
+      this.animationRate,
+      noteskin
+    );
+    new HoldExtensibleTexture(
+      this._resourceManager,
+      this.engine,
+      'ul',
+      this.animationRate,
+      noteskin
+    );
+    new HoldExtensibleTexture(
+      this._resourceManager,
+      this.engine,
+      'c',
+      this.animationRate,
+      noteskin
+    );
+    new HoldExtensibleTexture(
+      this._resourceManager,
+      this.engine,
+      'ur',
+      this.animationRate,
+      noteskin
+    );
+    new HoldExtensibleTexture(
+      this._resourceManager,
+      this.engine,
+      'dr',
+      this.animationRate,
+      noteskin
+    );
+  }
 
+  configureBG() {
+    this._bg = new Background(
+      this._resourceManager,
+      this.engine,
+      this._playerStages[0].beatManager
+    );
+    this._bg.object.position.y = -3;
+    this._bg.object.position.z = -1;
+    this._object.add(this._bg.object);
+  }
 
+  addPlayerStage(playerConfig, playBackSpeed) {
+    let lifebarOrientation;
 
+    if (this._playerStages.length % 2 === 0) {
+      lifebarOrientation = 'left2right';
+    } else {
+      lifebarOrientation = 'right2left';
     }
 
-    retrievePerformancePlayerStages() {
-        let performances = [] ;
-        for (let i = 0 ; i < this._playerStages.length ; i++) {
-            performances.push( this._playerStages[i].judgment.performance ) ;
-        }
-        return performances ;
+    let stage = new PlayerStage(
+      this._resourceManager,
+      this.engine,
+      this.song,
+      playerConfig,
+      playBackSpeed,
+      this._playerStages.length,
+      lifebarOrientation,
+      this.autoplay
+    );
+
+    stage.setScale(playerConfig.scale);
+
+    this._object.add(stage.object);
+    this._playerStages.push(stage);
+    this.adjustPlayerStages();
+
+    // We can only configure the background if we have at least one stage (beat manager) set up.
+    if (this._playerStages.length === 1) {
+      this.configureBG();
     }
 
-    configureNoteTextures(noteskin) {
-        new StepNoteTexture(this._resourceManager,this.engine, 'dl', this.animationRate, noteskin) ;
-        new StepNoteTexture(this._resourceManager,this.engine, 'ul', this.animationRate, noteskin) ;
-        new StepNoteTexture(this._resourceManager,this.engine, 'c', this.animationRate, noteskin) ;
-        new StepNoteTexture(this._resourceManager,this.engine, 'ur', this.animationRate, noteskin) ;
-        new StepNoteTexture(this._resourceManager,this.engine, 'dr', this.animationRate, noteskin) ;
+    // stageID
+    return this._playerStages.length - 1;
+  }
 
-        new HoldExtensibleTexture(this._resourceManager,this.engine, 'dl', this.animationRate, noteskin) ;
-        new HoldExtensibleTexture(this._resourceManager,this.engine, 'ul', this.animationRate, noteskin) ;
-        new HoldExtensibleTexture(this._resourceManager,this.engine, 'c', this.animationRate, noteskin) ;
-        new HoldExtensibleTexture(this._resourceManager,this.engine, 'ur', this.animationRate, noteskin) ;
-        new HoldExtensibleTexture(this._resourceManager,this.engine, 'dr', this.animationRate, noteskin) ;
+  logFrame(playerStageId, json) {
+    this._playerStages[playerStageId].logFrame(json);
+  }
+
+  adjustPlayerStages() {
+    let no_stages = this._playerStages.length;
+
+    // if (no_stages === 1) {
+    //     return ;
+    // }
+
+    let distance = 0;
+    if (no_stages === 2) {
+      distance = 7;
+    } else {
+      distance = 5;
     }
 
-    configureBG() {
-
-        this._bg = new Background(this._resourceManager,this.engine, this._playerStages[0].beatManager) ;
-        this._bg.object.position.y = -3 ;
-        this._bg.object.position.z = -1 ;
-        this._object.add(this._bg.object) ;
-
+    for (let i = 0; i < no_stages; i++) {
+      if (
+        this.song.getLevelStyle(this._playerStages[i]._level) ===
+          'pump-double' ||
+        this.song.getLevelStyle(this._playerStages[i]._level) ===
+          'pump-halfdouble'
+      ) {
+        distance = 9;
+        break;
+      }
     }
 
+    let Xpos = -(distance * no_stages) / 2 + distance / 2;
 
-    addPlayerStage( playerConfig, playBackSpeed ) {
-
-
-        let lifebarOrientation ;
-
-        if ( this._playerStages.length % 2 === 0 ) {
-            lifebarOrientation = 'left2right' ;
-        } else {
-            lifebarOrientation = 'right2left' ;
-        }
-
-
-        let stage = new PlayerStage(this._resourceManager,this.engine,
-            this.song,
-            playerConfig,
-            playBackSpeed,
-            this._playerStages.length,
-            lifebarOrientation) ;
-
-        stage.setScale(playerConfig.scale) ;
-
-        this._object.add(stage.object) ;
-        this._playerStages.push(stage) ;
-        this.adjustPlayerStages() ;
-
-        // We can only configure the background if we have at least one stage (beat manager) set up.
-        if ( this._playerStages.length === 1 )  {
-            this.configureBG() ;
-        }
-
-        // stageID
-        return this._playerStages.length -1 ;
-
-
+    for (let i = 0; i < no_stages; i++) {
+      this._playerStages[i].object.position.x =
+        Xpos + this._playerStages[i].playerConfig.receptorX;
+      this._playerStages[i].object.position.y =
+        this._playerStages[i].playerConfig.receptorY;
+      Xpos += distance;
     }
+  }
 
-    logFrame(playerStageId, json) {
-        this._playerStages[playerStageId].logFrame(json) ;
+  setNewPlayBackSpeed(newPlayBackSpeed) {
+    for (let i = 0; i < this._playerStages.length; i++) {
+      this._playerStages[i].setNewPlayBackSpeed(newPlayBackSpeed);
     }
+  }
 
-    adjustPlayerStages() {
+  updateOffset(stageId, newOffsetOffset) {
+    this._playerStages[stageId].beatManager.updateOffset(newOffsetOffset);
+  }
 
-        let no_stages = this._playerStages.length ;
+  ready() {}
 
-        // if (no_stages === 1) {
-        //     return ;
-        // }
+  update(delta) {}
 
-
-        let distance = 0 ;
-        if (no_stages === 2 ) {
-            distance = 7 ;
-        } else  {
-            distance = 5 ;
-        }
-
-        for (let i = 0 ; i < no_stages ; i++ ) {
-            if (  this.song.getLevelStyle(this._playerStages[i]._level) === 'pump-double' || this.song.getLevelStyle(this._playerStages[i]._level) === 'pump-halfdouble' ) {
-                distance = 9 ;
-                break ;
-            }
-        }
-
-
-        let Xpos = -(distance*no_stages)/2 + distance/2;
-
-        for (let i = 0 ; i < no_stages ; i++ ) {
-            this._playerStages[i].object.position.x = Xpos + this._playerStages[i].playerConfig.receptorX ;
-            this._playerStages[i].object.position.y = this._playerStages[i].playerConfig.receptorY ;
-            Xpos += distance ;
-        }
-
-    }
-
-    setNewPlayBackSpeed ( newPlayBackSpeed ) {
-        for (let i = 0 ; i < this._playerStages.length ; i++ ) {
-            this._playerStages[i].setNewPlayBackSpeed ( newPlayBackSpeed ) ;
-        }
-    }
-
-    updateOffset(stageId, newOffsetOffset) {
-        this._playerStages[stageId].beatManager.updateOffset(newOffsetOffset) ;
-    }
-
-    ready() {
-
-
-    }
-
-    update(delta) {
-
-
-    }
-
-    get object () {
-        return this._object ;
-    }
-
-
-
-
+  get object() {
+    return this._object;
+  }
 }
 
-export {Stage} ;
+export { Stage };
