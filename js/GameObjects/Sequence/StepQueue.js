@@ -60,6 +60,7 @@ class StepQueue extends GameObject {
     this.frameLog = frameLog;
 
     this.autoplay = autoplay;
+    this.cleanStepQueueAutoPlay = true;
   }
 
   ready() {}
@@ -78,6 +79,20 @@ class StepQueue extends GameObject {
   }
 
   autoplayIt(delta) {
+    if (this.cleanStepQueueAutoPlay) {
+      while (true) {
+        let stepTime = this.getStepTimeStampFromTopMostStepInfo();
+        const currentAudioTime = this.beatManager.currentAudioTime;
+        const difference = stepTime - currentAudioTime;
+
+        if (difference < 0) this.removeFirstElement();
+        else {
+          this.cleanStepQueueAutoPlay = false;
+          break;
+        }
+      }
+    }
+
     let stepTime = this.getStepTimeStampFromTopMostStepInfo();
     const currentAudioTime = this.beatManager.currentAudioTime;
     const currentBeat = this.beatManager.currentBeat;

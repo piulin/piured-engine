@@ -59,6 +59,7 @@ class StageConfig {
   _parsedSSC;
   _autoPlay;
   _onReadyToStart = undefined;
+  _startFromSecond;
 
   constructor(
     SSCFile,
@@ -69,7 +70,8 @@ class StageConfig {
     noteskins,
     resourceURL = '../',
     onReadyToStart = () => {},
-    autoPlay = false
+    autoPlay = false,
+    startfromSecond = 0.0
   ) {
     this._SSCFile = SSCFile;
     this._parsedSSC = parsedSSC;
@@ -80,6 +82,7 @@ class StageConfig {
     this._noteskins = noteskins;
     this._onReadyToStart = onReadyToStart;
     this._autoPlay = autoPlay;
+    this._startFromSecond = startfromSecond;
   }
 
   get SSCFile() {
@@ -116,6 +119,10 @@ class StageConfig {
 
   get autoPlay() {
     return this._autoPlay;
+  }
+
+  get startFromSecond() {
+    return this._startFromSecond;
   }
 }
 

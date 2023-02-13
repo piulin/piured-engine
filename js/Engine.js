@@ -190,6 +190,7 @@ class Engine {
   _playBackSpeedEnabled = true;
 
   containerId;
+  _status;
 
   //public
 
@@ -207,6 +208,7 @@ class Engine {
    * engine.init( 1270, 768, window.devicePixelRatio, window )
    */
   init(width, height, pixelRatio, window) {
+    this._status = 'init';
     this.window = window;
     this.clock = new THREE.Clock();
 
@@ -270,8 +272,6 @@ class Engine {
    * engine.configureStage(stageConfig) ;
    */
   async configureStage(stageConfig) {
-    console.log('configuring-stagee!!!!!!!');
-
     this.resourcePath = stageConfig.resourcePath;
     this.tunePlayBackSpeed(stageConfig.playBackSpeed);
 
@@ -282,7 +282,8 @@ class Engine {
       stageConfig.audioFile,
       stageConfig.offset,
       stageConfig.playBackSpeed,
-      stageConfig.onReadyToStart
+      stageConfig.onReadyToStart,
+      stageConfig.startFromSecond
     );
     await this.song.initSSC();
     let resourceManager = new ResourceManager(
@@ -348,6 +349,10 @@ class Engine {
    */
   updateOffset(playerId, newOffsetOffset) {
     this.stage.updateOffset(playerId, newOffsetOffset);
+  }
+
+  tuneScrollSpeed(newSpeed, playerId) {
+    this.stage.changePlayerScrollSpeed(newSpeed, playerId);
   }
 
   /**
@@ -519,6 +524,7 @@ class Engine {
       return new Date();
     }
   ) {
+    this._status = 'running';
     this.song.startPlayBack(dateToStart, getDateFn);
     this.animate();
   }
@@ -529,14 +535,19 @@ class Engine {
    * @returns {undefined}
    */
   stop() {
-    this.removeFromDOM();
+    if (this.status !== 'killed') {
+      this.song.stop();
 
-    this.freeEngineResources();
+      this.removeFromDOM();
 
-    let performances = this.stage.retrievePerformancePlayerStages();
+      this.freeEngineResources();
 
-    if (this._onStageCleared !== undefined) {
-      this._onStageCleared(performances);
+      let performances = this.stage.retrievePerformancePlayerStages();
+
+      if (this._onStageCleared !== undefined) {
+        this._onStageCleared(performances);
+      }
+      this._status = 'killed';
     }
   }
 
@@ -684,7 +695,9 @@ class Engine {
 
   removeFromDOM() {
     let container = document.getElementById(this.containerId);
-    container.removeChild(this.renderer.domElement);
+    try {
+      container.removeChild(this.renderer.domElement);
+    } catch {}
   }
 
   setAllCulled(obj, culled) {
@@ -755,10 +768,15 @@ class Engine {
 
     this.song.setNewPlayBackSpeed(this._playBackVal);
     this.stage.setNewPlayBackSpeed(this._playBackVal);
+    // this.song.setNewPlayBackSpeed(this._playBackVal);
 
     // this.cameraControls.update(delta);
     this.renderer.render(this.scene, this.camera);
     // this.stats.update();
   }
+  get status() {
+    return this._status;
+  }
 }
+
 export { Engine };

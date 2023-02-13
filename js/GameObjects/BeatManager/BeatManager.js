@@ -48,7 +48,7 @@ class BeatManager extends GameObject {
     this.level = level;
     this.keyBoardLag = keyBoardLag;
     this.customOffset = 0;
-    this.requiresResync = false;
+    this.requiresResync = true;
 
     // new beatmanager
 
@@ -81,15 +81,18 @@ class BeatManager extends GameObject {
 
   setNewPlayBackSpeed(newPlayBackSpeed) {
     this.playBackSpeed = newPlayBackSpeed;
+    // this.requiresResync = true;
   }
 
   updateOffset(offset) {
-    this.customOffset += offset;
-    this.requiresResync = true;
+    this._currentAudioTime -= this.customOffset;
+    this.customOffset = offset;
+    this._currentAudioTime += offset;
+    // this.requiresResync = true;
   }
 
   update(delta) {
-    const songAudioTime =
+    let songAudioTime =
       this.song.getCurrentAudioTime(this.level) - this.customOffset;
 
     if (songAudioTime <= 0.0 || this.requiresResync) {
@@ -102,14 +105,14 @@ class BeatManager extends GameObject {
       this._currentAudioTime += delta * this.playBackSpeed;
       this._currentAudioTimeReal += delta * this.playBackSpeed;
     }
-
+    // console.log(this._currentAudioTime);
     this._currentChartAudioTime = this.songTime2Second.scry(
       this._currentAudioTime
     ).y;
     this._currentChartAudioTimeReal = this.songTime2Second.scry(
       this._currentAudioTimeReal
     ).y;
-
+    // console.log(this._currentChartAudioTime);
     this.currentYDisplacement = this.second2displacement.scry(
       this._currentChartAudioTime
     ).y;
@@ -189,6 +192,11 @@ class BeatManager extends GameObject {
     let yShift = -this.second2displacement.scry(second).y * this._speed;
 
     return [yShift, second];
+  }
+
+  set speed(newSpeed) {
+    this._latespeed = newSpeed;
+    // this.requiresResync = true;
   }
 }
 

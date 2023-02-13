@@ -396,6 +396,10 @@ class PlayerStage extends GameObject {
     this.keyListener.applyFrameLog(json);
     this.stepQueue.applyFrameLog(json);
   }
+  changeScrollSpeed(newSpeed) {
+    // this.beatManager.speed = newSpeed;
+    this._steps.speed = newSpeed;
+  }
 }
 
 export { PlayerStage };

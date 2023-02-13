@@ -30,7 +30,8 @@ class Song {
     audioBuf,
     offset,
     playBackSpeed,
-    onReadyToStart
+    onReadyToStart,
+    startFromSecond
   ) {
     this.engine = engine;
     this.pathToSSCFile = pathToSSCFile;
@@ -55,6 +56,8 @@ class Song {
     this.onReadyToStart = onReadyToStart;
 
     this.delay = 0.0;
+
+    this.startFromSecond = startFromSecond;
   }
 
   async initSSC() {
@@ -260,6 +263,7 @@ class Song {
     this.source = source;
     console.log('pbspeed: ', this.playBackSpeed);
     source.playbackRate.value = this.playBackSpeed;
+
     source.onended = this.playBackEnded.bind(this);
 
     // source.detune.value = 1200 ;
@@ -281,13 +285,22 @@ class Song {
     // this.startTime = 0;
     // console.log('start time: ' + this.startTime ) ;
     console.log('computed delay: ' + this.delay);
-    this.source.start((this.startTime + this.delay) / this.playBackSpeed);
+    this.source.start(
+      (this.startTime + this.delay) / this.playBackSpeed,
+      this.startFromSecond
+    );
+    // this.source.start(-30);
     this.readyToStart = true;
   }
 
   playBackEnded() {
-    this.context.close();
     this.engine.stop();
+  }
+
+  stop() {
+    if (this.context.state !== 'closed') {
+      this.context.close();
+    }
   }
 
   // This method is called when the buffer with the song is ready.
@@ -312,7 +325,8 @@ class Song {
       this.delay +
       this.getOffset(level) -
       this.startTime -
-      this.syncTime
+      this.syncTime +
+      this.startFromSecond
     );
     // return this.startTime - this.audio.context.currentTime + parseFloat(this.meta['OFFSET']);
     //return this.audio.context.currentTime + this.startTime + parseFloat(this.meta['OFFSET']);

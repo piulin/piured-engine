@@ -237,6 +237,10 @@ class Stage extends GameObject {
   get object() {
     return this._object;
   }
+
+  changePlayerScrollSpeed(newSpeed, playerId) {
+    this._playerStages[playerId].changeScrollSpeed(newSpeed);
+  }
 }
 
 export { Stage };
