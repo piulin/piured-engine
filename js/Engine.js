@@ -291,7 +291,8 @@ class Engine {
       stageConfig.resourcePath,
       'noteskins/',
       stageConfig.noteskins,
-      'stage_UHD'
+      stageConfig.stageAssetsFolder,
+      stageConfig.noteskinsResolution
     );
     this.stage = new Stage(
       resourceManager,

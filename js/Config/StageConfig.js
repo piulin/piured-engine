@@ -60,6 +60,7 @@ class StageConfig {
   _autoPlay;
   _onReadyToStart = undefined;
   _startFromSecond;
+  _noteskinsResolution;
 
   constructor(
     SSCFile,
@@ -68,10 +69,12 @@ class StageConfig {
     playBackSpeed,
     offset,
     noteskins,
+    stageAssetsFolder,
     resourceURL = '../',
     onReadyToStart = () => {},
     autoPlay = false,
-    startfromSecond = 0.0
+    startfromSecond = 0.0,
+    noteskinsResolution = 'UHD'
   ) {
     this._SSCFile = SSCFile;
     this._parsedSSC = parsedSSC;
@@ -83,6 +86,8 @@ class StageConfig {
     this._onReadyToStart = onReadyToStart;
     this._autoPlay = autoPlay;
     this._startFromSecond = startfromSecond;
+    this._noteskinsResolution = noteskinsResolution;
+    this._stageAssetsFolder = stageAssetsFolder;
   }
 
   get SSCFile() {
@@ -123,6 +128,12 @@ class StageConfig {
 
   get startFromSecond() {
     return this._startFromSecond;
+  }
+  get noteskinsResolution() {
+    return this._noteskinsResolution;
+  }
+  get stageAssetsFolder() {
+    return this._stageAssetsFolder;
   }
 }
 
